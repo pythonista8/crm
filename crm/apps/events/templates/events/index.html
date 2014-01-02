@@ -1,0 +1,126 @@
+{% extends 'onekloud/base.html' %}
+{% load static core_extras %}
+
+{% block content %}
+<div class="pure-g-r">
+    <div class="pure-u-3-4">
+        <div class="l-box">
+            <h3>Create new</h3>
+            <form class="pure-form" method="post">
+                {% csrf_token %}
+                {{ event_form.errors }}
+                <fieldset id="event-fieldset">
+                    {{ event_form.text|attributes:"required: required, class: pure-input-2-3 pure-input-rounded input-event, autocomplete: off, placeholder: Meet Sam on 15 Dec at 18.30 at Starbucks" }}
+                    <button class="pure-button pure-button-large pure-input-rounded pure-button-primary"
+                            type="submit">Add</button>
+                </fieldset>
+                <div class="pure-g-r">
+                    <div class="pure-u-1-5">
+                        <fieldset class="duration">
+                            <legend class="gray">Duration</legend>
+                            <div class="l-box">
+                                {{ event_form.hours|attributes:"required: required, class: pure-input-rounded, placeholder: Hrs, min: 0, max: 24" }}
+                                <span class="semicolon gray">:</span>
+                                {{ event_form.minutes|attributes:"required: required, class: pure-input-rounded, placeholder: Mins, min: 0, max: 60" }}
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div id="event-details" class="pure-u-4-5">
+                        <fieldset>
+                            <legend class="gray">Details</legend>
+                            <div class="pure-g">
+                                <div class="pure-u-1-6">
+                                    <div class="l-box">
+                                        <span class="label gray">Event:</span>
+                                    </div>
+                                    <div class="l-box">
+                                        <span class="label gray">When:</span>
+                                    </div>
+                                </div>
+                                <div class="pure-u-5-6">
+                                    <div class="l-box">
+                                        <span class="value">Meeting</span>
+                                    </div>
+                                    <div class="l-box">
+                                        <span class="value">December 21 @ 18:30</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="pure-u-1-4">
+        <div class="l-box">
+            <h3>Browse</h3>
+            <div class="calendar"></div>
+        </div>
+    </div>
+
+    {% if meeting_dict or followup_list %}
+        <div class="pure-u-1">
+            <div class="l-box">
+                <h3 class="gray noborder nopadding">Today</h3>
+                {% if meeting_dict %}
+                    <h4>Meetings</h4>
+                    <table id="events" class="pure-table pure-table-horizontal" width="100%">
+                        <thead>
+                            <th>Time</th>
+                            <th>Subject</th>
+                        </thead>
+                        <tbody>
+                            {% for time_, meeting_list in meeting_dict.items %}
+                                <tr>
+                                    <td width="5%" align="center">{{ time_ }}</td>
+                                    <td>
+                                        {% for meeting in meeting_list %}
+                                            <a href="{% url 'events:edit-meeting' meeting.pk %}">
+                                                {{ meeting.subject }}
+                                            </a>
+                                            {% if not forloop.last %}
+                                                <br>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                {% if followup_list %}
+                    <h4>Follow-Ups</h4>
+                    <table id="events" class="pure-table pure-table-horizontal" width="100%">
+                        <thead>
+                            <th>Subject</th>
+                        </thead>
+                        <tbody>
+                            {% for followup in followup_list %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'events:edit-followup' followup.pk %}">
+                                            {{ followup.subject }}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block menu-events %}
+pure-menu-selected
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'events/onekloud/js/lib.js' %}"></script>
+<script src="{% static 'events/onekloud/js/load.js' %}"></script>
+{% endblock %}

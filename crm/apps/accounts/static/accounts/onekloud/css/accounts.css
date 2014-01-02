@@ -1,0 +1,28 @@
+body {
+    background-color: #e3e3e3;
+}
+
+.container {
+    max-width: 400px;
+    margin: 8em auto;
+    padding: 0 2em;
+}
+
+.l-box {
+    padding: .5em 0;
+}
+
+#login input[type="email"],
+#login input[type="password"] {
+    padding: 15px;
+    font-size: 1.3em;
+}
+
+#footer {
+    width: 100%;
+}
+
+#footer .l-box {
+    padding-left: 1em;
+    padding-right: 1em;
+}

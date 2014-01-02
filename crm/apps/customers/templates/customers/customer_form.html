@@ -1,0 +1,197 @@
+{% extends 'onekloud/base.html' %}
+{% load staticfiles core_extras %}
+
+{% block content %}
+<form class="pure-form" method="post">
+    <div class="pure-g-r">
+        <div class="pure-u-2-3">
+            <div class="l-box">
+                <fieldset>
+                    <legend>Basic Info</legend>
+                    <div class="pure-g-r">
+                        <div class="pure-u-1-5">
+                            <div class="l-box">
+                                {{ form.salutation|attributes:"class: pure-input-1, placeholder: Salutation" }}
+                            </div>
+                        </div>
+                        <div class="pure-u-2-5">
+                            <div class="l-box">
+                                {{ form.first_name|attributes:"class: pure-input-1, placeholder: * First name, required" }}
+                            </div>
+                        </div>
+                        <div class="pure-u-2-5">
+                            <div class="l-box">
+                                {{ form.last_name|attributes:"class: pure-input-1, placeholder: * Last name, required" }}
+                            </div>
+                        </div>
+                        <div class="pure-u-1">
+                            <div class="pure-g-r">
+                                <div class="pure-u-1-2">
+                                    <div class="l-box">
+                                        <div class="pure-group">
+                                            {{ form.street|attributes:"class: pure-input-1, placeholder: Street" }}
+                                            {{ form.city|attributes:"class: pure-input-1, placeholder: City" }}
+                                            {{ form.country|attributes:"class: pure-input-1, placeholder: Country" }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pure-u-1-2">
+                                    <div class="l-box">
+                                        <div class="pure-group">
+                                            {{ form.state|attributes:"class: pure-input-1, placeholder: State" }}
+                                            {{ form.postcode|attributes:"class: pure-input-1, placeholder: Postal code" }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Work</legend>
+                    <div class="pure-g-r">
+                        <div class="pure-u-1-2">
+                            <div class="l-box">
+                                {{ form.company|attributes:"class: pure-input-1, placeholder: Company" }}
+                            </div>
+                        </div>
+                        <div class="pure-u-1-2">
+                            <div class="l-box">
+                                {{ form.position|attributes:"class: pure-input-1, placeholder: Position" }}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Links</legend>
+                    <div class="pure-g-r">
+                        <div class="pure-u-1-2">
+                            <div class="l-box">
+                                {% if customer.website %}
+                                    <a class="pure-button pure-button-small"
+                                       href="{{ customer.website }}" target="_blank">
+                                        <i class="fa fa-globe"></i> {{ customer.website|truncatechars:"29" }}
+                                    </a>
+                                    <a class="pure-button pure-button-small pure-button-primary" href="#">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                {% else %}
+                                    {{ form.website|attributes:"class: pure-input-1, placeholder: Website, e.g. http://www.onekloud.com" }}
+                                {% endif %}
+                            </div>
+                            <div class="l-box">
+                                {% if customer.facebook %}
+                                    <a class="pure-button pure-button-small pure-button-facebook"
+                                       href="{{ customer.facebook }}" target="_blank">
+                                        <i class="fa fa-facebook-square"></i> {{ customer.facebook|truncatechars:"29" }}
+                                    </a>
+                                    <a class="pure-button pure-button-small pure-button-primary" href="#">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                {% else %}
+                                    {{ form.facebook|attributes:"class: pure-input-1, placeholder: Facebook" }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="pure-u-1-2">
+                            <div class="l-box">
+                                {% if customer.twitter %}
+                                    <a class="pure-button pure-button-small pure-button-twitter"
+                                       href="{{ customer.twitter }}" target="_blank">
+                                        <i class="fa fa-twitter-square"></i> {{ customer.twitter|truncatechars:"29" }}
+                                    </a>
+                                    <a class="pure-button pure-button-small pure-button-primary" href="#">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                {% else %}
+                                    {{ form.twitter|attributes:"class: pure-input-1, placeholder: Twitter" }}
+                                {% endif %}
+                            </div>
+                            <div class="l-box">
+                                {% if customer.linkedin %}
+                                    <a class="pure-button pure-button-small pure-button-linkedin"
+                                       href="{{ customer.linkedin }}" target="_blank">
+                                        <i class="fa fa-linkedin-square"></i> {{ customer.linkedin|truncatechars:"29" }}
+                                    </a>
+                                    <a class="pure-button pure-button-small pure-button-primary" href="#">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                 {% else %}
+                                    {{ form.linkedin|attributes:"class: pure-input-1, placeholder: LinkedIn" }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="pure-u-1-3">
+            <div class="l-box">
+                <fieldset>
+                    <legend>Contact Info</legend>
+                    <div class="l-box">
+                        {% if customer.email %}
+                            <a class="pure-button pure-button-small"
+                               href="mailto:{{ customer.email }}">
+                                <i class="fa fa-envelope"></i> {{ customer.email|truncatechars:"26" }}
+                            </a>
+                            <a class="pure-button pure-button-small pure-button-primary" href="#">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                        {% else %}
+                            {{ form.email|attributes:"class: pure-input-1, placeholder: Email" }}
+                        {% endif %}
+                    </div>
+
+                    <div class="l-box">
+                        {% if customer.skype %}
+                            <a class="pure-button pure-button-small pure-button-skype"
+                               href="skype:{{ customer.skype }}?call">
+                               Skype Call
+                            </a>
+                            <a class="pure-button pure-button-small pure-button-skype"
+                               href="skype:{{ customer.skype }}?chat">
+                                Skype Chat
+                            </a>
+                            <a class="pure-button pure-button-small pure-button-primary" href="#">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                        {% else %}
+                            {{ form.skype|attributes:"class: pure-input-1, placeholder: Skype" }}
+                        {% endif %}
+                    </div>
+
+                    <div class="l-box">
+                        <div class="pure-group">
+                            {{ form.cell_phone|attributes:"class: pure-input-1, placeholder: Cell phone number" }}
+                            {{ form.main_phone|attributes:"class: pure-input-1, placeholder: Main phone number" }}
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="l-box">
+                    {{ form.notes|attributes:"class: pure-input-1, placeholder: Your notes" }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="l-box">
+        <button class="pure-button pure-button-large pure-button-success" type="submit">
+            <i class="fa fa-check-square"></i> Save
+        </button>
+        <a class="pure-button pure-button-small pure-button-error" href="{% url 'customers:list' %}">Cancel</a>
+    </div>
+
+    {% csrf_token %}
+</form>
+{% endblock %}
+
+{% block menu-customers %}
+pure-menu-selected
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'customers/onekloud/js/load.js' %}"></script>
+{% endblock %}

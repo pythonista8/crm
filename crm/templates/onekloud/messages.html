@@ -1,0 +1,12 @@
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="messages-{{ message.tags }}">
+                {% if message.tags == 'success' %}
+                    <i class="fa fa-check-circle"></i>
+                {% endif %}
+                {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

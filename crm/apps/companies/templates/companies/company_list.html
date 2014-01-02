@@ -1,0 +1,95 @@
+{% extends 'onekloud/base.html' %}
+{% load core_extras %}
+
+{% block top-right %}
+<a class="pure-button pure-button-primary" href="{% url 'companies:create' %}">
+    New {{ verbose_name }}
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="l-box">
+    {% if company_list %}
+        <table class="pure-table pure-table-horizontal" width="100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Website</th>
+                    <th>Email</th>
+                    <th>Street</th>
+                    <th>City</th>
+                    <th>Country</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for company in company_list %}
+                    <tr{% if forloop.counter0|divisibleby:2 %} class="pure-table-odd"{% endif %}>
+                        <td>
+                            <a href="{{ company.get_absolute_url }}">{{ company.name }}</a>
+                        </td>
+                        <td>{{ company.phone|default:"-" }}</td>
+                        <td>
+                            {% if company.website %}
+                                <a href="{{ company.website }}" target="_blank">{{ company.website }}</a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>{{ company.email|default:"-" }}</td>
+                        <td>{{ company.street|default:"-" }}</td>
+                        <td>
+                            {% if company.city %}
+                                {{ company.city }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if company.country %}
+                                {{ company.country }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No companies yet. <a href="{% url 'companies:create' %}">Create one!</a></p>
+    {% endif %}
+
+    {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <div class="page-prev">
+                    <a href="{% url 'companies:list' %}?page={{ page_obj.previous_page_number }}">
+                        <i class="fa fa-chevron-left"></i>
+                    </a>
+                </div>
+            {% endif %}
+            <div class="page-current">
+                {% for page in paginator.page_range %}
+                    {% ifequal page page_obj.number %}
+                        <span>{{ page }}</span>
+                    {% else %}
+                        <a href="{% url 'companies:list' %}?page={{ page }}">{{ page }}</a>
+                    {% endifequal %}
+                {% endfor %}
+            </div>
+            {% if page_obj.has_next %}
+                <div class="page-next">
+                    <a href="{% url 'companies:list' %}?page={{ page_obj.next_page_number }}">
+                        <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block menu-companies %}
+pure-menu-selected
+{% endblock %}

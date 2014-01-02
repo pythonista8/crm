@@ -1,0 +1,59 @@
+.pure-button.pure-button-success,
+.pure-button.pure-button-error,
+.pure-button.pure-button-warning,
+.pure-button.pure-button-secondary,
+.pure-button.pure-button-facebook,
+.pure-button.pure-button-twitter,
+.pure-button.pure-button-linkedin,
+.pure-button.pure-button-skype {
+    color: white;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
+
+.pure-button.pure-button-success {
+    background-color: #0ab21f; /* this is a green */
+}
+
+.pure-button.pure-button-error {
+    background-color: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.pure-button.pure-button-warning {
+    background-color: rgb(223, 117, 20); /* this is an orange */
+}
+
+.pure-button.pure-button-secondary {
+    background-color: rgb(66, 184, 221); /* this is a light blue */
+}
+
+.pure-button.pure-button-facebook {
+    background-color: #4c66a4; /* this is a Facebook color */
+}
+
+.pure-button.pure-button-twitter {
+    background-color: #33bcef; /* this is a Twitter color */
+}
+
+.pure-button.pure-button-linkedin {
+    background-color: #069; /* this is a LinkedIn color */
+}
+
+.pure-button.pure-button-skype {
+    background-color: #12a5f4; /* this is a Skype color */
+}
+
+.pure-button.pure-button-xsmall {
+    font-size: 70%;
+}
+
+.pure-button.pure-button-small {
+    font-size: 85%;
+}
+
+.pure-button.pure-button-large {
+    font-size: 110%;
+}
+
+.pure-button.pure-button-xlarge {
+    font-size: 125%;
+}

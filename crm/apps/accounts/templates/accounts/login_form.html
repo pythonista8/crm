@@ -1,0 +1,54 @@
+{% load static core_extras %}
+
+<!doctype html>
+<html>
+<head>
+    <title>Sign In | Onekloud</title>
+
+    {# Vendor CSS files. #}
+    <link href="{% static 'css/vendor/font_awesome/css/font-awesome.css' %}" rel="stylesheet">
+    {% include 'vendor/purecss.html' %}
+
+    {# Onekloud CSS files. #}
+    <link href="{% static 'css/onekloud/core.css' %}" rel="stylesheet">
+    <link href="{% static 'css/onekloud/buttons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/onekloud/messages.css' %}" rel="stylesheet">
+    <link href="{% static 'accounts/onekloud/css/accounts.css' %}" rel="stylesheet">
+</head>
+<body>
+
+{% include 'onekloud/messages.html' %}
+
+<div id="login" class="pure-g-r">
+    <div class="pure-u-1">
+        <div class="container">
+            <div class="l-box">
+                <h1>Sign In to Onekloud</h1>
+            </div>
+            <form class="pure-form" method="post">
+
+                {{ form.errors }}
+
+                <div class="l-box">
+                    <fieldset class="pure-group">
+                        {{ form.email|attributes:"class: pure-input-1, placeholder: Email, required" }}
+                        {{ form.password|attributes:"class: pure-input-1, placeholder: Password, required" }}
+                    </fieldset>
+                </div>
+
+                <div class="l-box">
+                    <button class="pure-button pure-button-xlarge pure-button-primary pull-right" type="submit">
+                        <i class="fa fa-sign-in"></i> Sign In
+                    </button>
+                </div>
+
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+</div>
+
+{% include 'onekloud/footer.html' %}
+
+</body>
+</html>

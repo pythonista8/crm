@@ -1,0 +1,43 @@
+/* Numeric input (type="number") */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+}
+
+/* Large input */
+
+.pure-form input.input-event {
+    width: 83%;
+    padding: .8em 1.6em;
+    font-size: .9em;
+}
+
+#event-fieldset {
+    padding-bottom: 2.8em;
+}
+
+/* Event details */
+
+.pure-form .duration input[type="number"] {
+    display: inline;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+}
+
+.pure-form .duration .semicolon {
+    display: inline-block;
+    font-weight: bold;
+}
+
+#event-details .label,
+#event-details .value {
+    font-size: 150%;
+}
+
+.duration legend,
+#event-details legend {
+    padding-left: .4em;
+}

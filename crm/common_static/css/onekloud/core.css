@@ -1,0 +1,161 @@
+body {
+    background: #f9f9f9;
+}
+
+a {
+    color: #009cdd;
+    text-decoration: none;
+}
+
+aside {
+    background: #1f8dd6;
+    padding: 0.3em 1em;
+    border-radius: 3px;
+    color: #fff;
+}
+
+/* Typography */
+
+h2 {
+    margin: .3em 0 .5em;
+}
+
+h3, h4, h5, h6 {
+    padding-bottom: .4em;
+    color: #333;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* Helper classes */
+
+.gray {
+    color: #959595;
+}
+
+.nomargin {
+    margin: 0;
+}
+
+.nopadding {
+    padding: 0;
+}
+
+.noborder {
+    border: none;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+/* Layout */
+
+#layout {
+    padding-left: 210px;
+}
+
+#content {
+    max-width: 1000px;
+    margin: 0 auto 50px;
+    padding: 1em 2em 3em;
+}
+
+#content p {
+    line-height: 1.6em;
+    font-size: 1.125em;
+}
+
+/* Logo */
+
+#logo {
+    height: 28px;
+    padding: 1.3em 0 1em 1.5em;
+}
+
+#menu #logo a {
+    padding: 0;
+}
+
+#menu #logo a:hover {
+    opacity: .7;
+    webkit-transition: all 0.3s;
+       -moz-transition: all 0.3s;
+        -ms-transition: all 0.3s;
+         -o-transition: all 0.3s;
+            transition: all 0.3s;
+}
+
+#menu #logo img {
+    display: block; /* remove bottom emptry space */
+}
+
+/* Pure */
+
+.l-box {
+    padding: .5em;
+}
+
+/* Pagination */
+
+.pagination {
+    font-size: 85%;
+}
+
+.pagination a {
+    text-decoration: none;
+}
+
+.page-prev {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.page-next {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.page-current {
+    display: inline-block;
+}
+
+.page-prev a,
+.page-next a,
+.page-current span,
+.page-current a {
+    background: #f2f2f2;
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+
+.page-current span {
+    font-weight: bold;
+}
+
+/* Top Right */
+
+.top-right {
+    margin-top: 0.83em;
+}
+
+/* Footer */
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 1000px;
+    font-size: 75%;
+    background: #f9f9f9;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+#copyright {
+    text-align: right;
+    padding: 5px 20px;
+}

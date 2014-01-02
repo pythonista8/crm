@@ -1,0 +1,19 @@
+.pure-table {
+    font-size: 85%;
+    margin-bottom: 30px;
+}
+
+.pure-table td,
+.pure-table th {
+    padding: 10px 20px;
+}
+
+.pure-table thead th:first-child {
+    border-left-width: 1px;
+}
+
+.pure-table thead th {
+    background-color: rgb(0, 120, 231);
+    border: 1px solid #0260b7;
+    color: #fff;
+}

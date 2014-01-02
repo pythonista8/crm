@@ -1,0 +1,136 @@
+<!doctype html>
+{% load static %}
+
+<html lang="en">
+<head>
+    {# Meta information #}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    {# Inherited meta information is included inside `meta` block. #}
+    {% block meta %}{% endblock %}
+
+    {% if title %}
+        <title>{{ title }} | OneKloud</title>
+    {% else %}
+        <title>OneKloud | All You Need In A Cloud</title>
+    {% endif %}
+
+    {# Vendor CSS files. #}
+    <link href="{% static 'css/vendor/font_awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'css/vendor/jquery/jquery-ui-1.10.3.css' %}" rel="stylesheet">
+    {% include 'vendor/purecss.html' %}
+    {% if debug %}
+        <link href="{% static 'css/vendor/qunit/qunit-1.12.0.css' %}" rel="stylesheet">
+    {% endif %}
+
+    {# OneKloud CSS files. #}
+    <link href="{% static 'css/onekloud/core.css' %}" rel="stylesheet">
+    <link href="{% static 'css/onekloud/buttons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/onekloud/forms.css' %}" rel="stylesheet">
+    <link href="{% static 'css/onekloud/menu.css' %}" rel="stylesheet">
+    <link href="{% static 'css/onekloud/tables.css' %}" rel="stylesheet">
+    <link href="{% static 'css/onekloud/messages.css' %}" rel="stylesheet">
+
+    {# Inherited CSS files are included inside `css` block. #}
+    {% block css %}{% endblock %}
+</head>
+
+<body id="onekloud">
+    <div id="layout" class="pure-g-r">
+        <div id="menu" class="pure-u">
+            <div class="pure-menu pure-menu-open">
+                <div id="logo">
+                    <a href="/">
+                        <img src="{% static 'img/onekloud/logo.png' %}" alt="OneKloud">
+                    </a>
+                </div>
+                <ul>
+                    <li class="{% block menu-events %}{% endblock %}">
+                        <a href="{% url 'events:index' %}">
+                            <i class="fa fa-calendar-o"></i>
+                            Meetings &amp; Follow-Ups
+                        </a>
+                    </li>
+                    <li class="{% block menu-customers %}{% endblock %}">
+                        <a href="{% url 'customers:list' %}">
+                            <i class="fa fa-user"></i>
+                            Customers
+                        </a>
+                    </li>
+                    <li class="{% block menu-companies %}{% endblock %}">
+                        <a href="{% url 'companies:list' %}">
+                            <i class="fa fa-building-o"></i>
+                            Companies
+                        </a>
+                    </li>
+                    <li class="{% block menu-reports %}{% endblock %}">
+                        <a href="#">
+                            <i class="fa fa-bar-chart-o"></i>
+                            Reports
+                        </a>
+                    </li>
+                    <li class="{% block menu-settings %}{% endblock %}">
+                        <a href="#">
+                            <i class="fa fa-cog"></i>
+                            Settings
+                        </a>
+                    </li>
+                    <li class="menu-item-divided">
+                        <a href="{% url 'accounts:logout' %}">
+                            <i class="fa fa-sign-out"></i>
+                            Sign Out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="content" class="pure-u-1">
+            {% if debug %}
+                <div id="qunit"></div>
+                <div id="qunit-fixture"></div>
+            {% endif %}
+
+            {% include 'onekloud/messages.html' %}
+
+            <div class="l-box">
+                <div class="top-right pull-right">
+
+                    {# Navigation buttons, such as `Create`, `Edit` etc. #}
+                    {% block top-right %}{% endblock %}
+
+                </div>
+                <h2>
+                    {% if title_icon %}
+                        <i class="fa fa-{{ title_icon }}"></i>
+                    {% endif %}
+                    {{ title }}
+                </h2>
+            </div>
+
+            {# Inherited content is included inside `content` block. #}
+            {% block content %}{% endblock %}
+
+            {% include 'onekloud/footer.html' %}
+        </div>
+    </div>
+
+    {# Vendor JavaScript files. #}
+    <script src="{% static 'js/vendor/jquery/jquery-2.0.3.js' %}"></script>
+    <script src="{% static 'js/vendor/jquery/jquery-ui-1.10.3.js' %}"></script>
+
+    {# Onekloud JavaScript files. #}
+    <script src="{% static 'js/onekloud/lib.js' %}"></script>
+    <script src="{% static 'js/onekloud/load.js' %}"></script>
+
+    {# JavaScript testing. #}
+    {% if not debug %}
+        <script src="{% static 'js/vendor/qunit/qunit-1.12.0.js' %}"></script>
+        <script src="{% static 'js/onekloud/tests.js' %}"></script>
+    {% endif %}
+
+    {# Inherited JavaScript files are included inside `js` block. #}
+    {% block js %}{% endblock %}
+</body>
+</html>
