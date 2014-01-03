@@ -25,7 +25,7 @@ sys.path.append(os.path.join(BASE_DIR, 'lib'))
 SECRET_KEY = '9gfi8y+so)y+51=b@xpfnnlkm9^g+#xgjnl%sycs_n!5y)pvnz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -137,7 +137,3 @@ TEMPLATE_DIRS = (
 # Test settings
 if 'test' in sys.argv:
     from crm.settings_test import *
-
-# Local settings
-if DEBUG:
-    from crm.settings_local import *
