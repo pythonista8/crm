@@ -1,5 +1,5 @@
 """
-Django settings for OneKloud project.
+Django settings for OneKloud CRM project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/dev/topics/settings/
@@ -50,13 +50,13 @@ INSTALLED_APPS += (
 )
 
 
-# OneKloud application definition
+# OneKloud CRM application definition
 INSTALLED_APPS += (
-    'onekloud.apps.accounts',
-    'onekloud.apps.core',
-    'onekloud.apps.events',
-    'onekloud.apps.companies',
-    'onekloud.apps.customers',
+    'crm.apps.accounts',
+    'crm.apps.core',
+    'crm.apps.events',
+    'crm.apps.companies',
+    'crm.apps.customers',
 )
 
 
@@ -71,9 +71,9 @@ MIDDLEWARE_CLASSES = (
 )
 
 
-# OneKloud application definition
+# OneKloud CRM application definition
 MIDDLEWARE_CLASSES += (
-    'onekloud.apps.core.middleware.PermissionMiddleware',
+    'crm.apps.core.middleware.PermissionMiddleware',
 )
 
 
@@ -85,9 +85,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 
-ROOT_URLCONF = 'onekloud.urls'
+ROOT_URLCONF = 'crm.urls'
 
-WSGI_APPLICATION = 'onekloud.wsgi.application'
+WSGI_APPLICATION = 'crm.wsgi.application'
 
 
 # Database
@@ -133,8 +133,8 @@ TEMPLATE_DIRS = (
 
 # Test settings
 if 'test' in sys.argv:
-    from onekloud.settings_test import *
+    from crm.settings_test import *
 
 # Local settings
 if DEBUG:
-    from onekloud.settings_local import *
+    from crm.settings_local import *
