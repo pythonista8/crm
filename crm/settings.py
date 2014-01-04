@@ -144,7 +144,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': '/var/www/crm/logs/error.log'
+            'filename': os.path.join(BASE_DIR, '../logs/error.log')
         }
     },
     'loggers': {
@@ -156,13 +156,6 @@ LOGGING = {
     }
 }
 
-
-# Dev settings
-if DEBUG:
-    try:
-        from crm.settings_local import *
-    except ImportError:
-        pass
 
 # Test settings
 if 'test' in sys.argv:
