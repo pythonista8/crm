@@ -157,6 +157,13 @@ LOGGING = {
 }
 
 
+# Dev settings
+try:
+    from crm.settings_local import *
+except ImportError:
+    pass
+
+
 # Test settings
 if 'test' in sys.argv:
     from crm.settings_test import *
