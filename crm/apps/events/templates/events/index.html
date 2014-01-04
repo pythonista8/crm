@@ -59,17 +59,17 @@
         </div>
     </div>
 
-    {% if meeting_list or followup_list %}
-        <div class="pure-u-1">
-            <div class="l-box">
-                <h3 class="gray noborder nopadding">Today</h3>
+    <div class="pure-u-1">
+        <div class="l-box">
+            <h3 class="gray noborder nopadding">Today&nbsp; –&nbsp; {{ today }}</h3>
+            {% if followup_list or meeting_list %}
                 {% if meeting_list %}
                     <h4>Meetings</h4>
                     <table id="events" class="pure-table pure-table-horizontal" width="100%">
                         <thead>
                             <th>Time</th>
                             <th>Subject</th>
-                            <th>Action</th>
+                            <th width="1%">Action</th>
                         </thead>
                         <tbody>
                             {% for meeting_tuple in meeting_list %}
@@ -80,9 +80,9 @@
                                             {{ meeting_tuple.1.subject }}
                                         </a>
                                     </td>
-                                    <td>
+                                    <td align="center">
                                         <a href="{% url 'events:delete-meeting' meeting_tuple.1.pk %}"
-                                           class="red" title="Delete meeting"><i class="fa fa-times"></i></a>
+                                           class="red" title="Remove"><i class="fa fa-times"></i></a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -95,7 +95,7 @@
                     <table id="events" class="pure-table pure-table-horizontal" width="100%">
                         <thead>
                             <th>Subject</th>
-                            <th>Action</th>
+                            <th width="1%">Action</th>
                         </thead>
                         <tbody>
                             {% for followup in followup_list %}
@@ -105,18 +105,20 @@
                                             {{ followup.subject }}
                                         </a>
                                     </td>
-                                    <td>
+                                    <td align="center">
                                         <a href="{% url 'events:delete-followup' followup.pk %}"
-                                           class="red" title="Delete follow-up"><i class="fa fa-times"></i></a>
+                                           class="red" title="Remove"><i class="fa fa-times"></i></a>
                                     </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 {% endif %}
-            </div>
+            {% else %}
+                <p>There is no event created yet.</p>
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
 </div>
 {% endblock %}
 

@@ -11,7 +11,10 @@ input::-webkit-inner-spin-button {
 input:focus:invalid,
 textarea:focus:invalid,
 select:focus:invalid {
-    border-color: #129FEA !important;
+    color: inherit !important;
+    border-color: #129fea !important;
+    box-shadow: none;
+    -webkit-box-shadow: none;
 }
 
 /* Large input */

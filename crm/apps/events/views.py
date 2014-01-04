@@ -6,6 +6,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse
 from django.views.generic.edit import UpdateView
 from django.shortcuts import render, redirect, get_object_or_404
+from lib.date import LONG_MONTH_NAMES
 from apps.events.forms import EventForm, MeetingForm, FollowUpForm
 from apps.events.models import FollowUp, Meeting
 
@@ -49,6 +50,8 @@ def index(request):
     ctx['title'] = "{meetings} & {followups}".format(
         meetings=meetings_title, followups=followups_title)
     ctx['title_icon'] = 'calendar-o'
+    cmon = LONG_MONTH_NAMES[today.month]
+    ctx['today'] = '{month} {day}'.format(month=cmon, day=today.day)
     return render(request, 'events/index.html', ctx)
 
 
