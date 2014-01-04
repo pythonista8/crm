@@ -137,9 +137,32 @@ TEMPLATE_DIRS = (
 )
 
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': '/var/www/crm/logs/error.log'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True
+        }
+    }
+}
+
+
 # Dev settings
 if DEBUG:
-    from crm.settings_local import *
+    try:
+        from crm.settings_local import *
+    except ImportError:
+        pass
 
 # Test settings
 if 'test' in sys.argv:
