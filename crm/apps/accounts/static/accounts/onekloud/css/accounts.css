@@ -12,6 +12,14 @@ body {
     padding: .5em 0;
 }
 
+#large-logo {
+    text-align: center;
+}
+
+#large-logo img {
+    margin-right: .8em;
+}
+
 #login input[type="email"],
 #login input[type="password"] {
     padding: 15px;
