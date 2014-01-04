@@ -16,10 +16,13 @@
         <title>OneKloud | All You Need In A Cloud</title>
     {% endif %}
 
+    <link href="{% static 'img/onekloud/favicon.ico' %}" rel="shortcut icon">
+
     {# Vendor CSS files. #}
     <link href="{% static 'css/vendor/font_awesome/css/font-awesome.css' %}" rel="stylesheet">
     <link href="{% static 'css/vendor/jquery/jquery-ui-1.10.3.css' %}" rel="stylesheet">
     {% include 'vendor/purecss.html' %}
+
     {% if debug %}
         <link href="{% static 'css/vendor/qunit/qunit-1.12.0.css' %}" rel="stylesheet">
     {% endif %}
@@ -73,12 +76,14 @@
                             Reports
                         </a>
                     </li>
+                    {% comment %}
                     <li class="{% block menu-settings %}{% endblock %}">
                         <a href="#">
                             <i class="fa fa-cog"></i>
                             Settings
                         </a>
                     </li>
+                    {% endcomment %}
                     <li class="menu-item-divided">
                         <a href="{% url 'accounts:logout' %}">
                             <i class="fa fa-sign-out"></i>

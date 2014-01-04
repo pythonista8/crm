@@ -32,6 +32,10 @@ h3, h4, h5, h6 {
     color: #959595;
 }
 
+.red {
+    color: #ee5f5b;
+}
+
 .nomargin {
     margin: 0;
 }

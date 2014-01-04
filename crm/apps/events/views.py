@@ -1,12 +1,11 @@
 import datetime as dt
 
-from collections import OrderedDict as odict
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.urlresolvers import reverse
 from django.views.generic.edit import UpdateView
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from apps.events.forms import EventForm, MeetingForm, FollowUpForm
 from apps.events.models import FollowUp, Meeting
 
@@ -33,8 +32,8 @@ def index(request):
         Q(date_started__range=(from_, to)) | Q(date_ended__range=(from_, to)))
     mdict = dict()
     for m in meetings:
-        # Keep data in `mdict` in a list-per-hour format. E.g. mdict[6]
-        # will retrieve list of `Meeting` objects at 6 o'clock.
+        # Keep data in `mdict` in a object-per-time format.
+        # E.g. mdict[6] will retrieve a `Meeting` object at 6 o'clock.
         hr = str(m.date_started.hour)
         if len(hr) == 1:
             hr = '0' + hr
@@ -42,11 +41,8 @@ def index(request):
         if len(min_) == 1:
             min_ = '0' + min_
         time = '{hr}:{min}'.format(hr=hr, min=min_)
-        if hr in mdict:
-            mdict[time].append(m)
-        else:
-            mdict[time] = [m]
-    ctx['meeting_dict'] = odict(sorted(mdict.items()))
+        mdict[time] = m
+    ctx['meeting_list'] = sorted(mdict.items())
 
     meetings_title = Meeting._meta.verbose_name_plural.title()
     followups_title = FollowUp._meta.verbose_name_plural.title()
@@ -83,3 +79,21 @@ class FollowUpUpdate(EventContextMixin, UpdateView):
     def get_success_url(self):
         object_ = self.get_object()
         return reverse('events:edit-followup', kwargs={'pk': object_.pk})
+
+
+def delete_meeting(request, pk):
+    meeting = get_object_or_404(Meeting, pk=pk)
+    meeting.delete()
+    title = meeting._meta.verbose_name.title()
+    messages.success(
+        request, "{event} has been deleted.".format(event=title))
+    return redirect(reverse('events:index'))
+
+
+def delete_followup(request, pk):
+    followup = get_object_or_404(FollowUp, pk=pk)
+    followup.delete()
+    title = followup._meta.verbose_name.title()
+    messages.success(
+        request, "{event} has been deleted.".format(event=title))
+    return redirect(reverse('events:index'))

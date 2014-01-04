@@ -4,6 +4,7 @@ from apps.customers.models import Customer
 
 
 def index(request):
+    ctx = dict()
     customers = Customer.objects.all()
     opp = customers.filter(status=Customer.OPPORTUNITY)
     oppdict = dict(color='#e0e4cb', label='Opportunities', value=opp.count())
@@ -11,7 +12,8 @@ def index(request):
     windict = dict(color='#64d2e9', label='Closed Win', value=win.count())
     lost = customers.filter(status=Customer.LOST)
     lostdict = dict(color='#fa4444', label='Closed Lost', value=opp.count())
-    ctx = dict(data_number=[oppdict, windict, lostdict])
+    if oppdict['value'] or windict['value'] or lostdict['value']:
+        ctx['data_number'] = [oppdict, windict, lostdict]
 
     opp_sum = opp.aggregate(Sum('amount'))['amount__sum'] or 0
     oppdict['value'] = opp_sum
@@ -19,7 +21,9 @@ def index(request):
     windict['value'] = win_sum
     lost_sum = lost.aggregate(Sum('amount'))['amount__sum'] or 0
     lostdict['value'] = lost_sum
-    ctx['data_amount'] = [oppdict, windict, lostdict]
+    if opp_sum or win_sum or lost_sum:
+        ctx['data_amount'] = [oppdict, windict, lostdict]
+
     ctx['title'] = "Reports"
     ctx['title_icon'] = 'bar-chart-o'
     return render(request, 'reports/index.html', ctx)

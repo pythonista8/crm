@@ -6,6 +6,14 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 
+/* Turn off required field styling in Chrome */
+
+input:focus:invalid,
+textarea:focus:invalid,
+select:focus:invalid {
+    border-color: #129FEA !important;
+}
+
 /* Large input */
 
 .pure-form input.input-event {

@@ -10,7 +10,7 @@
                 {% csrf_token %}
                 {{ event_form.errors }}
                 <fieldset id="event-fieldset">
-                    {{ event_form.text|attributes:"required: required, class: pure-input-2-3 pure-input-rounded input-event, autocomplete: off, placeholder: Meet Sam on 15 Dec at 18.30 at Starbucks" }}
+                    {{ event_form.text|attributes:"required: required, class: pure-input-2-3 pure-input-rounded input-event, autocomplete: off, placeholder: Meet client on 15 December at 18.30 @ Starbucks" }}
                     <button class="pure-button pure-button-large pure-input-rounded pure-button-primary"
                             type="submit">Add</button>
                 </fieldset>
@@ -59,30 +59,30 @@
         </div>
     </div>
 
-    {% if meeting_dict or followup_list %}
+    {% if meeting_list or followup_list %}
         <div class="pure-u-1">
             <div class="l-box">
                 <h3 class="gray noborder nopadding">Today</h3>
-                {% if meeting_dict %}
+                {% if meeting_list %}
                     <h4>Meetings</h4>
                     <table id="events" class="pure-table pure-table-horizontal" width="100%">
                         <thead>
                             <th>Time</th>
                             <th>Subject</th>
+                            <th>Action</th>
                         </thead>
                         <tbody>
-                            {% for time_, meeting_list in meeting_dict.items %}
+                            {% for meeting_tuple in meeting_list %}
                                 <tr>
-                                    <td width="5%" align="center">{{ time_ }}</td>
+                                    <td width="5%" align="center">{{ meeting_tuple.0 }}</td>
                                     <td>
-                                        {% for meeting in meeting_list %}
-                                            <a href="{% url 'events:edit-meeting' meeting.pk %}">
-                                                {{ meeting.subject }}
-                                            </a>
-                                            {% if not forloop.last %}
-                                                <br>
-                                            {% endif %}
-                                        {% endfor %}
+                                        <a href="{% url 'events:edit-meeting' meeting_tuple.1.pk %}">
+                                            {{ meeting_tuple.1.subject }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'events:delete-meeting' meeting_tuple.1.pk %}"
+                                           class="red" title="Delete meeting"><i class="fa fa-times"></i></a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -95,6 +95,7 @@
                     <table id="events" class="pure-table pure-table-horizontal" width="100%">
                         <thead>
                             <th>Subject</th>
+                            <th>Action</th>
                         </thead>
                         <tbody>
                             {% for followup in followup_list %}
@@ -103,6 +104,10 @@
                                         <a href="{% url 'events:edit-followup' followup.pk %}">
                                             {{ followup.subject }}
                                         </a>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'events:delete-followup' followup.pk %}"
+                                           class="red" title="Delete follow-up"><i class="fa fa-times"></i></a>
                                     </td>
                                 </tr>
                             {% endfor %}
