@@ -1,0 +1,82 @@
+{% extends 'onekloud/base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'reports/onekloud/css/reports.css' %}">
+{% endblock %}
+
+{% block head %}
+<!--[if lte IE 8]>
+    <script src="{% static 'reports/onekloud/js/excanvas.js' %}"></script>
+<![endif]-->
+{% endblock %}
+
+{% block content %}
+<div id="report-tabs">
+    <div class="pure-g-r">
+        <div class="pure-u-1-2">
+            <h3>Total Number of Cases</h3>
+            <div class="pure-g-r">
+                <div class="pure-u-1-2">
+                    <div class="l-box">
+                        <canvas id="chart-number" width="200" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="pure-u-1-2">
+                    <div class="l-box">
+                        {% for dict in data_number %}
+                            <div class="chart-details">
+                                <span class="chart-color" style="background: {{ dict.color }}"></span>
+                                <small>{{ dict.label }} ({{ dict.value }})</small>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pure-u-1-2">
+            <h3>Total Amount</h3>
+            <div class="pure-g-r">
+                <div class="pure-u-1-2">
+                    <div class="l-box">
+                        <canvas id="chart-amount" width="200" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="pure-u-1-2">
+                    <div class="l-box">
+                        {% for dict in data_amount %}
+                            <div class="chart-details">
+                                <span class="chart-color" style="background: {{ dict.color }}"></span>
+                                <small>{{ dict.label }} ({{ dict.value }})</small>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'reports/vendor/chartjs/js/Chart.js' %}"></script>
+<script>
+  var dataNumber = [];
+  var dataAmount = [];
+
+  {% for dict in data_number %}
+    dataNumber.push({
+      value: {{ dict.value }},
+      color: '{{ dict.color }}'
+    });
+  {% endfor %}
+
+  {% for dict in data_amount %}
+    dataAmount.push({
+      value: {{ dict.value }},
+      color: '{{ dict.color }}'
+    });
+  {% endfor %}
+</script>
+<script src="{% static 'reports/onekloud/js/load.js' %}"></script>
+{% endblock %}

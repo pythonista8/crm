@@ -32,6 +32,10 @@ class CustomerCreate(CustomerContextMixin, SuccessMessageMixin, CreateView):
     form_class = CustomerForm
     success_message = "Successfully created"
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(CustomerCreate, self).form_valid(form)
+
     def get_context_data(self, **kwargs):
         ctx = super(CustomerCreate, self).get_context_data(**kwargs)
         ctx['title'] = "Create new {}".format(Customer._meta.verbose_name)

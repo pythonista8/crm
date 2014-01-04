@@ -1,0 +1,10 @@
+.chart-details {
+    margin-bottom: .5em;
+}
+
+.chart-color {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: .2em;
+}

@@ -11,13 +11,16 @@ SHORT_MONTH_NAMES = ("Jan", "Feb", "Mar", "Apr",
                      "Sep", "Oct", "Nov", "Dec")
 
 
-def parsedate(string):
+def parsedate(string, month_as_str=False):
     """Get date and time (if exists) from passed string and return a
     dict of strings.
 
     Convenient for futher conversion to DateTime or Date object using
     `strptime`. If a string does not contain date, function will return
     an empty dict.
+
+    Set `month_as_str` to get month value as a long month name, e.g.
+    September.
     """
     today = datetime.date.today()
     cyr = today.year
@@ -117,10 +120,12 @@ def parsedate(string):
             s = string.replace(date.group(), '')
         else:
             raise ValueError("Could not parse date")
+    if month_as_str:
+        res['month'] = LONG_MONTH_NAMES[int(res['month'])-1]
 
     time = re.search(
         r'(?P<hours>\d{1,2})'
-        r'([:\.\-](?P<minutes>\d{2}))?[\- ]*(?P<period>(AM|PM))?', s,
+        r'([:\-\.](?P<minutes>\d{2}))?[\- ]*(?P<period>(AM|PM))?', s,
         re.IGNORECASE)
     if time:
         hr = time.group('hours')

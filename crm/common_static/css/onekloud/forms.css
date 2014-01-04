@@ -15,21 +15,39 @@ input::-webkit-inner-spin-button {
 }
 
 #event-fieldset {
-    padding-bottom: 2.8em;
+    padding-bottom: 1.2em;
+}
+
+/* Calendar */
+
+.calendar {
+    height: 192px;
 }
 
 /* Event details */
 
-.pure-form .duration input[type="number"] {
+.event-details-wrap {
+    min-height: 120px;
+}
+
+#duration .input-wrap {
+    padding: 0 .5em;
+}
+
+#duration input[type="number"] {
     display: inline;
     padding-left: 0;
     padding-right: 0;
     text-align: center;
 }
 
-.pure-form .duration .semicolon {
+#duration .semicolon {
     display: inline-block;
     font-weight: bold;
+}
+
+#event-details {
+    display: none;
 }
 
 #event-details .label,

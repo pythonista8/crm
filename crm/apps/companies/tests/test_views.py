@@ -1,6 +1,7 @@
 from django import test
 from django.core.urlresolvers import reverse
 from lib.test import setup_view
+from apps.accounts.models import User
 from apps.companies.models import Company
 from apps.companies.forms import CompanyForm
 from apps.companies.views import (CompanyList, CompanyCreate, CompanyUpdate,
@@ -22,7 +23,8 @@ class CompaniesListTest(test.TestCase):
     def setUp(self):
         self.request = test.RequestFactory().get('/fake-path')
         self.view = setup_view(CompanyList(), self.request)
-        object_list = [Company.objects.create(name="test")]
+        user = User.objects.create(email='t@t.com')
+        object_list = [Company.objects.create(name="test", user=user)]
         setattr(self.view, 'object_list', object_list)
 
     def test_get(self):
@@ -44,7 +46,8 @@ class CompaniesCreateTest(test.TestCase):
     def setUp(self):
         self.request = test.RequestFactory().get('/fake-path')
         self.view = setup_view(CompanyCreate(), self.request)
-        object_ = Company.objects.create(name="test")
+        user = User.objects.create(email='t@t.com')
+        object_ = Company.objects.create(name="test", user=user)
         setattr(self.view, 'object', object_)
 
     def test_get(self):
@@ -63,7 +66,8 @@ class CompaniesCreateTest(test.TestCase):
 class CompaniesUpdateTest(test.TestCase):
     def setUp(self):
         self.request = test.RequestFactory().get('/fake-path')
-        self.object = Company.objects.create(name="test")
+        user = User.objects.create(email='t@t.com')
+        self.object = Company.objects.create(name="test", user=user)
         self.view = setup_view(CompanyUpdate(), self.request,
                                pk=self.object.pk)
         setattr(self.view, 'object', self.object)

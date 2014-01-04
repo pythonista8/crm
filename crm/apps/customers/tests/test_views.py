@@ -1,6 +1,7 @@
 from django import test
 from django.core.urlresolvers import reverse
 from lib.test import setup_view
+from apps.accounts.models import User
 from apps.customers.models import Customer
 from apps.customers.forms import CustomerForm
 from apps.customers.views import (CustomerList, CustomerCreate, CustomerUpdate,
@@ -22,8 +23,10 @@ class CustomersListTest(test.TestCase):
     def setUp(self):
         self.request = test.RequestFactory().get('/fake-path')
         self.view = setup_view(CustomerList(), self.request)
+        user = User.objects.create(email='t@t.com')
         object_list = [Customer.objects.create(first_name="test",
-                                               last_name="test")]
+                                               last_name="test",
+                                               user=user)]
         setattr(self.view, 'object_list', object_list)
 
     def test_get(self):
@@ -45,7 +48,9 @@ class CustomersCreateTest(test.TestCase):
     def setUp(self):
         self.request = test.RequestFactory().get('/fake-path')
         self.view = setup_view(CustomerCreate(), self.request)
-        object_ = Customer.objects.create(first_name="test", last_name="test")
+        user = User.objects.create(email='t@t.com')
+        object_ = Customer.objects.create(first_name="test", last_name="test",
+                                          user=user)
         setattr(self.view, 'object', object_)
 
     def test_get(self):
@@ -64,8 +69,10 @@ class CustomersCreateTest(test.TestCase):
 class CustomersUpdateTest(test.TestCase):
     def setUp(self):
         self.request = test.RequestFactory().get('/fake-path')
+        user = User.objects.create(email='t@t.com')
         self.object = Customer.objects.create(first_name="test",
-                                              last_name="test")
+                                              last_name="test",
+                                              user=user)
         self.view = setup_view(CustomerUpdate(), self.request,
                                pk=self.object.pk)
         setattr(self.view, 'object', self.object)

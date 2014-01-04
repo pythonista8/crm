@@ -6,7 +6,7 @@ from apps.companies.models import Company
 class CompaniesModelsTestCase(test.TestCase):
     def setUp(self):
         self.user = User.objects.create(email='t@t.com')
-        self.company = Company.objects.create(name='test')
+        self.company = Company.objects.create(name='test', user=self.user)
 
     def test_company(self):
         self.assertIsNotNone(self.company.date_created)

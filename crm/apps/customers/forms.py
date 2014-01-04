@@ -6,7 +6,7 @@ from apps.customers.models import Customer
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
-        exclude = ('date_created', 'date_modified')
+        exclude = ('date_created', 'date_modified', 'user')
 
     def clean_cell_phone(self):
         phone = self.cleaned_data.get('cell_phone')

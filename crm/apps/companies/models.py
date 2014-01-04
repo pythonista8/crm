@@ -6,6 +6,7 @@ import datetime as dt
 
 from django.db import models
 from django.core.urlresolvers import reverse
+from apps.accounts.models import User
 
 
 class Company(models.Model):
@@ -18,6 +19,9 @@ class Company(models.Model):
     state = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255, blank=True)
     postcode = models.PositiveIntegerField(blank=True, null=True)
+
+    # Owner.
+    user = models.ForeignKey(User)
 
     # Date Records.
     date_created = models.DateTimeField(auto_now_add=True)

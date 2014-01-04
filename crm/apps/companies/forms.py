@@ -6,7 +6,7 @@ from apps.companies.models import Company
 class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
-        exclude = ('date_created', 'date_modified')
+        exclude = ('date_created', 'date_modified', 'user')
 
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')

@@ -3,7 +3,7 @@ import datetime as dt
 
 from django.db import models
 from django.core.urlresolvers import reverse
-from apps.companies.models import Company
+from apps.accounts.models import User
 
 
 class Customer(models.Model):
@@ -19,11 +19,26 @@ class Customer(models.Model):
         (DOCTOR, "Doctor (Dr.)"),
     )
 
+    OPPORTUNITY = 'opportunity'
+    WIN = 'win'
+    LOST = 'lost'
+    STATUS_CHOICES = (
+        (OPPORTUNITY, "Opportunity"),
+        (WIN, "Closed Win"),
+        (LOST, "Closed Lost"),
+    )
+
+    # Sales Info.
+    status = models.CharField(
+        max_length=255, default=OPPORTUNITY, choices=STATUS_CHOICES)
+    amount = models.DecimalField(
+        max_digits=50, decimal_places=2, blank=True, null=True)
+
     # Basic Info.
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    salutation = models.CharField(max_length=50, blank=True,
-                                  choices=SALUTATION_CHOICES)
+    salutation = models.CharField(
+        max_length=50, blank=True, choices=SALUTATION_CHOICES)
 
     # Work Info.
     position = models.CharField(max_length=255, blank=True)
@@ -47,6 +62,9 @@ class Customer(models.Model):
     state = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255, blank=True)
     postcode = models.PositiveIntegerField(blank=True, null=True)
+
+    # Owner.
+    user = models.ForeignKey(User)
 
     # Date Records.
     date_created = models.DateTimeField(auto_now_add=True)

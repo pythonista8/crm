@@ -34,6 +34,9 @@
 
     {# Inherited CSS files are included inside `css` block. #}
     {% block css %}{% endblock %}
+
+    {# Extra files, such as old IE versions support. #}
+    {% block head %}{% endblock %}
 </head>
 
 <body id="onekloud">
@@ -65,7 +68,7 @@
                         </a>
                     </li>
                     <li class="{% block menu-reports %}{% endblock %}">
-                        <a href="#">
+                        <a href="{% url 'reports:index' %}">
                             <i class="fa fa-bar-chart-o"></i>
                             Reports
                         </a>
@@ -123,6 +126,9 @@
     {# Onekloud JavaScript files. #}
     <script src="{% static 'js/onekloud/lib.js' %}"></script>
     <script src="{% static 'js/onekloud/load.js' %}"></script>
+    <script>
+      var eventDetailsURI = "{% url 'events:api:event_details' %}";
+    </script>
 
     {# JavaScript testing. #}
     {% if not debug %}

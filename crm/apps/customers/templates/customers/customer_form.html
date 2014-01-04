@@ -3,6 +3,7 @@
 
 {% block content %}
 <form class="pure-form" method="post">
+    {{ form.errors }}
     <div class="pure-g-r">
         <div class="pure-u-2-3">
             <div class="l-box">
@@ -128,6 +129,21 @@
 
         <div class="pure-u-1-3">
             <div class="l-box">
+                <fieldset>
+                    <legend>Sales</legend>
+                    <div class="pure-g-r">
+                        <div class="pure-u-1-2">
+                            <div class="l-box">
+                                {{ form.amount|attributes:"class: pure-input-1, placeholder: Amount" }}
+                            </div>
+                        </div>
+                        <div class="pure-u-1-2">
+                            <div class="l-box">
+                                {{ form.status }}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
                 <fieldset>
                     <legend>Contact Info</legend>
                     <div class="l-box">

@@ -18,7 +18,7 @@ def index(request):
             event = form.save(user=request.user)
             title = event._meta.verbose_name.title()
             messages.success(
-                request, "{event} was created.".format(event=title))
+                request, "{event} was added.".format(event=title))
     else:
         form = EventForm()
 

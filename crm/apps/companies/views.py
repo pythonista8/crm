@@ -32,6 +32,10 @@ class CompanyCreate(CompanyContextMixin, SuccessMessageMixin, CreateView):
     form_class = CompanyForm
     success_message = "Successfully created"
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(CompanyCreate, self).form_valid(form)
+
     def get_context_data(self, **kwargs):
         ctx = super(CompanyCreate, self).get_context_data(**kwargs)
         ctx['title'] = "Create new {}".format(Company._meta.verbose_name)
