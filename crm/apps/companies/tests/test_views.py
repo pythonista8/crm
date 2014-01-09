@@ -32,7 +32,6 @@ class CompaniesListTest(test.TestCase):
         self.assertEqual(resp.status_code, 200)
 
     def test_attrs(self):
-        raise Exception('test Exception')
         self.assertEqual(self.view.model, Company)
 
     def test_get_context_data(self):
