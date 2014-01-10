@@ -16,6 +16,10 @@ aside {
 
 /* Typography */
 
+h1, h2, h3, h4, h5, h6 {
+    color: #393e46;
+}
+
 h2 {
     margin: .3em 0 .5em;
 }
