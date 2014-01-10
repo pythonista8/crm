@@ -7,8 +7,6 @@ from lib import date
 class DateTestCase(test.TestCase):
     def test_parsedate(self):
         def _assertdate(string, hr, day, mon, min_=None, yr=None):
-            # Useful for debugging.
-            # print("Parsing date: \"{s}\"".format(s=string))
             res = date.parsedate(string)
             hrs = '0' + str(hr) if hr < 10 else str(hr)
             self.assertEqual(res['hours'], hrs)

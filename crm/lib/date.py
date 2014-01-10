@@ -111,8 +111,13 @@ def parsedate(string, month_as_str=False):
                 cday = today.day
                 day = int(res['day'])
                 mon = int(res['month'])
-                if cmon <= mon and cday >= day:
+                if cmon < mon:
                     res['year'] = str(cyr)
+                elif cmon == mon:
+                    if cday <= day:
+                        res['year'] = str(cyr)
+                    else:
+                        res['year'] = str(cyr + 1)
                 else:
                     res['year'] = str(cyr + 1)
 
