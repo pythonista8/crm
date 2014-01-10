@@ -5,10 +5,12 @@
 <head>
     {# Meta information #}
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Customer Relationship Management.">
 
-    {# Inherited meta information is included inside `meta` block. #}
+    {# Inherited meta information is included in `meta` block. #}
     {% block meta %}{% endblock %}
 
     {% if title %}
@@ -36,7 +38,7 @@
     <link href="{% static 'css/onekloud/tables.css' %}" rel="stylesheet">
     <link href="{% static 'css/onekloud/messages.css' %}" rel="stylesheet">
 
-    {# Inherited CSS files are included inside `css` block. #}
+    {# Inherited CSS files are included in `css` block. #}
     {% block css %}{% endblock %}
 
     {# Extra files, such as old IE versions support. #}
