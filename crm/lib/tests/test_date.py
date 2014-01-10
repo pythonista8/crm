@@ -1,5 +1,3 @@
-import datetime as dt
-
 from django import test
 from lib import date
 
@@ -20,12 +18,11 @@ class DateTestCase(test.TestCase):
             if yr is not None:
                 self.assertEqual(res['year'], str(yr))
 
-        today = dt.date.today()
-        _assertdate("Coffee at 15.30 @12 Aug", 15, 12, 8, 30, today.year + 1)
-        _assertdate("Coffee at 3pm @10 Aug", 15, 10, 8, 0, today.year + 1)
+        _assertdate("Coffee at 15.30 @12 Aug", 15, 12, 8, 30)
+        _assertdate("Coffee at 3pm @10 Aug", 15, 10, 8, 0)
         _assertdate("Meet Jay at 31/12/17 at 8am", 8, 31, 12, 0, 2017)
         _assertdate("Meet Jay at 3/5/17 at 4pm", 16, 3, 5, 0, 2017)
-        _assertdate("Meet Jay at 1th December at 3am", 3, 1, 12, 0, today.year)
+        _assertdate("Meet Jay at 1th December at 3am", 3, 1, 12, 0)
         _assertdate("Afternoon 1.30 @ 5 Jan 2014 @ No 6", 13, 5, 1, 30, 2014)
         _assertdate("Evening 12.30 @ 5 Jan 2014 @ No 6", 0, 5, 1, 30, 2014)
         _assertdate("Noon 2 @ 1st Jan @ No 8", 14, 1, 1)
