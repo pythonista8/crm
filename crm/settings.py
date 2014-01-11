@@ -140,6 +140,19 @@ TEMPLATE_DIRS = (
 )
 
 
+# Email
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_HOST_USER = 'aldash@onekloud.com'
+
+EMAIL_HOST_PASSWORD = 'Vivendi89!'
+
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
+
+
+# Logging
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
