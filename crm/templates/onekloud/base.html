@@ -140,7 +140,7 @@
     </script>
 
     {# JavaScript testing. #}
-    {% if not debug %}
+    {% if debug %}
         <script src="{% static 'js/vendor/qunit/qunit-1.12.0.js' %}"></script>
         <script src="{% static 'js/onekloud/tests.js' %}"></script>
     {% endif %}
