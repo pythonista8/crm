@@ -14,12 +14,12 @@
     {% block meta %}{% endblock %}
 
     {% if title %}
-        <title>{{ title }} · Onekloud</title>
+        <title>{{ title }} • Onekloud</title>
     {% else %}
-        <title>Customer Relationship Management · Onekloud</title>
+        <title>Customer Relationship Management • Onekloud</title>
     {% endif %}
 
-    <link rel="icon" type="image/x-icon" href="{% static 'img/onekloud/favicon.ico' %}">
+    <link href="{% static 'img/onekloud/favicon.ico' %}" rel="icon" type="image/x-icon">
 
     {# Vendor CSS files. #}
     <link href="{% static 'css/vendor/font_awesome/css/font-awesome.css' %}" rel="stylesheet">
