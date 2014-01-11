@@ -35,6 +35,10 @@ ALLOWED_HOSTS = [
 
 AUTH_USER_MODEL = 'accounts.User'
 
+ADMINS = (
+    ('Aldash Biibosunov', 'support@onekloud.com'),
+)
+
 
 # Django application definition
 INSTALLED_APPS = (
