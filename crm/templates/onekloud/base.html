@@ -19,7 +19,7 @@
         <title>Customer Relationship Management · Onekloud</title>
     {% endif %}
 
-    <link href="{% static 'img/onekloud/favicon.ico' %}" rel="shortcut icon">
+    <link rel="icon" type="image/x-icon" href="{% static 'img/onekloud/favicon.ico' %}">
 
     {# Vendor CSS files. #}
     <link href="{% static 'css/vendor/font_awesome/css/font-awesome.css' %}" rel="stylesheet">
@@ -103,6 +103,7 @@
                 <div id="qunit-fixture"></div>
             {% endif %}
 
+            {# Notification messages. #}
             {% include 'onekloud/messages.html' %}
 
             <div class="l-box">
@@ -120,7 +121,7 @@
                 </h2>
             </div>
 
-            {# Inherited content is included inside `content` block. #}
+            {# Inherited content is included in `content` block. #}
             {% block content %}{% endblock %}
 
             {% include 'onekloud/footer.html' %}
@@ -144,7 +145,7 @@
         <script src="{% static 'js/onekloud/tests.js' %}"></script>
     {% endif %}
 
-    {# Inherited JavaScript files are included inside `js` block. #}
+    {# Inherited JavaScript files are included in `js` block. #}
     {% block js %}{% endblock %}
 </body>
 </html>
