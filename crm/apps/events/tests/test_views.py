@@ -1,7 +1,7 @@
 import datetime
 
 from django import test
-from apps.accounts.models import User
+from apps.accounts.models import User, Company
 from django.core.urlresolvers import reverse
 from lib.test import setup_view
 from apps.events.forms import MeetingForm, FollowUpForm
@@ -46,7 +46,8 @@ class EventContextMixinTest(test.TestCase):
 class MeetingUpdateTest(test.TestCase):
     def setUp(self):
         self.request = test.RequestFactory().get('/fake-path')
-        self.user = User.objects.create(email='t@t.com')
+        comp = Company.objects.create(name='test')
+        self.user = User.objects.create(email='t@t.com', company=comp)
         now = datetime.datetime.now()
         self.object = Meeting.objects.create(
             user=self.user, subject="Meeting Jay", date_started=now,
@@ -71,7 +72,8 @@ class MeetingUpdateTest(test.TestCase):
 class FollowUpUpdateTest(test.TestCase):
     def setUp(self):
         self.request = test.RequestFactory().get('/fake-path')
-        self.user = User.objects.create(email='t@t.com')
+        comp = Company.objects.create(name='test')
+        self.user = User.objects.create(email='t@t.com', company=comp)
         today = datetime.date.today()
         self.object = FollowUp.objects.create(
             user=self.user, subject="Call John", date=today)

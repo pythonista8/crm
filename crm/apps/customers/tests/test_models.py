@@ -1,11 +1,12 @@
 from django import test
-from apps.accounts.models import User
+from apps.accounts.models import User, Company
 from apps.customers.models import Customer
 
 
 class CustomersModelsTest(test.TestCase):
     def setUp(self):
-        user = User.objects.create(email='t@t.com')
+        comp = Company.objects.create(name='test')
+        user = User.objects.create(email='t@t.com', company=comp)
         self.customer = Customer.objects.create(
             first_name="test", last_name="test", user=user)
 

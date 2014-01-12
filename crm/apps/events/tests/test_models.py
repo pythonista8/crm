@@ -1,13 +1,14 @@
 import datetime
 
 from django import test
-from apps.accounts.models import User
+from apps.accounts.models import User, Company
 from apps.events.models import Event, FollowUp, Meeting
 
 
 class EventsModelsTest(test.TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(email='t@t.com')
+        comp = Company.objects.create(name='test')
+        self.user = User.objects.create(email='t@t.com', company=comp)
         kwargs = dict(subject="test", date_created=datetime.datetime.now(),
                       user=self.user)
         self.event = Event.objects.create(**kwargs)
