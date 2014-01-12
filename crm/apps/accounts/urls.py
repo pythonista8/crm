@@ -5,6 +5,6 @@ from apps.accounts import views
 urlpatterns = patterns(
     '',
     url(r'^signin/$', views.login_form, name="login"),
-    url(r'^logout/$', 'django.contrib.auth.views.logout',
-        {'next_page': '/'}, name="logout"),
+    url(r'^signout/$', 'django.contrib.auth.views.logout',
+        {'next_page': '/'}, name="signout"),
 )
