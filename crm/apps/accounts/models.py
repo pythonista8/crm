@@ -85,8 +85,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         return full_name.strip()
 
     def get_short_name(self):
-        """Returns the short name for the user."""
-        return self.first_name
+        """Returns the short name for the user. If a first name is not
+        given, return email nickname."""
+        if self.first_name:
+            return self.first_name
+        return self.email[:self.email.find('@')]
 
     def email_user(self, subject, message, from_email=None):
         """Sends an email to this User."""

@@ -8,7 +8,7 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width">
 
-    <title>Sign In · Onekloud</title>
+    <title>Sign In • Onekloud</title>
 
     {# Vendor CSS files. #}
     <link href="{% static 'css/vendor/font_awesome/css/font-awesome.css' %}" rel="stylesheet">
@@ -57,6 +57,12 @@
 </div>
 
 {% include 'onekloud/footer.html' %}
+
+{# Vendor JavaScript files. #}
+<script src="{% static 'js/vendor/jquery/jquery-2.0.3.js' %}"></script>
+
+{# Onekloud JavaScript files. #}
+<script src="{% static 'accounts/onekloud/js/load.js' %}"></script>
 
 </body>
 </html>

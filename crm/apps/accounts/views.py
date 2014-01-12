@@ -17,7 +17,9 @@ def login_form(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                messages.success(request, "You're successfully logged in!")
+                messages.success(
+                    request, "Welcome, {name}!".format(
+                        name=user.get_short_name()))
                 return redirect(success_url)
             else:
                 messages.error(request, "Your account is disabled. Contact to "

@@ -130,7 +130,8 @@
     <script src="{% static 'js/onekloud/lib.js' %}"></script>
     <script src="{% static 'js/onekloud/load.js' %}"></script>
     <script>
-      var eventDetailsURI = "{% url 'events:api:event_details' %}";
+      var eventDetailsURI = "{% url 'events:api:details' %}";
+      var eventsFilterByDateURI = "{% url 'events:api:filter_by_date' %}";
     </script>
 
     {# JavaScript testing. #}

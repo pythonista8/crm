@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
-from apps.events import api
 
 urlpatterns = patterns(
-    '',
-    url(r'^eventDetails/$', api.event_details, name='event_details'),
+    'apps.events.api',
+    url(r'^eventDetails/$', 'details', name='details'),
+    url(r'^filterByDate/$', 'filter_by_date', name='filter_by_date'),
 )

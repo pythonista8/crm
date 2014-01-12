@@ -1,6 +1,7 @@
 import datetime as dt
 
 from django.db import models
+from django.core.urlresolvers import reverse
 from apps.accounts.models import User
 
 
@@ -26,6 +27,9 @@ class FollowUp(Event):
         verbose_name = "follow-up"
         verbose_name_plural = "follow-ups"
 
+    def get_absolute_url(self):
+        return reverse('events:edit-followup', args=[self.pk])
+
 
 class Meeting(Event):
     date_started = models.DateTimeField()
@@ -34,3 +38,6 @@ class Meeting(Event):
     class Meta:
         verbose_name = "meeting"
         verbose_name_plural = "meetings"
+
+    def get_absolute_url(self):
+        return reverse('events:edit-meeting', args=[self.pk])

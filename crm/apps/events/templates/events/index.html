@@ -61,62 +61,74 @@
 
     <div class="pure-u-1">
         <div class="l-box">
-            <h3 class="gray noborder nopadding">Today&nbsp; –&nbsp; {{ today }}</h3>
-            {% if followup_list or meeting_list %}
-                {% if meeting_list %}
-                    <h4>Meetings</h4>
-                    <table id="events" class="pure-table pure-table-horizontal" width="100%">
-                        <thead>
-                            <th>Time</th>
-                            <th>Subject</th>
-                            <th width="1%">Action</th>
-                        </thead>
-                        <tbody>
-                            {% for meeting_tuple in meeting_list %}
-                                <tr>
-                                    <td width="5%" align="center">{{ meeting_tuple.0 }}</td>
-                                    <td>
-                                        <a href="{% url 'events:edit-meeting' meeting_tuple.1.pk %}">
-                                            {{ meeting_tuple.1.subject }}
-                                        </a>
-                                    </td>
-                                    <td align="center">
-                                        <a href="{% url 'events:delete-meeting' meeting_tuple.1.pk %}"
-                                           class="red" title="Remove"><i class="fa fa-times"></i></a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% endif %}
+            <h3 id="date-heading" class="gray noborder nopadding">Today&nbsp; – &nbsp;{{ today }}</h3>
 
-                {% if followup_list %}
-                    <h4>Follow-Ups</h4>
-                    <table id="events" class="pure-table pure-table-horizontal" width="100%">
-                        <thead>
-                            <th>Subject</th>
-                            <th width="1%">Action</th>
-                        </thead>
-                        <tbody>
-                            {% for followup in followup_list %}
-                                <tr>
-                                    <td>
-                                        <a href="{% url 'events:edit-followup' followup.pk %}">
-                                            {{ followup.subject }}
-                                        </a>
-                                    </td>
-                                    <td align="center">
-                                        <a href="{% url 'events:delete-followup' followup.pk %}"
-                                           class="red" title="Remove"><i class="fa fa-times"></i></a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% endif %}
-            {% else %}
-                <p>There is no event created yet.</p>
-            {% endif %}
+            <h4>Meetings</h4>
+            <table id="meeting-table" class="pure-table pure-table-horizontal" width="100%">
+                <thead>
+                    <th>Time</th>
+                    <th>Subject</th>
+                    <th width="1%">Action</th>
+                </thead>
+                <tbody>
+                    {% if meeting_list %}
+                        {% for meeting_tuple in meeting_list %}
+                            <tr>
+                                <td width="5%" align="center">{{ meeting_tuple.0 }}</td>
+                                <td>
+                                    <a href="{% url 'events:edit-meeting' meeting_tuple.1.pk %}">
+                                        {{ meeting_tuple.1.subject }}
+                                    </a>
+                                </td>
+                                <td align="center">
+                                    <a href="{% url 'events:delete-meeting' meeting_tuple.1.pk %}"
+                                       class="red" title="Remove"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>
+                                <p>No meeting created yet.</p>
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+
+            <h4>Follow-Ups</h4>
+            <table id="followup-table" class="pure-table pure-table-horizontal" width="100%">
+                <thead>
+                    <th>Subject</th>
+                    <th width="1%">Action</th>
+                </thead>
+                <tbody>
+                    {% if followup_list %}
+                        {% for followup in followup_list %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'events:edit-followup' followup.pk %}">
+                                        {{ followup.subject }}
+                                    </a>
+                                </td>
+                                <td align="center">
+                                    <a href="{% url 'events:delete-followup' followup.pk %}"
+                                       class="red" title="Remove"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td>
+                                <p>No follow-up created yet.</p>
+                            </td>
+                            <td></td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
