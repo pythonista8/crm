@@ -31,13 +31,41 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, True, **extra_fields)
 
 
+class Company(models.Model):
+    name = models.CharField(max_length=255)
+    website = models.URLField(max_length=255, blank=True)
+    street = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=255, blank=True)
+    state = models.CharField(max_length=255, blank=True)
+    country = models.CharField(max_length=255, blank=True)
+    postcode = models.PositiveIntegerField(blank=True, null=True)
+
+    # Date Records.
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'company'
+        verbose_name_plural = 'companies'
+
+    def __str__(self):
+        return self.name
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
+    phone = models.CharField(max_length=50, blank=True)
     is_active = models.BooleanField(default=True)
-    date_created = models.DateTimeField(default=timezone.now)
 
+    # Company Info.
+    company = models.ForeignKey(Company, default=0, related_name='users')
+    is_head = models.BooleanField(default=False)
+
+    # Date Records.
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    # Managers.
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

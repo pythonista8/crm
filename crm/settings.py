@@ -62,7 +62,6 @@ INSTALLED_APPS += (
     'crm.apps.accounts',
     'crm.apps.core',
     'crm.apps.events',
-    'crm.apps.companies',
     'crm.apps.customers',
     'crm.apps.reports',
 )
