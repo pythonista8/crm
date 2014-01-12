@@ -59,7 +59,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
 
     # Company Info.
-    company = models.ForeignKey(Company, default=0, related_name='users')
+    company = models.ForeignKey(Company, related_name='users')
     is_head = models.BooleanField(default=False)
 
     # Date Records.
