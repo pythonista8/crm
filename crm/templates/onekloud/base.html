@@ -91,34 +91,36 @@
             </div>
         </div>
 
-        <div id="content" class="pure-u-1">
-            {% if debug %}
-                <div id="qunit"></div>
-                <div id="qunit-fixture"></div>
-            {% endif %}
+        <div id="content">
+            <div class="pure-u-1">
+                {% if debug %}
+                    <div id="qunit"></div>
+                    <div id="qunit-fixture"></div>
+                {% endif %}
 
-            {# Notification messages. #}
-            {% include 'onekloud/messages.html' %}
+                {# Notification messages. #}
+                {% include 'onekloud/messages.html' %}
 
-            <div class="l-box">
-                <div class="top-right pull-right">
+                <div class="l-box">
+                    <div class="top-right pull-right">
 
-                    {# Navigation buttons, such as `Create`, `Edit` etc. #}
-                    {% block top-right %}{% endblock %}
+                        {# Navigation buttons, such as `Create`, `Edit` etc. #}
+                        {% block top-right %}{% endblock %}
 
+                    </div>
+                    <h2>
+                        {% if title_icon %}
+                            <i class="fa fa-{{ title_icon }}"></i>
+                        {% endif %}
+                        {{ title }}
+                    </h2>
                 </div>
-                <h2>
-                    {% if title_icon %}
-                        <i class="fa fa-{{ title_icon }}"></i>
-                    {% endif %}
-                    {{ title }}
-                </h2>
+
+                {# Inherited content is included in `content` block. #}
+                {% block content %}{% endblock %}
+
+                {% include 'onekloud/footer.html' %}
             </div>
-
-            {# Inherited content is included in `content` block. #}
-            {% block content %}{% endblock %}
-
-            {% include 'onekloud/footer.html' %}
         </div>
     </div>
 
