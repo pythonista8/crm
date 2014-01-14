@@ -1,10 +1,11 @@
+import hashlib
+
 from django import http
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
-from lib.encrypt import hmac_sha256
 from apps.accounts.forms import LoginForm
 from apps.accounts.models import User, Company
 
@@ -38,23 +39,23 @@ def login_form(request):
 
 
 def create_user(request):
-    if request.method == 'POST':
-        reqhash = request.META['Authorization']
-        hash_ = hmac_sha256(
-            '{email}{key}{company}'.format(key=settings.HMAC_KEY,
-                                           email=request.POST['email'],
-                                           company=request.POST['company']))
-        if reqhash != hash_:
-            resp = http.HttpResponse()
-            resp.status_code = 200
-            return resp
+    if request.method == 'GET':
+        reqhash = request.GET['key']
+        email = request.GET['email']
+        password = request.GET['password']
+        cname = request.GET['company']
 
-        email = request.POST['email']
-        password = request.POST['password']
-        cname = request.POST['company']
+        key = '{key}{email}'.format(key=settings.ACTIVATION_KEY,
+                                    email=email).encode('utf8')
+        hash_ = hashlib.md5(key).hexdigest()
+        if reqhash != hash_:
+            return http.HttpResponseForbidden()
 
         company = Company.objects.create(name=cname)
-        user = User.objects.create_user(email, password, company=company)
-        return http.HttpResponse(user.email)
-
-    return http.HttpResponseNotAllowed(['GET'])
+        user = User.objects.create_user(email, None, company=company)
+        user.password = password  # Save hashed password, not plain-text
+        user.save()
+        messages.success(request, "You may now sign in with your email and "
+                                  "password.")
+        return redirect('accounts:login')
+    return http.HttpResponseNotAllowed(['POST'])
