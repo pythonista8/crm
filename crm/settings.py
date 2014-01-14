@@ -176,6 +176,10 @@ LOGGING = {
 }
 
 
+# New Relic
+NEW_RELIC_KEY = '612dfd61898d933a18ee9f45fbf75aa86f094d68'
+
+
 # Dev settings
 try:
     from crm.settings_local import *

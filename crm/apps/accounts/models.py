@@ -58,6 +58,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=50, blank=True)
     is_active = models.BooleanField(default=True)
 
+    # Billing Info.
+    is_trial = models.BooleanField(default=True)
+
     # Company Info.
     company = models.ForeignKey(Company, related_name='users')
     is_head = models.BooleanField(default=False)

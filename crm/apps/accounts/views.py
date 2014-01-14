@@ -1,8 +1,12 @@
+from django import http
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
+from lib.encrypt import hmac_sha256
 from apps.accounts.forms import LoginForm
+from apps.accounts.models import User, Company
 
 
 def login_form(request):
@@ -31,3 +35,24 @@ def login_form(request):
     else:
         form = LoginForm()
     return render(request, 'accounts/login_form.html', dict(form=form))
+
+
+def create_user(request):
+    if request.method == 'POST':
+        reqhash = request.META['Authorization']
+        hash_ = hmac_sha256(
+            '{email}{key}{company}'.format(key=settings.HMAC_KEY,
+                                           email=request.POST['email'],
+                                           company=request.POST['company']))
+        if reqhash != hash_:
+            return http.HttpResponse(status_code=400)
+
+        email = request.POST['email']
+        password = request.POST['password']
+        cname = request.POST['company']
+
+        company = Company.objects.create(name=cname)
+        user = User.objects.create_user(email, password, company=company)
+        return http.HttpResponse(user.email)
+
+    return http.HttpResponseNotAllowed(['GET'])
