@@ -42,7 +42,7 @@ def activate_and_create_user(request):
     if request.method == 'GET':
         reqhash = request.GET['key']
         email = request.GET['email']
-        password = request.GET['password']
+        password = request.GET['pw']
         cname = request.GET['company']
 
         key = '{key}{email}'.format(key=settings.ACTIVATION_KEY,
