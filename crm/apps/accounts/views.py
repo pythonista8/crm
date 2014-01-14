@@ -38,7 +38,7 @@ def login_form(request):
     return render(request, 'accounts/login_form.html', dict(form=form))
 
 
-def create_user(request):
+def activate_and_create_user(request):
     if request.method == 'GET':
         reqhash = request.GET['key']
         email = request.GET['email']
