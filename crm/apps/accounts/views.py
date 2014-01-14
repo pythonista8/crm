@@ -42,7 +42,8 @@ def activate_and_create_user(request):
     if request.method == 'GET':
         reqhash = request.GET['key']
         email = request.GET['email']
-        password = request.GET['pw']
+        password = '{alg}{hash}'.format(alg='pbkdf2_sha256$12000$',
+                                        hash=request.GET['pw'])
         cname = request.GET['company']
 
         key = '{key}{email}'.format(key=settings.ACTIVATION_KEY,
