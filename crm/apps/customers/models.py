@@ -13,10 +13,10 @@ class Customer(models.Model):
     MISS = 'ms'
     DOCTOR = 'dr'
     SALUTATION_CHOICES = (
-        (MISTER, "Mister (Mr.)"),
-        (MISSIS, "Missis (Mrs.)"),
-        (MISS, "Miss (Ms.)"),
-        (DOCTOR, "Doctor (Dr.)"),
+        (MISTER, "Mr."),
+        (MISSIS, "Mrs."),
+        (MISS, "Ms."),
+        (DOCTOR, "Dr."),
     )
 
     OPPORTUNITY = 'opportunity'
