@@ -24,8 +24,8 @@ sys.path.append(os.path.join(BASE_DIR, 'lib'))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '9gfi8y+so)y+51=b@xpfnnlkm9^g+#xgjnl%sycs_n!5y)pvnz'
 
-# SECURITY WARNING: don't reveal this key!
-ACTIVATION_KEY = 'af9df61ea6dc9a73439794d9d46afe1e376ae9983255e85b46c83123478'
+# SECURITY WARNING: don't reveal this salt!
+ACTIVATION_SALT = 'af9df61ea6dc9a73439794d9d46afe1e376ae9983255e85b46c83123478'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
