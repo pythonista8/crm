@@ -48,7 +48,6 @@ def activate_trial(request):
         email = request.GET['email']
         cname = request.GET['company']
 
-        # Email must be unique.
         try:
             User.objects.get(email=email)
         except User.DoesNotExist:
@@ -64,8 +63,6 @@ def activate_trial(request):
             User.objects.create_user(email, 'demo', company=company)
             messages.success(request, "You may now sign in with your email. "
                                       "Password is `demo`.")
-        else:
-            messages.info(request, "You are already registered.")
         return redirect('accounts:login')
 
     return http.HttpResponseNotAllowed(['POST'])
