@@ -4,8 +4,11 @@ from django import http
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 from apps.accounts.forms import LoginForm
 from apps.accounts.models import User, Company
 
@@ -60,9 +63,20 @@ def activate_trial(request):
                 return http.HttpResponseForbidden()
 
             company = Company.objects.create(name=cname)
-            User.objects.create_user(email, 'demo', company=company)
+            user = User.objects.create_user(email, 'demo', company=company)
             messages.success(request, "You may now sign in with your email. "
                                       "Password is `demo`.")
+
+            # Notify admins about new user.
+            subject = "New user at Onekloud CRM!"
+            support_email = 'support@onekloud.com'
+            recipients = ('aldash@onekloud.com', 'samantha@onekloud.com')
+            data = dict(email=user.email, company=user.company)
+            html = mark_safe(
+                render_to_string('accounts/notification_email.html', data))
+            msg = EmailMessage(subject, html, support_email, recipients)
+            msg.content_subtype = 'html'
+            msg.send(fail_silently=True)
         return redirect('accounts:login')
 
     return http.HttpResponseNotAllowed(['POST'])
