@@ -77,6 +77,8 @@ def activate_trial(request):
             msg = EmailMessage(subject, html, support_email, recipients)
             msg.content_subtype = 'html'
             msg.send(fail_silently=True)
-        return redirect('accounts:login')
+            return redirect('accounts:login')
+        else:
+            raise http.Http404
 
     return http.HttpResponseNotAllowed(['POST'])
