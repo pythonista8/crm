@@ -45,7 +45,9 @@ def create_user(request):
                                            email=request.POST['email'],
                                            company=request.POST['company']))
         if reqhash != hash_:
-            return http.HttpResponse(status_code=400)
+            resp = http.HttpResponse()
+            resp.status_code = 200
+            return resp
 
         email = request.POST['email']
         password = request.POST['password']
