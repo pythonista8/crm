@@ -1,6 +1,10 @@
 {% extends 'onekloud/base.html' %}
 {% load staticfiles core_extras %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'customers/onekloud/css/customers.css' %}">
+{% endblock %}
+
 {% block content %}
 <form class="pure-form" method="post">
     {{ form.errors }}
