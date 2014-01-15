@@ -14,10 +14,10 @@ def attrs(value, arg):
     for string in arg.split(','):
         if ':' in string:
             kv = string.split(':')
-            attrs[kv[0]] = kv[1].strip()
+            attrs[kv[0]] = kv[1].strip().encode('utf8')
         else:
             kv = string.strip()
-            attrs[kv] = kv
+            attrs[kv] = kv.encode('utf8')
     return str(value)
 
 
