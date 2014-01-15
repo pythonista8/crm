@@ -11,6 +11,6 @@
 .pure-form input[type="search"],
 .pure-form input[type="tel"],
 .pure-form input[type="color"] {
-    font-family: 'FontAwesome', sans-serif;
+    font-family: "FontAwesome", sans-serif;
     line-height: 1.4em;
 }
