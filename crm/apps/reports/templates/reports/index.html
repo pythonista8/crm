@@ -14,16 +14,18 @@
 {% block content %}
 <div id="report-tabs">
     <div class="pure-g-r">
-        <div class="pure-u-1-2">
+        <div class="pure-u-2-3">
             <h3>Monthly Sales Trend</h3>
             <div class="l-box">
-                <canvas id="chart-trend" width="470" height="240"></canvas>
+                <canvas id="chart-trend" width="650" height="250"></canvas>
             </div>
         </div>
-        <div class="pure-u-1-2">
-            <h3>Some other chart</h3>
+        <div class="pure-u-1-3">
             <div class="l-box">
-                &nbsp;
+                <div class="chart-details">
+                    <span class="chart-color" style="background: #000"></span>
+                    <small>blah blah blah...</small>
+                </div>
             </div>
         </div>
 
@@ -83,27 +85,36 @@
 {% if data_number or data_amount %}
     <script src="{% static 'reports/vendor/chartjs/js/Chart.js' %}"></script>
     <script>
-    var dataNumber = [];
-    var dataAmount = [];
+
+    // Monthly Sales Trend.
+    var monthLabels = [];
+
+    {% for month in long_month_names %}
+      monthLabels.push('{{ month }}');
+    {% endfor %}
+
     var dataTrend = {
-      labels : ["January","February","March","April","May","June","July"],
-      datasets : [
+      labels: monthLabels,
+      datasets: [
         {
-          fillColor : "rgba(220,220,220,0.5)",
-          strokeColor : "rgba(220,220,220,1)",
-          pointColor : "rgba(220,220,220,1)",
-          pointStrokeColor : "#fff",
-          data : [65,59,90,81,56,55,40]
+          fillColor: "rgba(220,220,220,.5)",
+          strokeColor: "rgba(220,220,220,1)",
+          pointColor: "rgba(220,220,220,1)",
+          pointStrokeColor: "#fff",
+          data: [65,59,90,81,56,55,40,59,90,81,56,55]
         },
         {
-          fillColor : "rgba(151,187,205,0.5)",
-          strokeColor : "rgba(151,187,205,1)",
-          pointColor : "rgba(151,187,205,1)",
-          pointStrokeColor : "#fff",
-          data : [28,48,40,19,96,27,100]
+          fillColor: "rgba(151,187,205,.5)",
+          strokeColor: "rgba(151,187,205,1)",
+          pointColor: "rgba(151,187,205,1)",
+          pointStrokeColor: "#fff",
+          data: [28,48,40,19,96,27,100,90,81,56,55,40]
         }
       ]
     };
+
+    // Total Number of Cases.
+    var dataNumber = [];
 
     {% for dict in data_number %}
       dataNumber.push({
@@ -112,12 +123,16 @@
       });
     {% endfor %}
 
+    // Total Amount.
+    var dataAmount = [];
+
     {% for dict in data_amount %}
       dataAmount.push({
         value: {{ dict.value }},
         color: '{{ dict.color }}'
       });
     {% endfor %}
+
     </script>
     <script src="{% static 'reports/onekloud/js/load.js' %}"></script>
 {% endif %}

@@ -1,15 +1,18 @@
 from django.db.models import Sum
 from django.shortcuts import render
+from lib.date import LONG_MONTH_NAMES
 from apps.customers.models import Customer
 
 
 def index(request):
     ctx = dict()
+
     customers = Customer.objects.all()
     oppdict = dict(color='#e0e4cb', label='Opportunities')
     windict = dict(color='#64d2e9', label='Closed Win')
     lostdict = dict(color='#fa4444', label='Closed Lost')
 
+    # Total Number of Cases.
     opp = customers.filter(status=Customer.OPPORTUNITY)
     opp_number = oppdict.copy()
     opp_number['value'] = opp.count()
@@ -22,6 +25,7 @@ def index(request):
     if opp.count() or win.count() or lost.count():
         ctx['data_number'] = [opp_number, win_number, lost_number]
 
+    # Total Income.
     opp_sum = opp.aggregate(Sum('amount'))['amount__sum'] or 0
     opp_amount = oppdict.copy()
     opp_amount['value'] = opp_sum
@@ -34,6 +38,12 @@ def index(request):
     if opp_sum or win_sum or lost_sum:
         ctx['data_amount'] = [opp_amount, win_amount, lost_amount]
 
+    # Monthly Sales Trend.
+    trend_dataset = list()
+    # for i in range(12):
+    #     trend_dataset.append()
+
+    ctx['long_month_names'] = LONG_MONTH_NAMES
     ctx['title'] = "Reports"
     ctx['title_icon'] = 'bar-chart-o'
     return render(request, 'reports/index.html', ctx)
