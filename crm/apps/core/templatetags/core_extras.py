@@ -1,4 +1,5 @@
 from django import template
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -14,10 +15,10 @@ def attrs(value, arg):
     for string in arg.split(','):
         if ':' in string:
             kv = string.split(':')
-            attrs[kv[0]] = kv[1].strip().encode('utf8')
+            attrs[kv[0]] = mark_safe(kv[1].strip())
         else:
             kv = string.strip()
-            attrs[kv] = kv.encode('utf8')
+            attrs[kv] = mark_safe(kv)
     return str(value)
 
 
