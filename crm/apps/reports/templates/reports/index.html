@@ -15,6 +15,13 @@
 <div id="report-tabs">
     <div class="pure-g-r">
         <div class="pure-u-1-2">
+            <h3>Monthly Trend for Sales</h3>
+            <div class="l-box">
+                <canvas id="chart-trend" width="200" height="120"></canvas>
+            </div>
+        </div>
+
+        <div class="pure-u-1-2">
             <h3>Total Number of Cases</h3>
             {% if data_number %}
                 <div class="pure-g-r">
@@ -39,7 +46,7 @@
             {% endif %}
         </div>
         <div class="pure-u-1-2">
-            <h3>Total Amount</h3>
+            <h3>Total Income</h3>
             {% if data_amount %}
                 <div class="pure-g-r">
                     <div class="pure-u-1-2 chart-box">
@@ -70,22 +77,41 @@
 {% if data_number or data_amount %}
     <script src="{% static 'reports/vendor/chartjs/js/Chart.js' %}"></script>
     <script>
-      var dataNumber = [];
-      var dataAmount = [];
+    var dataNumber = [];
+    var dataAmount = [];
+    var dataTrend = {
+      labels : ["January","February","March","April","May","June","July"],
+      datasets : [
+        {
+          fillColor : "rgba(220,220,220,0.5)",
+          strokeColor : "rgba(220,220,220,1)",
+          pointColor : "rgba(220,220,220,1)",
+          pointStrokeColor : "#fff",
+          data : [65,59,90,81,56,55,40]
+        },
+        {
+          fillColor : "rgba(151,187,205,0.5)",
+          strokeColor : "rgba(151,187,205,1)",
+          pointColor : "rgba(151,187,205,1)",
+          pointStrokeColor : "#fff",
+          data : [28,48,40,19,96,27,100]
+        }
+      ]
+    };
 
-      {% for dict in data_number %}
-        dataNumber.push({
-          value: {{ dict.value }},
-          color: '{{ dict.color }}'
-        });
-      {% endfor %}
+    {% for dict in data_number %}
+      dataNumber.push({
+        value: {{ dict.value }},
+        color: '{{ dict.color }}'
+      });
+    {% endfor %}
 
-      {% for dict in data_amount %}
-        dataAmount.push({
-          value: {{ dict.value }},
-          color: '{{ dict.color }}'
-        });
-      {% endfor %}
+    {% for dict in data_amount %}
+      dataAmount.push({
+        value: {{ dict.value }},
+        color: '{{ dict.color }}'
+      });
+    {% endfor %}
     </script>
     <script src="{% static 'reports/onekloud/js/load.js' %}"></script>
 {% endif %}
