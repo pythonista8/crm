@@ -119,4 +119,4 @@ var lineOpts = {
 }
 
 var ctxTrend = $('#chart-trend').get(0).getContext('2d');
-new Chart(ctxNumber).Line(dataTrend, lineOpts);
+new Chart(ctxTrend).Line(dataTrend, lineOpts);
