@@ -7,7 +7,7 @@ from apps.accounts.models import User
 
 
 class Customer(models.Model):
-    """Customer model. Foreign keys: `emails`."""
+    """Customer model. Foreign keys: `incomes`."""
     MISTER = 'mr'
     MISSIS = 'mrs'
     MISS = 'ms'
@@ -24,15 +24,13 @@ class Customer(models.Model):
     LOST = 'lost'
     STATUS_CHOICES = (
         (OPPORTUNITY, "Opportunity"),
-        (WIN, "Closed Win"),
-        (LOST, "Closed Lost"),
+        (WIN, "Closed-Win"),
+        (LOST, "Closed-Lost"),
     )
 
     # Sales Info.
     status = models.CharField(
         max_length=255, default=OPPORTUNITY, choices=STATUS_CHOICES)
-    amount = models.DecimalField(
-        max_digits=50, decimal_places=2, blank=True, null=True)
 
     # Basic Info.
     first_name = models.CharField(max_length=255)
@@ -63,7 +61,7 @@ class Customer(models.Model):
     country = models.CharField(max_length=255, blank=True)
     postcode = models.PositiveIntegerField(blank=True, null=True)
 
-    # Owner.
+    # Owner (i.e. Sales representative).
     user = models.ForeignKey(User)
 
     # Date Records.
@@ -84,3 +82,12 @@ class Customer(models.Model):
 
     def get_absolute_url(self):
         return reverse('customers:edit', kwargs={'pk': self.pk})
+
+
+class Income(models.Model):
+    """Amount of money."""
+    amount = models.DecimalField(max_digits=50, decimal_places=2)
+    customer = models.ForeignKey(Customer, related_name='incomes')
+
+    # Date Records.
+    date_created = models.DateTimeField(auto_now_add=True)

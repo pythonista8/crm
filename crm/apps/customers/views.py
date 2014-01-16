@@ -1,8 +1,9 @@
 from django.core.urlresolvers import reverse
 from django.contrib.messages.views import SuccessMessageMixin
+from django.forms.models import inlineformset_factory
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
-from apps.customers.models import Customer
+from apps.customers.models import Customer, Income
 from apps.customers.forms import CustomerForm
 
 
@@ -48,6 +49,8 @@ class CustomerUpdate(CustomerContextMixin, SuccessMessageMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         ctx = super(CustomerUpdate, self).get_context_data(**kwargs)
+        IncomeFormSet = inlineformset_factory(Customer, Income)
+        ctx['income_formset'] = IncomeFormSet(instance=self.get_object())
         ctx['title'] = "Edit {}".format(Customer._meta.verbose_name)
         return ctx
 

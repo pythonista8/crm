@@ -1,6 +1,6 @@
 from django import forms
 from lib.format import format_phone
-from apps.customers.models import Customer
+from apps.customers.models import Customer, Income
 
 
 class CustomerForm(forms.ModelForm):
@@ -22,3 +22,8 @@ class CustomerForm(forms.ModelForm):
         phone = self.cleaned_data.get('main_phone')
         if phone is not None:
             return format_phone(phone)
+
+
+class IncomeForm(forms.ModelForm):
+    class Meta:
+        model = Income

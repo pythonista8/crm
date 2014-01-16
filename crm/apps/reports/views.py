@@ -1,3 +1,5 @@
+#import datetime as dt
+
 from django.db.models import Sum
 from django.shortcuts import render
 from lib.date import LONG_MONTH_NAMES
@@ -39,7 +41,11 @@ def index(request):
         ctx['data_amount'] = [opp_amount, win_amount, lost_amount]
 
     # Monthly Sales Trend.
-    trend_dataset = list()
+    # trend_dataset = list()
+    # today = dt.date.today()
+    # camount = customers.filter()
+    # amount_diff =
+
     # for i in range(12):
     #     trend_dataset.append()
 
