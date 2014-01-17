@@ -41,9 +41,6 @@ class CustomersListTest(test.TestCase):
         self.ctx = self.view.get_context_data()
         self.assertIn('title', self.ctx)
 
-    def test_get_success_url(self):
-        self.assertIsNotNone(self.view.get_success_url())
-
 
 class CustomersCreateTest(test.TestCase):
     def setUp(self):
