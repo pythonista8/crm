@@ -62,10 +62,13 @@ def activate_trial(request):
             if reqhash != hash_:
                 return http.HttpResponseForbidden()
 
+            passw = 'demo'
             company = Company.objects.create(name=cname)
-            user = User.objects.create_user(email, 'demo', company=company)
-            messages.success(request, "You may now sign in with your email. "
-                                      "Password is `demo`.")
+            User.objects.create_user(email, passw, company=company)
+            user = authenticate(email=email, password=passw)
+            login(request, user)
+            messages.success(request, "Welcome, {name}!".format(
+                name=user.get_short_name()))
 
             # Notify admins about new user.
             subject = "New user at Onekloud CRM!"
@@ -77,7 +80,7 @@ def activate_trial(request):
             msg = EmailMessage(subject, html, support_email, recipients)
             msg.content_subtype = 'html'
             msg.send(fail_silently=True)
-            return redirect('accounts:login')
+            return redirect(reverse('events:index'))
         else:
             raise http.Http404
 
