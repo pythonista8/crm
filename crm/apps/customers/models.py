@@ -7,7 +7,7 @@ from apps.accounts.models import User
 
 
 class Customer(models.Model):
-    """Customer model. Foreign keys: `incomes`."""
+    """Customer model. Foreign keys: `amounts`."""
     MISTER = 'mr'
     MISSIS = 'mrs'
     MISS = 'ms'
@@ -18,19 +18,6 @@ class Customer(models.Model):
         (MISS, "Ms."),
         (DOCTOR, "Dr."),
     )
-
-    OPPORTUNITY = 'opportunity'
-    WIN = 'win'
-    LOST = 'lost'
-    STATUS_CHOICES = (
-        (OPPORTUNITY, "Opportunity"),
-        (WIN, "Closed-Win"),
-        (LOST, "Closed-Lost"),
-    )
-
-    # Sales Info.
-    status = models.CharField(
-        max_length=255, default=OPPORTUNITY, choices=STATUS_CHOICES)
 
     # Basic Info.
     first_name = models.CharField(max_length=255)
@@ -84,10 +71,28 @@ class Customer(models.Model):
         return reverse('customers:edit', kwargs={'pk': self.pk})
 
 
-class Income(models.Model):
+class Amount(models.Model):
     """Amount of money."""
-    amount = models.DecimalField(max_digits=50, decimal_places=2)
-    customer = models.ForeignKey(Customer, related_name='incomes')
+    OPPORTUNITY = 'opportunity'
+    WIN = 'win'
+    LOST = 'lost'
+    STATUS_CHOICES = (
+        (OPPORTUNITY, "Opportunity"),
+        (WIN, "Closed-Win"),
+        (LOST, "Closed-Lost"),
+    )
 
-    # Date Records.
-    date_created = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=255, default=OPPORTUNITY, choices=STATUS_CHOICES)
+    value = models.DecimalField(max_digits=50, decimal_places=2)
+    product = models.CharField(max_length=255, blank=True)
+    customer = models.ForeignKey(Customer, related_name='amounts')
+
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'amount'
+        verbose_name_plural = 'amounts'
+
+    def __str__(self):
+        return str(self.value)

@@ -109,10 +109,10 @@ var lineOpts = {
   animation : true,
 
   //Number - Number of animation steps
-  animationSteps : 60,
+  animationSteps : 25,
 
   //String - Animation easing effect
-  animationEasing : "easeOutQuart",
+  animationEasing : "easeOutQuad",
 
   //Function - Fires when the animation is complete
   onAnimationComplete : null

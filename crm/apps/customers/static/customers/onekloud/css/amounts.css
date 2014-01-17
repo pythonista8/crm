@@ -1,0 +1,7 @@
+.status-win td {
+    color: #0ab21f;
+}
+
+.status-lost td {
+    color: #ee5f5b;
+}

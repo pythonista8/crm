@@ -1,0 +1,78 @@
+{% extends 'onekloud/base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'customers/onekloud/css/amounts.css' %}">
+{% endblock %}
+
+{% block top-right %}
+<a class="pure-button pure-button-small pure-button-primary" href="{% url 'customers:edit' customer.pk %}">
+    <i class="fa fa-reply"></i>&nbsp;
+    Back to Customer
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="l-box">
+    <table class="pure-table pure-table-horizontal" width="100%">
+        <thead>
+            <tr>
+                <th width="15%">Date</th>
+                <th>Product name</th>
+                <th width="15%">Amount</th>
+                <th width="15%">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for amount in amount_list %}
+                <tr class="status-{{ amount.status }}{% if forloop.counter0|divisibleby:2 %} pure-table-odd{% endif %}">
+                    <td>{{ amount.date.date }}</td>
+                    <td>{{ amount.product|default:"-" }}</td>
+                    <td>
+                        {% ifequal amount.status amount.WIN %}
+                            <i class="fa fa-caret-up"></i>
+                        {% endifequal %}
+                        {% ifequal v.status amount.LOST %}
+                            <i class="fa fa-caret-down"></i>
+                        {% endifequal %}
+                        <b>{{ amount.value }}</b>
+                    </td>
+                    <td>{{ amount.get_status_display }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_paginated %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <div class="page-prev">
+                    <a href="{% url 'customers:amount_list' customer.pk %}?page={{ page_obj.previous_page_number }}">
+                        <i class="fa fa-chevron-left"></i>
+                    </a>
+                </div>
+            {% endif %}
+            <div class="page-current">
+                {% for page in paginator.page_range %}
+                    {% ifequal page page_obj.number %}
+                        <span>{{ page }}</span>
+                    {% else %}
+                        <a href="{% url 'customers:amount_list' customer.pk %}?page={{ page }}">{{ page }}</a>
+                    {% endifequal %}
+                {% endfor %}
+            </div>
+            {% if page_obj.has_next %}
+                <div class="page-next">
+                    <a href="{% url 'customers:amount_list' customer.pk %}?page={{ page_obj.next_page_number }}">
+                        <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block menu-customers %}
+pure-menu-selected
+{% endblock %}

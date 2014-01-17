@@ -25,7 +25,11 @@
                 <div class="pure-u-1-3">
                     <div class="l-box">
                         <div class="chart-details">
-                            <span class="chart-color" style="background: #000"></span>
+                            <span class="chart-color" style="background: rgb(220,220,220)"></span>
+                            <small>blah blah blah...</small>
+                        </div>
+                        <div class="chart-details">
+                            <span class="chart-color" style="background: rgb(151,187,205)"></span>
                             <small>blah blah blah...</small>
                         </div>
                     </div>
@@ -97,6 +101,12 @@
       monthLabels.push('{{ month }}');
     {% endfor %}
 
+    var dataTrendOne = [];
+
+    {% for amount in monthly_trend %}
+      dataTrendOne.push({{ amount }});
+    {% endfor %}
+
     var dataTrend = {
       labels: monthLabels,
       datasets: [
@@ -105,7 +115,7 @@
           strokeColor: "rgba(220,220,220,1)",
           pointColor: "rgba(220,220,220,1)",
           pointStrokeColor: "#fff",
-          data: [65,59,90,81,56,55,40,59,90,81,56,55]
+          data: dataTrendOne
         },
         {
           fillColor: "rgba(151,187,205,.5)",

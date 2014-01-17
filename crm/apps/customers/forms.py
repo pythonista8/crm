@@ -1,6 +1,7 @@
 from django import forms
+from django.forms.models import inlineformset_factory
 from lib.format import format_phone
-from apps.customers.models import Customer, Income
+from apps.customers.models import Customer, Amount
 
 
 class CustomerForm(forms.ModelForm):
@@ -24,6 +25,11 @@ class CustomerForm(forms.ModelForm):
             return format_phone(phone)
 
 
-class IncomeForm(forms.ModelForm):
+class AmountForm(forms.ModelForm):
     class Meta:
-        model = Income
+        model = Amount
+        exclude = ('customer', 'date')
+
+
+AmountFormSet = inlineformset_factory(
+    Customer, Amount, extra=1, can_delete=False, max_num=1)

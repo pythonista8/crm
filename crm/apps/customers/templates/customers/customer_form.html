@@ -134,16 +134,32 @@
         <div class="pure-u-1-3">
             <div class="l-box">
                 <fieldset>
-                    <legend>Sales</legend>
+                    <legend>Add amount</legend>
                     <div class="pure-g-r">
                         <div class="pure-u-1-2">
                             <div class="l-box">
-                                {{ form.amount|attributes:"class: pure-input-1, placeholder: &#xf0d6; Amount" }}
+                                {{ amount_form.management_form }}
+                                {{ amount_form.0.value|attributes:"class: pure-input-1, placeholder: &#xf0d6; Amount" }}
                             </div>
                         </div>
                         <div class="pure-u-1-2">
                             <div class="l-box">
-                                {{ form.status }}
+                                {{ amount_form.0.status|attributes:"class: pure-input-1" }}
+                            </div>
+                        </div>
+                        <div class="pure-u-1">
+                            <div class="l-box">
+                                {{ amount_form.0.product|attributes:"class: pure-input-1, placeholder: Product name" }}
+                            </div>
+                            <div class="l-box pull-right">
+                                <input class="pure-button pure-button-small pure-button-success" type="submit" value="Save">
+                                {% if customer.amounts.exists %}
+                                    <a href="{% url 'customers:amount_list' customer.pk %}"
+                                       class="pure-button pure-button-small pure-button-primary">
+                                        View All
+                                    </a>
+                                {% endif %}
+                                <div class="clearfix"></div>
                             </div>
                         </div>
                     </div>
@@ -196,9 +212,12 @@
 
     <div class="l-box">
         <button class="pure-button pure-button-large pure-button-success" type="submit">
-            <i class="fa fa-check-square"></i> Save
+            <i class="fa fa-check-square"></i>&nbsp;
+            Save
         </button>
-        <a class="pure-button pure-button-small pure-button-error" href="{% url 'customers:list' %}">Cancel</a>
+        <a class="pure-button pure-button-small pure-button-error" href="{% url 'customers:list' %}">
+            Cancel
+        </a>
     </div>
 
     {% csrf_token %}

@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 urlpatterns = patterns(
     'apps.accounts.views',
     url(r'^signin/$', 'login_form', name="login"),
-    url(r'^activate_trial/$', 'activate_trial', name="activate_trial"),
+    url(r'^activate-trial/$', 'activate_trial', name="activate-trial"),
 )
 
 urlpatterns += patterns(
