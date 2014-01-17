@@ -20,8 +20,8 @@ def login_form(request):
 
     email = None
     if request.method == 'POST':
-        email = request.POST['email']
-        passw = request.POST['password']
+        email = request.POST.get('email')
+        passw = request.POST.get('password')
         user = authenticate(email=email, password=passw)
 
         if user is not None:
@@ -47,9 +47,9 @@ def login_form(request):
 
 def activate_trial(request):
     if request.method == 'GET':
-        reqhash = request.GET['key']
-        email = request.GET['email']
-        cname = request.GET['company']
+        reqhash = request.GET.get('key')
+        email = request.GET.get('email')
+        cname = request.GET.get('company')
 
         try:
             User.objects.get(email=email)
