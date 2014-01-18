@@ -134,6 +134,11 @@
     <script src="{% static 'js/onekloud/lib.js' %}"></script>
     <script src="{% static 'js/onekloud/load.js' %}"></script>
     <script>
+      {% if user.is_head %}
+        var isHead = true;
+      {% else %}
+        var isHead = false;
+      {% endif %}
       var eventDetailsURI = "{% url 'events:api:details' %}";
       var eventsFilterByDateURI = "{% url 'events:api:filter_by_date' %}";
     </script>

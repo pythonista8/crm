@@ -26,12 +26,21 @@ def filter_by_date(request):
     if request.method == 'GET':
         datestr = request.GET['date']
         date = dt.datetime.strptime(datestr, '%d-%m-%Y').date()
-
         range_ = (dt.datetime.combine(date, dt.time.min),
                   dt.datetime.combine(date, dt.time.max))
-        meeting_qs = Meeting.objects.filter(Q(date_started__range=range_) |
-                                            Q(date_ended__range=range_))
-        followup_qs = FollowUp.objects.filter(date=date)
+        user = request.user
+
+        meeting_qs = Meeting.objects.filter(
+            Q(date_started__range=range_) | Q(date_ended__range=range_),
+            user__company=user.company)
+        if not user.is_head:
+            meeting_qs = meeting_qs.filter(user=user)
+
+        followup_qs = FollowUp.objects.filter(user__company=user.company,
+                                              date=date)
+        if not user.is_head:
+            followup_qs = followup_qs.filter(user=user)
+
         data = list()
         list_ = list(meeting_qs) + list(followup_qs)
 
@@ -51,10 +60,11 @@ def filter_by_date(request):
             else:
                 d['delete_url'] = reverse('events:delete-followup',
                                           args=[ob.pk])
+            if user.is_head:
+                d['user'] = ob.user.get_short_name()
             data.append(d)
 
         res = dict(status='success', data=data)
-
         daterepr = ''
         if dt.date.today() == date:
             daterepr = 'Today&nbsp; – &nbsp;'

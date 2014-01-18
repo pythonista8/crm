@@ -60,6 +60,9 @@ def index(request):
 
 
 def get_monthly_trend(status):
+    """Return list of values that determine percentage of sales
+    trend between two month.
+    """
     def _get_month_sales(month, status):
         """If `month` equals to zero, then treat as a previous month."""
         now = dt.datetime.now()

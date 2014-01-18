@@ -1,3 +1,12 @@
+/* Index page */
+
+#meetings-empty,
+#followups-empty {
+    margin-bottom: 3em;
+}
+
+/* Form */
+
 .pure-form input[type="text"],
 .pure-form input[type="email"],
 .pure-form input[type="url"],

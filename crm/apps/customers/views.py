@@ -20,6 +20,11 @@ class CustomerContextMixin(object):
 class CustomerList(CustomerContextMixin, ListView):
     paginate_by = 16
 
+    def get_queryset(self):
+        qs = super(CustomerList, self).get_queryset()
+        company = self.request.user.company
+        return qs.filter(user__company=company)
+
     def get_context_data(self, **kwargs):
         ctx = super(CustomerList, self).get_context_data(**kwargs)
         ctx['title'] = Customer._meta.verbose_name_plural.title()
@@ -68,9 +73,15 @@ class CustomerUpdate(CustomerContextMixin, SuccessMessageMixin, UpdateView):
     form_class = CustomerForm
     success_message = "Successfully updated"
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user.company == self.object.user.company:
+            return super(CustomerUpdate, self).get(request, *args, **kwargs)
+        else:
+            raise http.Http404
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-
         # Users cannot update customers that do not belong to them.
         if request.user != self.object.user:
             raise http.HttpResponseForbidden("Permission denied")
@@ -84,7 +95,6 @@ class CustomerUpdate(CustomerContextMixin, SuccessMessageMixin, UpdateView):
             return self.form_invalid(form, amount_form)
 
     def form_valid(self, form, amount_form):
-        self.object = self.get_object()
         amount_form.instance = self.object
         amount_form.save()
         return super(CustomerUpdate, self).form_valid(form)
@@ -100,9 +110,8 @@ class CustomerUpdate(CustomerContextMixin, SuccessMessageMixin, UpdateView):
     def get_context_data(self, **kwargs):
         ctx = super(CustomerUpdate, self).get_context_data(**kwargs)
         ctx['amount_form'] = AmountFormSet()
-        ob = self.get_object()
         vname = Customer._meta.verbose_name
-        if self.request.user == ob.user:
+        if self.request.user == self.object.user:
             ctx['title'] = "Edit {}".format(vname)
         else:
             ctx['title'] = "View {}".format(vname)
@@ -110,14 +119,12 @@ class CustomerUpdate(CustomerContextMixin, SuccessMessageMixin, UpdateView):
 
     def get_template_names(self):
         tmpl = super(CustomerUpdate, self).get_template_names()
-        ob = self.get_object()
-        if self.request.user != ob.user:
+        if self.request.user != self.object.user:
             tmpl = 'customers/customer_view.html'
         return tmpl
 
     def get_success_url(self):
-        object_ = self.get_object()
-        return reverse('customers:edit', kwargs={'pk': object_.pk})
+        return reverse('customers:edit', kwargs={'pk': self.object.pk})
 
 
 class AmountList(ListView):

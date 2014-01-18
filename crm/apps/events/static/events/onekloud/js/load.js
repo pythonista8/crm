@@ -3,21 +3,25 @@ $(function() {
   $('.calendar').datepicker({
     dateFormat: 'dd-mm-yy',
     onSelect: function(dateText, inst) {
-      if ($('#meeting-table').length) {
-        scrollToAnchor('meeting-table');
-      } else if ($('#followup-table').length) {
-        scrollToAnchor('followup-table');
-      }
+      var mTable = $('#meeting-table');
+      var mContainer = mTable.find('tbody');
+      var mEmpty = $('#meetings-empty');
+
+      var fTable = $('#followup-table');
+      var fContainer = fTable.find('tbody');
+      var fEmpty = $('#followups-empty');
+
+      if (mEmpty.length) mEmpty.remove();
+      if (fEmpty.length) fEmpty.remove();
+
+      // Clear table content to fill up new.
+      mContainer.html('');
+      fContainer.html('');
+
+      scrollToAnchor('date-heading');
 
       $.get(eventsFilterByDateURI, {date: dateText}, function(resp) {
         if (resp.status == 'success') {
-          var mContainer = $('#meeting-table tbody');
-          var fContainer = $('#followup-table tbody');
-
-          // Clear table content to fill up new.
-          mContainer.html('');
-          fContainer.html('');
-
           $('#date-heading').html(resp.date);
 
           $.each(resp.data, function() {
@@ -27,18 +31,29 @@ $(function() {
             if (ob.type == 'Meeting') row += "<td width=\"5%\" align=\"center\">" +
                                              ob.time + "</td>";
 
-            row += "<td><a href=\"" + ob.url + "\">" + ob.subject + "</a></td>" +
-                   "<td align=\"center\"><a href=\"" + ob.delete_url + "\" class=\"red\" title=\"Remove\">" +
-                   "<i class=\"fa fa-times\"></i></a></td></tr>";
+            row += "<td><a href=\"" + ob.url + "\">" + ob.subject + "</a></td>";
+
+            if (isHead) row += "<td>" + ob.user + "</td>";
+
+            row += "<td align=\"center\"><a href=\"" + ob.delete_url + "\" class=\"red\" title=\"Remove\">" +
+                   "<i class=\"fa fa-times\"></i></a></td>";
+            row += "</tr>";
 
             if (ob.type == 'Meeting') mContainer.append(row);
             if (ob.type == 'FollowUp') fContainer.append(row);
           });
 
-          var emptyRow = "<tr><td><p>No meeting created yet.</p></td><td></td>";
+          if (mContainer.has('tr').length) {
+            mTable.show();
+          } else {
+            mTable.hide().after("<p id=\"meetings-empty\">No meetings created yet.</p>");
+          }
 
-          if (!fContainer.has('tr').length) fContainer.html(emptyRow + "</tr>");
-          if (!mContainer.has('tr').length) mContainer.html(emptyRow + "<td></td></tr>");
+          if (fContainer.has('tr').length) {
+            fTable.show();
+          } else {
+            fTable.hide().after("<p id=\"followups-empty\">No follow-ups created yet.</p>");
+          }
         }
       });
     }
