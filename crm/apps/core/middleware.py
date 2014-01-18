@@ -16,3 +16,9 @@ class PermissionMiddleware(object):
 
         if not granted and not logged_in and not on_login_page:
             return redirect(login_url)
+
+
+class RedirectMiddleware(object):
+    def process_request(self, request):
+        if request.path == '/':
+            return redirect(reverse('events:index'))
