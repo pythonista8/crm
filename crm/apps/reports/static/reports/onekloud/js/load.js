@@ -15,10 +15,10 @@ var pieOpts = {
   animation : true,
 
   // Number - Amount of animation steps.
-  animationSteps : 25,
+  animationSteps : 20,
 
   // String - Animation easing effect.
-  animationEasing : 'easeOutQuad',
+  animationEasing : 'easeOutQuart',
 
   // Boolean - Whether we animate the rotation of the Doughnut.
   animateRotate : true,
@@ -109,10 +109,10 @@ var lineOpts = {
   animation : true,
 
   //Number - Number of animation steps
-  animationSteps : 25,
+  animationSteps : 20,
 
   //String - Animation easing effect
-  animationEasing : "easeOutQuad",
+  animationEasing : "easeOutQuart",
 
   //Function - Fires when the animation is complete
   onAnimationComplete : null

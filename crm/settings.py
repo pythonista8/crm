@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 )
 
 
@@ -84,6 +85,7 @@ MIDDLEWARE_CLASSES = (
 # OneKloud CRM application definition
 MIDDLEWARE_CLASSES += (
     'crm.apps.core.middleware.PermissionMiddleware',
+    'crm.apps.core.middleware.RedirectMiddleware',
 )
 
 

@@ -1,3 +1,4 @@
+import calendar
 import datetime as dt
 
 from django.db.models import Sum
@@ -9,7 +10,7 @@ from apps.customers.models import Customer, Amount
 def index(request):
     ctx = dict()
 
-    customers = Customer.objects.all()
+    customers = Customer.objects.filter(user=request.user)
     oppdict = dict(color='#e0e4cb', label='Opportunities')
     windict = dict(color='#64d2e9', label='Closed-Win')
     lostdict = dict(color='#fa4444', label='Closed-Lost')
@@ -49,33 +50,40 @@ def index(request):
     if opp_sum or win_sum or lost_sum:
         ctx['data_amount'] = [opp_amount, win_amount, lost_amount]
 
-    ctx['monthly_trend'] = get_monthly_trend()
+    ctx['monthly_win_trend'] = get_monthly_trend(Amount.WIN)
+    ctx['monthly_lost_trend'] = get_monthly_trend(Amount.LOST)
+
     ctx['long_month_names'] = LONG_MONTH_NAMES
     ctx['title'] = "Reports"
     ctx['title_icon'] = 'bar-chart-o'
     return render(request, 'reports/index.html', ctx)
 
 
-def get_monthly_trend():
-    """Monthly Trend for Sales."""
-    def _get_month_sales(month):
+def get_monthly_trend(status):
+    def _get_month_sales(month, status):
+        """If `month` equals to zero, then treat as a previous month."""
         now = dt.datetime.now()
-        base = now - dt.timedelta(days=30*month)
-        d = now - dt.timedelta(days=30*(month - 1))
-        qs = Amount.objects.filter(date__range=(base, d))
+        if month == 0:
+            yr = now.year - 1
+            month = 12
+        else:
+            yr = now.year
+        days = calendar.monthrange(yr, month)[1]
+        begin = dt.datetime(yr, month, 1)
+        end = begin + dt.timedelta(days=days - 1)
+        qs = Amount.objects.filter(status=status, date__range=(begin, end))
         sum_ = qs.aggregate(Sum('value'))['value__sum'] or 0
         return sum_
 
     data = list()
-    # basemonth = None
-    # from_ = None
-    # for month in range(1, 7):
-    #     if month:
-    #         basemonth = _get_month_sales(month)
-    #         from_ = month
-    # if basemonth is not None and from_ is not None:
-    #     for month in range(from_, 7):
-    #         mon = _get_month_sales(month)
-    #         print(mon, basemonth)
-    #         data.append((mon - basemonth)/basemonth)
+    base = _get_month_sales(0, status)
+    for month in range(1, 13):
+        if base == 0:
+            base = _get_month_sales(month, status)
+        sales = _get_month_sales(month, status)
+        try:
+            diff = round(abs(sales - base) / base*100)
+        except ZeroDivisionError:
+            diff = 0
+        data.append(diff)
     return data
