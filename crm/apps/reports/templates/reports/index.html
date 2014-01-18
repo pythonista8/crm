@@ -15,71 +15,77 @@
 <div id="report-tabs">
     <div class="pure-g-r">
         <div class="pure-u-1">
-            <h3>Monthly Sales Trend</h3>
-            <div class="pure-g-r">
-                <div class="pure-u-4-5">
-                    <div class="l-box">
-                        <canvas id="chart-trend" width="780" height="250"></canvas>
-                    </div>
-                </div>
-                <div class="pure-u-1-5">
-                    <div class="l-box">
-                        <div class="chart-details">
-                            <span class="chart-color" style="background: rgb(151,187,205)"></span>
-                            <small>Closed-Win</small>
+            <div class="l-box">
+                <h3>Monthly Sales Trend</h3>
+                <div class="pure-g-r">
+                    <div class="pure-u-4-5">
+                        <div class="l-box">
+                            <canvas id="chart-trend" width="780" height="250"></canvas>
                         </div>
-                        <div class="chart-details">
-                            <span class="chart-color" style="background: rgb(220,220,220)"></span>
-                            <small>Closed-Lost</small>
+                    </div>
+                    <div class="pure-u-1-5">
+                        <div class="l-box">
+                            <div class="chart-details">
+                                <span class="chart-color" style="background: rgb(151,187,205)"></span>
+                                <small>Closed-Win</small>
+                            </div>
+                            <div class="chart-details">
+                                <span class="chart-color" style="background: rgb(220,220,220)"></span>
+                                <small>Closed-Lost</small>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="pure-u-1-2">
-            <h3>Total Number of Cases</h3>
-            <div class="pure-g-r">
-                <div class="pure-u-1-2 chart-box">
-                    <div class="l-box">
-                        <canvas id="chart-number" width="200" height="200"
-                                {% if not data_number %} style="display: none"{% endif %}></canvas>
-                        {% if not data_number %}
-                            <span class="gray">There is no data yet.</span>
-                        {% endif %}
+            <div class="l-box">
+                <h3>Total Number of Cases</h3>
+                <div class="pure-g-r">
+                    <div class="pure-u-1-2 chart-box">
+                        <div class="l-box">
+                            <canvas id="chart-number" width="200" height="200"
+                                    {% if not data_number %} style="display: none"{% endif %}></canvas>
+                            {% if not data_number %}
+                                <span class="gray">There is no data yet.</span>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-                <div class="pure-u-1-2">
-                    <div class="l-box">
-                        {% for dict in data_number %}
-                            <div class="chart-details">
-                                <span class="chart-color" style="background: {{ dict.color }}"></span>
-                                <small>{{ dict.label }} ( <b>{{ dict.value|intcomma }}</b> )</small>
-                            </div>
-                        {% endfor %}
+                    <div class="pure-u-1-2">
+                        <div class="l-box">
+                            {% for dict in data_number %}
+                                <div class="chart-details">
+                                    <span class="chart-color" style="background: {{ dict.color }}"></span>
+                                    <small>{{ dict.label }} ( <b>{{ dict.value|intcomma }}</b> )</small>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="pure-u-1-2">
-            <h3>Total Income</h3>
-            <div class="pure-g-r">
-                <div class="pure-u-1-2 chart-box">
-                    <div class="l-box">
-                        <canvas id="chart-amount" width="200" height="200"
-                                {% if not data_amount %} style="display: none"{% endif %}></canvas>
-                        {% if not data_amount %}
-                            <span class="gray">There is no data yet.</span>
-                        {% endif %}
+            <div class="l-box">
+                <h3>Total Income</h3>
+                <div class="pure-g-r">
+                    <div class="pure-u-1-2 chart-box">
+                        <div class="l-box">
+                            <canvas id="chart-amount" width="200" height="200"
+                                    {% if not data_amount %} style="display: none"{% endif %}></canvas>
+                            {% if not data_amount %}
+                                <span class="gray">There is no data yet.</span>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-                <div class="pure-u-1-2">
-                    <div class="l-box">
-                        {% for dict in data_amount %}
-                            <div class="chart-details">
-                                <span class="chart-color" style="background: {{ dict.color }}"></span>
-                                <small>{{ dict.label }} ( <b>{{ dict.value|intcomma }}</b> )</small>
-                            </div>
-                        {% endfor %}
+                    <div class="pure-u-1-2">
+                        <div class="l-box">
+                            {% for dict in data_amount %}
+                                <div class="chart-details">
+                                    <span class="chart-color" style="background: {{ dict.color }}"></span>
+                                    <small>{{ dict.label }} ( <b>{{ dict.value|intcomma }}</b> )</small>
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,11 +106,12 @@ var monthLabels = [];
 {% endfor %}
 
 var dataTrendWin = [];
-var dataTrendLost = [];
 
 {% for amount in monthly_win_trend %}
   dataTrendWin.push({{ amount }});
 {% endfor %}
+
+var dataTrendLost = [];
 
 {% for amount in monthly_lost_trend %}
   dataTrendLost.push({{ amount }});
