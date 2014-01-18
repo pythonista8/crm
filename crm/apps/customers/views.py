@@ -2,6 +2,7 @@ from django import http
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from apps.customers.models import Customer, Amount
@@ -131,9 +132,18 @@ class AmountList(ListView):
     model = Amount
     paginate_by = 16
 
+    def get_customer(self):
+        customer = get_object_or_404(Customer, pk=self.kwargs['pk'],
+                                     user=self.request.user)
+        return customer
+
+    def get_queryset(self):
+        qs = super(AmountList, self).get_queryset()
+        return qs.filter(customer=self.get_customer())
+
     def get_context_data(self, **kwargs):
         ctx = super(AmountList, self).get_context_data(**kwargs)
-        ctx['customer'] = Customer.objects.get(pk=self.kwargs['pk'])
+        ctx['customer'] = self.get_customer()
         ctx['title'] = Amount._meta.verbose_name_plural.title()
         ctx['title_icon'] = 'money'
         ctx['verbose_name'] = Amount._meta.verbose_name
