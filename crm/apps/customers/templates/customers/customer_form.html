@@ -5,9 +5,18 @@
 <link rel="stylesheet" href="{% static 'customers/onekloud/css/customers.css' %}">
 {% endblock %}
 
+{% block top-right %}
+<a class="pure-button pure-button-small pure-button-primary" href="{% url 'customers:list' %}">
+    <i class="fa fa-reply"></i>&nbsp;
+    Back to Customers
+</a>
+{% endblock %}
+
 {% block content %}
 <form class="pure-form" method="post">
+
     {{ form.errors }}
+
     <div class="pure-g-r">
         <div class="pure-u-2-3">
             <div class="l-box">
@@ -52,6 +61,7 @@
                         </div>
                     </div>
                 </fieldset>
+
                 <fieldset>
                     <legend>Work</legend>
                     <div class="pure-g-r">
@@ -67,63 +77,73 @@
                         </div>
                     </div>
                 </fieldset>
+
                 <fieldset>
                     <legend>Links</legend>
                     <div class="pure-g-r">
                         <div class="pure-u-1-2">
                             <div class="l-box">
                                 {% if customer.website %}
-                                    <a class="pure-button pure-button-small"
-                                       href="{{ customer.website }}" target="_blank">
-                                        <i class="fa fa-globe"></i> {{ customer.website|truncatechars:"29" }}
-                                    </a>
-                                    <a class="pure-button pure-button-small pure-button-primary" href="#">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                {% else %}
-                                    {{ form.website|attributes:"class: pure-input-1, placeholder: &#xf0ac; Website, e.g. www.onekloud.com" }}
+                                    <div class="btn-container">
+                                        <a class="pure-button pure-button-small"
+                                           href="{{ customer.website }}" target="_blank">
+                                            <i class="fa fa-globe"></i> {{ customer.website|truncatechars:"29" }}
+                                        </a>
+                                        <a class="pure-button pure-button-small pure-button-primary edit" data-name="website" href="#">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </div>
                                 {% endif %}
+                                <input type="text" name="website" class="pure-input-1" placeholder="&#xf0ac; Website"
+                                       {% if customer.website %}value="{{ customer.website }}" style="display: none"{% endif %}>
                             </div>
                             <div class="l-box">
                                 {% if customer.facebook %}
-                                    <a class="pure-button pure-button-small pure-button-facebook"
-                                       href="{{ customer.facebook }}" target="_blank">
-                                        <i class="fa fa-facebook-square"></i> {{ customer.facebook|truncatechars:"29" }}
-                                    </a>
-                                    <a class="pure-button pure-button-small pure-button-primary" href="#">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                {% else %}
-                                    {{ form.facebook|attributes:"class: pure-input-1, placeholder: &#xf082; Facebook" }}
+                                    <div class="btn-container">
+                                        <a class="pure-button pure-button-small pure-button-facebook"
+                                           href="{{ customer.facebook }}" target="_blank">
+                                            <i class="fa fa-facebook-square"></i> {{ customer.facebook|truncatechars:"29" }}
+                                        </a>
+                                        <a class="pure-button pure-button-small pure-button-primary edit" data-name="facebook" href="#">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </div>
                                 {% endif %}
+                                <input type="text" name="facebook" class="pure-input-1" placeholder="&#xf082; Facebook"
+                                       {% if customer.facebook %}value="{{ customer.facebook }}" style="display: none"{% endif %}>
                             </div>
                         </div>
+
                         <div class="pure-u-1-2">
                             <div class="l-box">
                                 {% if customer.twitter %}
-                                    <a class="pure-button pure-button-small pure-button-twitter"
-                                       href="{{ customer.twitter }}" target="_blank">
-                                        <i class="fa fa-twitter-square"></i> {{ customer.twitter|truncatechars:"29" }}
-                                    </a>
-                                    <a class="pure-button pure-button-small pure-button-primary" href="#">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                {% else %}
-                                    {{ form.twitter|attributes:"class: pure-input-1, placeholder: &#xf081; Twitter" }}
+                                    <div class="btn-container">
+                                        <a class="pure-button pure-button-small pure-button-twitter"
+                                           href="{{ customer.twitter }}" target="_blank">
+                                            <i class="fa fa-twitter-square"></i> {{ customer.twitter|truncatechars:"29" }}
+                                        </a>
+                                        <a class="pure-button pure-button-small pure-button-primary edit" data-name="twitter" href="#">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </div>
                                 {% endif %}
+                                <input type="text" name="twitter" class="pure-input-1" placeholder="&#xf081; Twitter"
+                                       {% if customer.twitter %}value="{{ customer.twitter }}" style="display: none"{% endif %}>
                             </div>
                             <div class="l-box">
                                 {% if customer.linkedin %}
-                                    <a class="pure-button pure-button-small pure-button-linkedin"
-                                       href="{{ customer.linkedin }}" target="_blank">
-                                        <i class="fa fa-linkedin-square"></i> {{ customer.linkedin|truncatechars:"29" }}
-                                    </a>
-                                    <a class="pure-button pure-button-small pure-button-primary" href="#">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                 {% else %}
-                                    {{ form.linkedin|attributes:"class: pure-input-1, placeholder: &#xf08c; LinkedIn" }}
+                                    <div class="btn-container">
+                                        <a class="pure-button pure-button-small pure-button-linkedin"
+                                           href="{{ customer.linkedin }}" target="_blank">
+                                            <i class="fa fa-linkedin-square"></i> {{ customer.linkedin|truncatechars:"29" }}
+                                        </a>
+                                        <a class="pure-button pure-button-small pure-button-primary edit" data-name="linkedin" href="#">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </div>
                                 {% endif %}
+                                <input type="text" name="linkedin" class="pure-input-1" placeholder="&#xf08c; LinkedIn"
+                                       {% if customer.linkedin %}value="{{ customer.linkedin }}" style="display: none"{% endif %}>
                             </div>
                         </div>
                     </div>
@@ -134,7 +154,7 @@
         <div class="pure-u-1-3">
             <div class="l-box">
                 <fieldset>
-                    <legend>Add amount</legend>
+                    <legend>Add Amount</legend>
                     <div class="pure-g-r">
                         <div class="pure-u-1-2">
                             <div class="l-box">
@@ -164,38 +184,45 @@
                         </div>
                     </div>
                 </fieldset>
+
                 <fieldset>
                     <legend>Contact Info</legend>
                     <div class="l-box">
                         {% if customer.email %}
-                            <a class="pure-button pure-button-small"
-                               href="mailto:{{ customer.email }}">
-                                <i class="fa fa-envelope"></i> {{ customer.email|truncatechars:"26" }}
-                            </a>
-                            <a class="pure-button pure-button-small pure-button-primary" href="#">
-                                <i class="fa fa-pencil"></i>
-                            </a>
-                        {% else %}
-                            {{ form.email|attributes:"class: pure-input-1, placeholder: &#xf0e0; Email" }}
+                            <div class="btn-container">
+                                <a class="pure-button pure-button-small"
+                                   href="mailto:{{ customer.email }}">
+                                    <i class="fa fa-envelope"></i> {{ customer.email|truncatechars:"26" }}
+                                </a>
+                                <a class="pure-button pure-button-small pure-button-primary edit" data-name="email" href="#">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            </div>
                         {% endif %}
+                        <input type="text" name="email" class="pure-input-1" placeholder="&#xf0e0; Email"
+                               {% if customer.email %}value="{{ customer.email }}" style="display: none"{% endif %}>
                     </div>
+
                     <div class="l-box">
                         {% if customer.skype %}
-                            <a class="pure-button pure-button-small pure-button-skype"
-                               href="skype:{{ customer.skype }}?call">
-                               Skype Call
-                            </a>
-                            <a class="pure-button pure-button-small pure-button-skype"
-                               href="skype:{{ customer.skype }}?chat">
-                                Skype Chat
-                            </a>
-                            <a class="pure-button pure-button-small pure-button-primary" href="#">
-                                <i class="fa fa-pencil"></i>
-                            </a>
-                        {% else %}
-                            {{ form.skype|attributes:"class: pure-input-1, placeholder: &#xf17e; Skype" }}
+                            <div class="btn-container">
+                                <a class="pure-button pure-button-small pure-button-skype"
+                                   href="skype:{{ customer.skype }}?call">
+                                   Skype Call
+                                </a>
+                                <a class="pure-button pure-button-small pure-button-skype"
+                                   href="skype:{{ customer.skype }}?chat">
+                                    Skype Chat
+                                </a>
+                                <a class="pure-button pure-button-small pure-button-primary edit" data-name="skype" href="#">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            </div>
                         {% endif %}
+                        <input type="text" name="skype" class="pure-input-1" placeholder="&#xf17e; Skype"
+                               {% if customer.skype %}value="{{ customer.skype }}" style="display: none"{% endif %}>
                     </div>
+
                     <div class="l-box">
                         <div class="pure-group">
                             {{ form.cell_phone|attributes:"class: pure-input-1, placeholder: &#xf10b;  Cell phone number" }}
@@ -203,6 +230,7 @@
                         </div>
                     </div>
                 </fieldset>
+
                 <div class="l-box">
                     {{ form.notes|attributes:"class: pure-input-1, placeholder: Your notes" }}
                 </div>

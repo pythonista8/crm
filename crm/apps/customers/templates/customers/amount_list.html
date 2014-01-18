@@ -1,5 +1,5 @@
 {% extends 'onekloud/base.html' %}
-{% load static %}
+{% load static humanize %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'customers/onekloud/css/amounts.css' %}">
@@ -26,7 +26,7 @@
         <tbody>
             {% for amount in amount_list %}
                 <tr class="status-{{ amount.status }}{% if forloop.counter0|divisibleby:2 %} pure-table-odd{% endif %}">
-                    <td>{{ amount.date.date }}</td>
+                    <td>{{ amount.date.date|naturalday|capfirst }}</td>
                     <td>{{ amount.product|default:"-" }}</td>
                     <td>
                         {% ifequal amount.status amount.WIN %}
@@ -35,7 +35,7 @@
                         {% ifequal v.status amount.LOST %}
                             <i class="fa fa-caret-down"></i>
                         {% endifequal %}
-                        <b>{{ amount.value }}</b>
+                        <b>{{ amount.value|intcomma }}</b>
                     </td>
                     <td>{{ amount.get_status_display }}</td>
                 </tr>

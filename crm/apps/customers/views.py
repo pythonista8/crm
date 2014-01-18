@@ -1,3 +1,4 @@
+from django import http
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -69,6 +70,11 @@ class CustomerUpdate(CustomerContextMixin, SuccessMessageMixin, UpdateView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
+
+        # Users cannot update customers that do not belong to them.
+        if request.user != self.object.user:
+            raise http.HttpResponseForbidden("Permission denied")
+
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         amount_form = AmountFormSet(request.POST)
@@ -94,8 +100,20 @@ class CustomerUpdate(CustomerContextMixin, SuccessMessageMixin, UpdateView):
     def get_context_data(self, **kwargs):
         ctx = super(CustomerUpdate, self).get_context_data(**kwargs)
         ctx['amount_form'] = AmountFormSet()
-        ctx['title'] = "Edit {}".format(Customer._meta.verbose_name)
+        ob = self.get_object()
+        vname = Customer._meta.verbose_name
+        if self.request.user == ob.user:
+            ctx['title'] = "Edit {}".format(vname)
+        else:
+            ctx['title'] = "View {}".format(vname)
         return ctx
+
+    def get_template_names(self):
+        tmpl = super(CustomerUpdate, self).get_template_names()
+        ob = self.get_object()
+        if self.request.user != ob.user:
+            tmpl = 'customers/customer_view.html'
+        return tmpl
 
     def get_success_url(self):
         object_ = self.get_object()

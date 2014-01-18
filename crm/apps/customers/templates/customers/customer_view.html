@@ -1,0 +1,150 @@
+{% extends 'onekloud/base.html' %}
+
+{% block content %}
+<div class="pure-g-r">
+    <div class="pure-u-1-2">
+        <div class="l-box">
+            <h3>Basic Info</h3>
+            <table class="pure-table pure-table-horizontal" width="100%">
+                <tbody>
+                    <tr>
+                        <td width="20%">
+                            <b>Name</b>
+                        </td>
+                        <td>
+                            {{ customer.get_salutation_display }}
+                            {{ customer.first_name }}
+                            {{ customer.last_name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%">
+                            <b>Address</b>
+                        </td>
+                        <td>
+                            {% if customer.street or customer.postcode or customer.city or customer.state or customer.country %}
+                                {{ customer.street }}
+                                {% if customer.street %}
+                                    <br>
+                                {% endif %}
+                                {{ customer.postcode|default:"" }}
+                                {{ customer.city }}
+                                {{ customer.state }}
+                                {{ customer.country }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%">
+                            <b>Company</b>
+                        </td>
+                        <td>
+                            {{ customer.company|default:"-" }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%">
+                            <b>Position</b>
+                        </td>
+                        <td>
+                            {{ customer.position|default:"-" }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            {% if customer.website or customer.facebook or customer.twitter or linkedin %}
+                <h3>Links</h3>
+                <div class="pure-g-r">
+                    {% if customer.website or customer.facebook %}
+                        <div class="pure-u-1-2">
+                            {% if customer.website %}
+                                <div class="l-box">
+                                    <a class="pure-button pure-button-small"
+                                       href="{{ customer.website }}" target="_blank">
+                                        <i class="fa fa-globe"></i> {{ customer.website|truncatechars:"25" }}
+                                    </a>
+                                </div>
+                            {% endif %}
+                            {% if customer.facebook %}
+                                <div class="l-box">
+                                    <a class="pure-button pure-button-small pure-button-facebook"
+                                       href="{{ customer.facebook }}" target="_blank">
+                                        <i class="fa fa-facebook-square"></i> {{ customer.facebook|truncatechars:"25" }}
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {% if customer.twitter or customer.linkedin %}
+                        <div class="pure-u-1-2">
+                            {% if customer.twitter %}
+                                <div class="l-box">
+                                    <a class="pure-button pure-button-small pure-button-twitter"
+                                       href="{{ customer.twitter }}" target="_blank">
+                                        <i class="fa fa-twitter-square"></i> {{ customer.twitter|truncatechars:"25" }}
+                                    </a>
+                                </div>
+                            {% endif %}
+                            {% if customer.linkedin %}
+                                <div class="l-box">
+                                    <a class="pure-button pure-button-small pure-button-linkedin"
+                                       href="{{ customer.linkedin }}" target="_blank">
+                                        <i class="fa fa-linkedin-square"></i> {{ customer.linkedin|truncatechars:"25" }}
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="pure-u-1-2">
+        <div class="l-box">
+            <h3>Contact Info</h3>
+            <table class="pure-table pure-table-horizontal" width="100%">
+                <tbody>
+                    <tr>
+                        <td width="30%">
+                            <b>Email</b>
+                        </td>
+                        <td>{{ customer.email|default:"-" }}</td>
+                    </tr>
+                    <tr>
+                        <td width="30%">
+                            <b>Skype</b>
+                        </td>
+                        <td>{{ customer.skype|default:"-" }}</td>
+                    </tr>
+                    <tr>
+                        <td width="30%">
+                            <b>Cell phone</b>
+                        </td>
+                        <td>{{ customer.cell_phone|default:"-" }}</td>
+                    </tr>
+                    <tr>
+                        <td width="30%">
+                            <b>Main phone</b>
+                        </td>
+                        <td>{{ customer.main_phone|default:"-" }}</td>
+                    </tr>
+                    <tr>
+                        <td width="30%">
+                            <b>Notes</b>
+                        </td>
+                        <td>{{ customer.notes|default:"-" }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block menu-customers %}
+pure-menu-selected
+{% endblock %}

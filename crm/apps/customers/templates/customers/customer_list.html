@@ -19,6 +19,7 @@
                     <th>Position</th>
                     <th>Company</th>
                     <th>Country</th>
+                    <th>Manager</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +33,7 @@
                         <td>{{ customer.position|default:"-" }}</td>
                         <td>{{ customer.company|default:"-" }}</td>
                         <td>{{ customer.country|default:"-" }}</td>
+                        <td>{{ customer.user.get_short_name }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
