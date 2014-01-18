@@ -70,6 +70,7 @@ class CustomersUpdateTest(test.TestCase):
         self.request = test.RequestFactory().get('/fake-path')
         comp = Company.objects.create(name='test')
         user = User.objects.create(email='t@t.com', company=comp)
+        self.request.user = user
         self.object = Customer.objects.create(first_name="test",
                                               last_name="test",
                                               user=user)
@@ -88,6 +89,7 @@ class CustomersUpdateTest(test.TestCase):
         self.assertIsNotNone(self.view.success_message)
 
     def test_get_context_data(self):
+        print(self.view.__dict__)
         self.ctx = self.view.get_context_data()
         self.assertIn('title', self.ctx)
 
