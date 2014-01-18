@@ -89,7 +89,6 @@ class CustomersUpdateTest(test.TestCase):
         self.assertIsNotNone(self.view.success_message)
 
     def test_get_context_data(self):
-        print(self.view.__dict__)
         self.ctx = self.view.get_context_data()
         self.assertIn('title', self.ctx)
 
