@@ -1,6 +1,8 @@
+import csv
 import calendar
 import datetime as dt
 
+from django import http
 from django.db.models import Sum
 from django.shortcuts import render
 from lib.date import LONG_MONTH_NAMES
@@ -9,8 +11,9 @@ from apps.customers.models import Customer, Amount
 
 def index(request):
     ctx = dict()
+    user = request.user
+    customers = Customer.objects.filter(user=user)
 
-    customers = Customer.objects.filter(user=request.user)
     oppdict = dict(color='#e0e4cb', label='Opportunities')
     windict = dict(color='#64d2e9', label='Closed-Win')
     lostdict = dict(color='#fa4444', label='Closed-Lost')
@@ -50,8 +53,8 @@ def index(request):
     if opp_sum or win_sum or lost_sum:
         ctx['data_amount'] = [opp_amount, win_amount, lost_amount]
 
-    ctx['monthly_win_trend'] = get_monthly_trend(Amount.WIN)
-    ctx['monthly_lost_trend'] = get_monthly_trend(Amount.LOST)
+    ctx['monthly_win_trend'] = _get_monthly_trend(user, Amount.WIN)
+    ctx['monthly_lost_trend'] = _get_monthly_trend(user, Amount.LOST)
 
     ctx['long_month_names'] = LONG_MONTH_NAMES
     ctx['title'] = "Reports"
@@ -59,7 +62,7 @@ def index(request):
     return render(request, 'reports/index.html', ctx)
 
 
-def get_monthly_trend(status):
+def _get_monthly_trend(user, status):
     """Return list of values that determine percentage of sales
     trend between two month.
     """
@@ -74,7 +77,8 @@ def get_monthly_trend(status):
         days = calendar.monthrange(yr, month)[1]
         begin = dt.datetime(yr, month, 1)
         end = begin + dt.timedelta(days=days - 1)
-        qs = Amount.objects.filter(status=status, date__range=(begin, end))
+        qs = Amount.objects.filter(customer__user=user, status=status,
+                                   date__range=(begin, end))
         sum_ = qs.aggregate(Sum('value'))['value__sum'] or 0
         return sum_
 
@@ -90,3 +94,98 @@ def get_monthly_trend(status):
             diff = 0
         data.append(diff)
     return data
+
+
+def export_customers(request):
+    """Export customers data in a CSV format."""
+    # Create the HttpResponse object with the appropriate CSV header.
+    user = request.user
+    fname = "{model}_{user}_{date}.csv".format(
+        model=Customer._meta.verbose_name_plural, user=user,
+        date=dt.date.today())
+    resp = http.HttpResponse(content_type='text/csv')
+    resp['Content-Disposition'] = 'attachment; filename="{file}"'.format(
+        file=fname)
+
+    writer = csv.writer(resp)
+    headers = ['ID',
+               'Created',
+               'Salutation',
+               'First name',
+               'Last name',
+               'Position',
+               'Company',
+               'Cell phone',
+               'Main phone',
+               'Email',
+               'Skype',
+               'Address',
+               'City',
+               'State',
+               'Country',
+               'Website',
+               'Facebook',
+               'Twitter',
+               'LinkedIn',
+               'Notes']
+
+    writer.writerow(headers)
+    qs = Customer.objects.filter(user=user)
+    for ob in qs:
+        address = "{street} {postcode}".format(street=ob.street,
+                                               postcode=ob.postcode or '')
+        row = [ob.id,
+               ob.date_created.strftime('%d/%m/%Y'),
+               ob.get_salutation_display(),
+               ob.first_name,
+               ob.last_name,
+               ob.position,
+               ob.company,
+               "'{}'".format(ob.cell_phone) if ob.cell_phone else '',
+               "'{}'".format(ob.main_phone) if ob.main_phone else '',
+               ob.email,
+               ob.skype,
+               address,
+               ob.city,
+               ob.state,
+               ob.country,
+               ob.website,
+               ob.facebook,
+               ob.twitter,
+               ob.linkedin,
+               ob.notes]
+        writer.writerow(row)
+    return resp
+
+
+def export_amounts(request):
+    """Export amounts data in a CSV format."""
+    user = request.user
+    fname = "{model}_{user}_{date}.csv".format(
+        model=Amount._meta.verbose_name_plural, user=user,
+        date=dt.date.today())
+    resp = http.HttpResponse(content_type='text/csv')
+    resp['Content-Disposition'] = 'attachment; filename="{file}"'.format(
+        file=fname)
+
+    writer = csv.writer(resp)
+    headers = ['Date',
+               'Customer ID',
+               'First name',
+               'Last name',
+               'Amount',
+               'Product',
+               'Status']
+
+    writer.writerow(headers)
+    qs = Amount.objects.filter(customer__user=user)
+    for ob in qs:
+        row = [ob.date.strftime('%d/%m/%Y'),
+               ob.customer.id,
+               ob.customer.first_name,
+               ob.customer.last_name,
+               ob.value,
+               ob.product,
+               ob.get_status_display()]
+        writer.writerow(row)
+    return resp

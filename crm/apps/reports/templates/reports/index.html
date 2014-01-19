@@ -38,6 +38,7 @@
                 </div>
             </div>
         </div>
+
         <div class="pure-u-1-2">
             <div class="l-box">
                 <h3>Total Number of Cases</h3>
@@ -64,6 +65,7 @@
                 </div>
             </div>
         </div>
+
         <div class="pure-u-1-2">
             <div class="l-box">
                 <h3>Total Income</h3>
@@ -88,6 +90,21 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="pure-u-1">
+            <div class="l-box">
+                <h3>
+                    <i class="fa fa-download"></i>&nbsp;
+                    Export CSV
+                </h3>
+                <a class="pure-button pure-button-primary" href="{% url 'reports:export-customers' %}">
+                    Customers
+                </a>
+                <a class="pure-button pure-button-primary" href="{% url 'reports:export-amounts' %}">
+                    Amounts
+                </a>
             </div>
         </div>
     </div>

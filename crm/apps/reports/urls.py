@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, url
-from apps.reports import views
 
 urlpatterns = patterns(
-    '',
-    url(r'^$', views.index, name='index'),
+    'apps.reports.views',
+    url(r'^$', 'index', name='index'),
+    url(r'^export-customers/$', 'export_customers', name='export-customers'),
+    url(r'^export-amounts/$', 'export_amounts', name='export-amounts'),
 )
