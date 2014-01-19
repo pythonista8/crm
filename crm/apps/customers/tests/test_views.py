@@ -25,13 +25,14 @@ class CustomersListTest(test.TestCase):
         self.view = setup_view(CustomerList(), self.request)
         comp = Company.objects.create(name='test')
         user = User.objects.create(email='t@t.com', company=comp)
+        self.request.user = user
         object_list = [Customer.objects.create(first_name="test",
                                                last_name="test",
                                                user=user)]
         setattr(self.view, 'object_list', object_list)
 
     def test_get(self):
-        resp = self.client.get(reverse('customers:list'))
+        resp = self.view.get(self.request)
         self.assertEqual(resp.status_code, 200)
 
     def test_attrs(self):
@@ -79,8 +80,7 @@ class CustomersUpdateTest(test.TestCase):
         setattr(self.view, 'object', self.object)
 
     def test_get(self):
-        resp = self.client.get(reverse('customers:edit',
-                                       args=[self.object.pk]))
+        resp = self.view.get(self.request)
         self.assertEqual(resp.status_code, 200)
 
     def test_attrs(self):
