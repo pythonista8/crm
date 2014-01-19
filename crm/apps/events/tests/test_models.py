@@ -9,9 +9,9 @@ class EventsModelsTest(test.TestCase):
     def setUp(self):
         comp = Company.objects.create(name='test')
         self.user = User.objects.create(email='t@t.com', company=comp)
-        kwargs = dict(subject="test", date_created=datetime.datetime.now(),
-                      user=self.user)
+        kwargs = dict(subject="test", date_created=datetime.datetime.now())
         self.event = Event.objects.create(**kwargs)
+        kwargs['user'] = self.user
         self.followup = FollowUp.objects.create(date=datetime.date.today(),
                                                 **kwargs)
         now = datetime.datetime.now()
@@ -20,7 +20,6 @@ class EventsModelsTest(test.TestCase):
 
     def test_event(self):
         self.assertEqual(self.event.subject, "test")
-        self.assertEqual(self.event.user.pk, self.user.pk)
         self.assertIsNotNone(self.event.date_created)
         self.assertTrue(self.event.__str__())
 
