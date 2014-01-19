@@ -32,6 +32,7 @@ class UserManager(BaseUserManager):
 
 
 class Company(models.Model):
+    """Foreign keys: `users`."""
     name = models.CharField(max_length=255)
     website = models.URLField(max_length=255, blank=True)
     street = models.CharField(max_length=255, blank=True)
@@ -52,6 +53,7 @@ class Company(models.Model):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    """Foreign keys: `customers`, `meetings`, `followups`."""
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)

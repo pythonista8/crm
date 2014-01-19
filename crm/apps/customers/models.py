@@ -7,7 +7,7 @@ from apps.accounts.models import User
 
 
 class Customer(models.Model):
-    """Customer model. Foreign keys: `amounts`."""
+    """Foreign keys: `amounts`."""
     MISTER = 'mr'
     MISSIS = 'mrs'
     MISS = 'ms'
@@ -49,7 +49,7 @@ class Customer(models.Model):
     postcode = models.PositiveIntegerField(blank=True, null=True)
 
     # Owner (i.e. Sales representative).
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name='customers')
 
     # Date Records.
     date_created = models.DateTimeField(auto_now_add=True)
