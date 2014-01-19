@@ -67,8 +67,8 @@
             <table id="meeting-table" class="pure-table pure-table-horizontal" width="100%"
                    {% if not meeting_list %}style="display: none"{% endif %}>
                 <thead>
-                    <th>Time</th>
-                    <th>Subject</th>
+                    <th align="left">Time</th>
+                    <th align="left">Subject</th>
                     {% if user.is_head %}
                         <th width="10%">Manager</th>
                     {% endif %}
@@ -106,7 +106,7 @@
             <table id="followup-table" class="pure-table pure-table-horizontal" width="100%"
                    {% if not followup_list %}style="display: none"{% endif %}>
                 <thead>
-                    <th>Subject</th>
+                    <th align="left">Subject</th>
                     {% if user.is_head %}
                         <th width="10%">Manager</th>
                     {% endif %}

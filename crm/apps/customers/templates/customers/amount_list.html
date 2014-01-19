@@ -17,10 +17,10 @@
     <table class="pure-table pure-table-horizontal" width="100%">
         <thead>
             <tr>
-                <th width="15%">Date</th>
-                <th>Product name</th>
-                <th width="15%">Amount</th>
-                <th width="15%">Status</th>
+                <th width="15%" align="left">Date</th>
+                <th align="left">Product name</th>
+                <th width="15%" align="left">Amount</th>
+                <th width="15%" align="left">Status</th>
             </tr>
         </thead>
         <tbody>
@@ -32,7 +32,7 @@
                         {% ifequal amount.status amount.WIN %}
                             <i class="fa fa-caret-up"></i>
                         {% endifequal %}
-                        {% ifequal v.status amount.LOST %}
+                        {% ifequal amount.status amount.LOST %}
                             <i class="fa fa-caret-down"></i>
                         {% endifequal %}
                         <b>{{ amount.value|intcomma }}</b>
