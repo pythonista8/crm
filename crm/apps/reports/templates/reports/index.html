@@ -93,20 +93,26 @@
             </div>
         </div>
 
-        <div class="pure-u-1">
-            <div class="l-box">
-                <h3>
-                    <i class="fa fa-download"></i>&nbsp;
-                    Export CSV
-                </h3>
-                <a class="pure-button pure-button-primary" href="{% url 'reports:export-customers' %}">
-                    Customers
-                </a>
-                <a class="pure-button pure-button-primary" href="{% url 'reports:export-amounts' %}">
-                    Amounts
-                </a>
+        {% if customers_exist or amounts_exist %}
+            <div class="pure-u-1">
+                <div class="l-box">
+                    <h3>
+                        <i class="fa fa-download"></i>&nbsp;
+                        Export CSV
+                    </h3>
+                    {% if customers_exist %}
+                        <a class="pure-button pure-button-primary" href="{% url 'reports:export-customers' %}">
+                            Customers
+                        </a>
+                    {% endif %}
+                    {% if amounts_exist %}
+                        <a class="pure-button pure-button-primary" href="{% url 'reports:export-amounts' %}">
+                            Amounts
+                        </a>
+                    {% endif %}
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

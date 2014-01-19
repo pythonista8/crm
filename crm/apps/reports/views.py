@@ -3,10 +3,14 @@ import calendar
 import datetime as dt
 
 from django import http
+from django.contrib import messages
+from django.core.urlresolvers import reverse
 from django.db.models import Sum
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from lib.date import LONG_MONTH_NAMES
 from apps.customers.models import Customer, Amount
+
+ERROR_MSG = "Sorry, you can't download reports in Trial version."
 
 
 def index(request):
@@ -14,8 +18,8 @@ def index(request):
     user = request.user
     customers = Customer.objects.filter(user=user)
 
-    oppdict = dict(color='#e0e4cb', label='Opportunities')
-    windict = dict(color='#64d2e9', label='Closed-Win')
+    oppdict = dict(color='#ffb553', label='Opportunities')
+    windict = dict(color='#3ebfbe', label='Closed-Win')
     lostdict = dict(color='#fa4444', label='Closed-Lost')
 
     # Total Number of Cases.
@@ -55,6 +59,12 @@ def index(request):
 
     ctx['monthly_win_trend'] = _get_monthly_trend(user, Amount.WIN)
     ctx['monthly_lost_trend'] = _get_monthly_trend(user, Amount.LOST)
+
+    # For CSV download buttons - whether to show them or not.
+    if customers.exists():
+        ctx['customers_exist'] = True
+    if Amount.objects.filter(customer__user=user).exists():
+        ctx['amounts_exist'] = True
 
     ctx['long_month_names'] = LONG_MONTH_NAMES
     ctx['title'] = "Reports"
@@ -98,8 +108,12 @@ def _get_monthly_trend(user, status):
 
 def export_customers(request):
     """Export customers data in a CSV format."""
-    # Create the HttpResponse object with the appropriate CSV header.
     user = request.user
+    if user.is_trial:
+        messages.error(request, ERROR_MSG)
+        return redirect(reverse('reports:index'))
+
+    # Create the HttpResponse object with the appropriate CSV header.
     fname = "{model}_{user}_{date}.csv".format(
         model=Customer._meta.verbose_name_plural, user=user,
         date=dt.date.today())
@@ -161,6 +175,10 @@ def export_customers(request):
 def export_amounts(request):
     """Export amounts data in a CSV format."""
     user = request.user
+    if user.is_trial:
+        messages.error(request, ERROR_MSG)
+        return redirect(reverse('reports:index'))
+
     fname = "{model}_{user}_{date}.csv".format(
         model=Amount._meta.verbose_name_plural, user=user,
         date=dt.date.today())
