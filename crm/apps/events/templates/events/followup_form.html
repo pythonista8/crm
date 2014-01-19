@@ -1,0 +1,50 @@
+{% extends 'onekloud/base.html' %}
+{% load static core_extras %}
+
+{% block content %}
+<form class="pure-form" method="post">
+    <div class="pure-g-r">
+        <div class="pure-u-1-2">
+            {{ form.errors }}
+            <fieldset>
+                <div class="l-box">
+                    <legend>Subject</legend>
+                    <div class="l-box">
+                        {{ form.subject|attributes:"class: pure-input-1, placeholder: Call John on December 1st, 2014" }}
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div class="l-box">
+                    <legend>Date</legend>
+                    <div class="l-box">
+                        {{ form.date|attributes:"class: datepicker" }}
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <br>
+
+    <div class="l-box">
+        <button class="pure-button pure-button-large pure-button-success" type="submit">
+            <i class="fa fa-check-square"></i> Save
+        </button>
+        <a class="pure-button pure-button-small pure-button-error" href="{% url 'events:index' %}">
+            Cancel
+        </a>
+    </div>
+
+    {% csrf_token %}
+</form>
+{% endblock %}
+
+{% block menu-events %}
+pure-menu-selected
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'events/onekloud/js/lib.js' %}"></script>
+<script src="{% static 'events/onekloud/js/load.js' %}"></script>
+{% endblock %}
