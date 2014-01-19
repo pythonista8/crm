@@ -10,8 +10,6 @@ from django.shortcuts import render, redirect
 from lib.date import LONG_MONTH_NAMES
 from apps.customers.models import Customer, Amount
 
-ERROR_MSG = "Sorry, you can't download reports in Trial version."
-
 
 def index(request):
     ctx = dict()
@@ -104,6 +102,9 @@ def _get_monthly_trend(user, status):
             diff = 0
         data.append(diff)
     return data
+
+
+ERROR_MSG = "Sorry, you can't download reports in Trial version."
 
 
 def export_customers(request):
