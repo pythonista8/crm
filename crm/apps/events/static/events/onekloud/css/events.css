@@ -1,0 +1,6 @@
+/* Index page */
+
+#meetings-empty,
+#followups-empty {
+    margin-bottom: 3em;
+}
