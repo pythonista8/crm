@@ -43,6 +43,8 @@ ADMINS = (
     ('Aldash Biibosunov', 'support@onekloud.com'),
 )
 
+LOGIN_URL = 'accounts:login'
+
 
 # Django application definition
 INSTALLED_APPS = (
@@ -82,7 +84,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 
-# OneKloud CRM application definition
+# OneKloud CRM middleware definition
 MIDDLEWARE_CLASSES += (
     'crm.apps.core.middleware.PermissionMiddleware',
     'crm.apps.core.middleware.RedirectMiddleware',
@@ -94,6 +96,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.media',
     'django.contrib.messages.context_processors.messages',
+)
+
+
+# OneKloud CRM context processors definition
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'apps.accounts.context_processors.users',
 )
 
 

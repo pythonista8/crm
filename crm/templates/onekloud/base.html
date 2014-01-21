@@ -134,7 +134,7 @@
     <script src="{% static 'js/onekloud/lib.js' %}"></script>
     <script src="{% static 'js/onekloud/load.js' %}"></script>
     <script>
-      {% if user.is_head %}
+      {% if IS_HEAD %}
         var isHead = true;
       {% else %}
         var isHead = false;

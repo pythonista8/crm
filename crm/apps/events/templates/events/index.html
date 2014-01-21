@@ -73,7 +73,7 @@
                 <thead>
                     <th align="left">Time</th>
                     <th align="left">Subject</th>
-                    {% if user.is_head %}
+                    {% if IS_HEAD %}
                         <th width="10%">Manager</th>
                     {% endif %}
                     <th width="1%">Action</th>
@@ -89,7 +89,7 @@
                                     {{ meeting_tuple.1.subject }}
                                 </a>
                             </td>
-                            {% if user.is_head %}
+                            {% if IS_HEAD %}
                                 <td>
                                     {{ meeting_tuple.1.user.get_short_name }}
                                 </td>
@@ -111,7 +111,7 @@
                    {% if not followup_list %}style="display: none"{% endif %}>
                 <thead>
                     <th align="left">Subject</th>
-                    {% if user.is_head %}
+                    {% if IS_HEAD %}
                         <th width="10%">Manager</th>
                     {% endif %}
                     <th width="1%">Action</th>
@@ -124,7 +124,7 @@
                                     {{ followup.subject }}
                                 </a>
                             </td>
-                            {% if user.is_head %}
+                            {% if IS_HEAD %}
                                 <td>
                                     {{ followup.user.get_short_name }}
                                 </td>
