@@ -68,8 +68,8 @@ def filter_by_date(request):
         daterepr = ''
         if dt.date.today() == date:
             daterepr = 'Today&nbsp; – &nbsp;'
-        daterepr += '{month} {day}'.format(month=LONG_MONTH_NAMES[date.month],
-                                           day=date.day)
+        daterepr += '{month} {day}'.format(
+            month=LONG_MONTH_NAMES[date.month-1], day=date.day)
         res['date'] = daterepr
 
         return http.HttpResponse(
