@@ -9,11 +9,11 @@ from apps.events.models import Meeting, FollowUp
 from apps.events.views import MeetingUpdate, FollowUpUpdate, EventContextMixin
 
 
-class IndexTest(test.TestCase):
-    def test_get(self):
-        resp = self.view.get(self.request)
-        self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, 'events/index.html')
+# class IndexTest(test.TestCase):
+#     def test_get(self):
+#         resp = self.view.get(self.request)
+#         self.assertEqual(resp.status_code, 200)
+#         self.assertTemplateUsed(resp, 'events/index.html')
 
     # def test_post(self):
     #     text = "Meet Sam on 15 Dec at 18.30 at Starbucks"
