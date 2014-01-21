@@ -50,8 +50,8 @@ def index(request):
     ctx['title'] = "{meetings} & {followups}".format(
         meetings=meetings_title, followups=followups_title)
     ctx['title_icon'] = 'calendar-o'
-    cmon = LONG_MONTH_NAMES[today.month]
-    ctx['today'] = '{month} {day}'.format(month=cmon, day=today.day)
+    ctx['today'] = '{month} {day}'.format(
+        month=LONG_MONTH_NAMES[today.month-1], day=today.day)
     return render(request, 'events/index.html', ctx)
 
 
