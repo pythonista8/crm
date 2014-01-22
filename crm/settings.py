@@ -187,7 +187,7 @@ LOGGING = {
 
 
 # New Relic
-NEW_RELIC_KEY = '612dfd61898d933a18ee9f45fbf75aa86f094d68'
+NEW_RELIC_KEY = '26774c5c18c72e10cefbe031a75e0d427b714945'
 
 
 # Dev settings
