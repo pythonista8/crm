@@ -24,45 +24,46 @@
     <link href="{% static 'accounts/onekloud/css/accounts.css' %}" rel="stylesheet">
 </head>
 <body>
+    {% include 'onekloud/messages.html' %}
 
-{% include 'onekloud/messages.html' %}
+    <div id="login" class="pure-g-r">
+        <div class="pure-u-1">
+            <div class="container">
+                <div id="large-logo" class="l-box">
+                    <img src="{% static 'img/onekloud/logo_large.png' %}" alt="Sign In to Onekloud">
+                </div>
+                <form class="pure-form" method="post">
 
-<div id="login" class="pure-g-r">
-    <div class="pure-u-1">
-        <div class="container">
-            <div id="large-logo" class="l-box">
-                <img src="{% static 'img/onekloud/logo_large.png' %}" alt="Sign In to Onekloud">
+                    {{ form.errors }}
+
+                    <div class="l-box">
+                        <fieldset class="pure-group">
+                            {{ form.email|attributes:"class: pure-input-1, placeholder: Email, required" }}
+                            {{ form.password|attributes:"class: pure-input-1, placeholder: Password, required" }}
+                        </fieldset>
+                    </div>
+
+                    <div class="l-box">
+                        <button class="pure-button pure-button-xlarge pure-button-primary pull-right" type="submit">
+                            <i class="fa fa-sign-in"></i> Sign In
+                        </button>
+                    </div>
+
+                    {% csrf_token %}
+                </form>
             </div>
-            <form class="pure-form" method="post">
-
-                {{ form.errors }}
-
-                <div class="l-box">
-                    <fieldset class="pure-group">
-                        {{ form.email|attributes:"class: pure-input-1, placeholder: Email, required" }}
-                        {{ form.password|attributes:"class: pure-input-1, placeholder: Password, required" }}
-                    </fieldset>
-                </div>
-
-                <div class="l-box">
-                    <button class="pure-button pure-button-xlarge pure-button-primary pull-right" type="submit">
-                        <i class="fa fa-sign-in"></i> Sign In
-                    </button>
-                </div>
-
-                {% csrf_token %}
-            </form>
         </div>
     </div>
-</div>
 
-{% include 'onekloud/footer.html' %}
+    {% include 'onekloud/footer.html' %}
 
-{# Vendor JavaScript files. #}
-<script src="{% static 'js/vendor/jquery/jquery-2.0.3.js' %}"></script>
+    {# Vendor JavaScript files. #}
+    <script src="{% static 'js/vendor/jquery/jquery-2.0.3.js' %}"></script>
 
-{# Onekloud JavaScript files. #}
-<script src="{% static 'accounts/onekloud/js/load.js' %}"></script>
+    {# Onekloud JavaScript files. #}
+    <script src="{% static 'accounts/onekloud/js/load.js' %}"></script>
 
+    {# Google Analytics tracking code for `UA-46858281-2`. #}
+    {% include 'vendor/google_analytics.html' %}
 </body>
 </html>
