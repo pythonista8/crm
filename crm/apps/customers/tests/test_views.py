@@ -54,7 +54,7 @@ class CustomersCreateTest(test.TestCase):
         setattr(self.view, 'object', object_)
 
     def test_get(self):
-        resp = self.client.get(reverse('customers:create'))
+        resp = self.view.get(self.request)
         self.assertEqual(resp.status_code, 200)
 
     def test_attrs(self):

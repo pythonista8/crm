@@ -4,14 +4,19 @@
             <div class="l-box">
                 <div class="pure-menu pure-menu-open pure-menu-horizontal">
                     <ul>
+                        {% if TRIAL %}
+                            <li>
+                                <a href="http://www.onekloud.com/pricing/" target="_blank">Upgrade My Account</a>
+                            </li>
+                        {% endif %}
                         <li>
-                            <a href="http://www.onekloud.com/privacy/">Privacy Statement</a>
+                            <a href="http://www.onekloud.com/privacy/" target="_blank">Privacy Statement</a>
                         </li>
                         <li>
-                            <a href="http://www.onekloud.com/terms-of-service/">Terms of Service</a>
+                            <a href="http://www.onekloud.com/terms-of-service/" target="_blank">Terms of Service</a>
                         </li>
                         <li>
-                            <a href="http://www.onekloud.com/contact/">Contact</a>
+                            <a href="http://www.onekloud.com/contact/" target="_blank">Contact</a>
                         </li>
                     </ul>
                 </div>
