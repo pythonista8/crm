@@ -82,6 +82,6 @@ def activate_trial(request):
             msg.send(fail_silently=True)
             return redirect(reverse('events:index'))
         else:
-            raise http.Http404
+            return redirect(reverse('accounts:login'))
 
     return http.HttpResponseNotAllowed(['POST'])
