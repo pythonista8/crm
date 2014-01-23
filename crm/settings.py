@@ -1,5 +1,5 @@
 """
-Django settings for OneKloud CRM project.
+Django settings for Onekloud CRM project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/dev/topics/settings/
@@ -63,7 +63,7 @@ INSTALLED_APPS += (
 )
 
 
-# OneKloud CRM application definition
+# Onekloud CRM application definition
 INSTALLED_APPS += (
     'crm.apps.accounts',
     'crm.apps.core',
@@ -84,7 +84,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 
-# OneKloud CRM middleware definition
+# Onekloud CRM middleware definition
 MIDDLEWARE_CLASSES += (
     'crm.apps.core.middleware.PermissionMiddleware',
     'crm.apps.core.middleware.RedirectMiddleware',
@@ -99,7 +99,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 
-# OneKloud CRM context processors definition
+# Onekloud CRM context processors definition
 TEMPLATE_CONTEXT_PROCESSORS += (
     'apps.accounts.context_processors.users',
 )
@@ -188,6 +188,10 @@ LOGGING = {
 
 # New Relic
 NEW_RELIC_KEY = '26774c5c18c72e10cefbe031a75e0d427b714945'
+
+
+# Celery settings
+from crm.celery_settings import *
 
 
 # Dev settings
