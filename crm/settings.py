@@ -60,7 +60,6 @@ INSTALLED_APPS = (
 # Third-party application definition
 INSTALLED_APPS += (
     'south',
-    'djcelery',
 )
 
 
@@ -192,7 +191,19 @@ NEW_RELIC_KEY = '26774c5c18c72e10cefbe031a75e0d427b714945'
 
 
 # Celery settings
-from crm.celery_settings import *
+BROKER_HOST = '127.0.0.1'
+
+BROKER_PORT = 5672
+
+BROKER_USER = 'celery'
+
+BROKER_PASSWORD = 'vivendi89'
+
+BROKER_VHOST = 'crm'
+
+CELERY_BACKEND = 'amqp'
+
+CELERY_RESULT_DBURI = ''
 
 
 # Dev settings
