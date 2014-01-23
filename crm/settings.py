@@ -60,6 +60,7 @@ INSTALLED_APPS = (
 # Third-party application definition
 INSTALLED_APPS += (
     'south',
+    'djcelery',
 )
 
 
