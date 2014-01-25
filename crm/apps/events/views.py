@@ -54,7 +54,7 @@ def index(request):
         month=LONG_MONTH_NAMES[today.month-1], day=today.day)
 
     # Offer tour if applicable.
-    if not request.session.pop('offer_tour', False):
+    if request.session.pop('offer_tour', False):
         ctx['offer_tour'] = True
     else:
         ctx['offer_tour'] = False
