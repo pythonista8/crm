@@ -57,7 +57,10 @@
                             {% for dict in data_number %}
                                 <div class="chart-details">
                                     <span class="chart-color" style="background: {{ dict.color }}"></span>
-                                    <small>{{ dict.label }} ( <b>{{ dict.value|intcomma }}</b> )</small>
+                                    <small>
+                                        {{ dict.label }}
+                                        ( <span style="color: {{ dict.color }}"><b>{{ dict.value|intcomma }}</b></span> )
+                                    </small>
                                 </div>
                             {% endfor %}
                         </div>
@@ -84,7 +87,10 @@
                             {% for dict in data_amount %}
                                 <div class="chart-details">
                                     <span class="chart-color" style="background: {{ dict.color }}"></span>
-                                    <small>{{ dict.label }} ( <b>{{ dict.value|intcomma }}</b> )</small>
+                                    <small>
+                                        {{ dict.label }}
+                                        ( <span style="color: {{ dict.color }}"><b>{{ dict.value|intcomma }}</b></span> )
+                                    </small>
                                 </div>
                             {% endfor %}
                         </div>
@@ -101,12 +107,14 @@
                         Export CSV
                     </h3>
                     {% if customers_exist %}
-                        <a class="pure-button pure-button-primary" href="{% url 'reports:export-customers' %}">
+                        <a class="pure-button pure-button-primary" href="{% url 'reports:export-customers' %}"
+                           {% if IS_TRIAL %} disabled{% endif %}>
                             Customers
                         </a>
                     {% endif %}
                     {% if amounts_exist %}
-                        <a class="pure-button pure-button-primary" href="{% url 'reports:export-amounts' %}">
+                        <a class="pure-button pure-button-primary" href="{% url 'reports:export-amounts' %}"
+                           {% if IS_TRIAL %} disabled{% endif %}>
                             Amounts
                         </a>
                     {% endif %}
