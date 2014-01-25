@@ -24,6 +24,8 @@
     {# Vendor CSS files. #}
     <link href="{% static 'css/vendor/font_awesome/css/font-awesome.css' %}" rel="stylesheet">
     <link href="{% static 'css/vendor/jquery/jquery-ui-1.10.3.css' %}" rel="stylesheet">
+    <link href="{% static 'css/vendor/introjs/introjs.css' %}" rel="stylesheet">
+
     {% include 'vendor/purecss.html' %}
 
     {% if debug %}
@@ -129,18 +131,26 @@
     {# Vendor JavaScript files. #}
     <script src="{% static 'js/vendor/jquery/jquery-2.0.3.js' %}"></script>
     <script src="{% static 'js/vendor/jquery/jquery-ui-1.10.3.js' %}"></script>
+    <script src="{% static 'js/vendor/introjs/intro.js' %}"></script>
 
     {# Onekloud JavaScript files. #}
     <script src="{% static 'js/onekloud/lib.js' %}"></script>
     <script src="{% static 'js/onekloud/load.js' %}"></script>
     <script>
+      var eventDetailsURI = "{% url 'events:api:details' %}";
+      var eventsFilterByDateURI = "{% url 'events:api:filter_by_date' %}";
+
       {% if IS_HEAD %}
         var isHead = true;
       {% else %}
         var isHead = false;
       {% endif %}
-      var eventDetailsURI = "{% url 'events:api:details' %}";
-      var eventsFilterByDateURI = "{% url 'events:api:filter_by_date' %}";
+
+      {% if offer_tour %}
+        var offerTour = true;
+      {% else %}
+        var offerTour = false;
+      {% endif %}
     </script>
 
     {# JavaScript testing. #}

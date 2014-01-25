@@ -97,3 +97,28 @@ $(function() {
 $('#duration input[type="number"]').last().on('change', function() {
   fixMinutesDisplay();
 });
+
+// Offer to take a tour.
+if (offerTour) {
+  var modal = $('#offer-tour-modal');
+
+  modal.dialog({
+    autoOpen: true,
+    modal: true,
+    resizable: false,
+    closeOnEscape: true,
+    width: 340,
+    draggable: false,
+    title: "Take a Tour",
+    buttons: {
+      Yes: function() {
+        $(this).dialog('close');
+        startTour();
+        $('.input-event').val('Meet Sam tomorrow at 3pm').trigger('keypress');
+      },
+      No: function() {
+        $(this).dialog('close');
+      }
+    }
+  });
+}

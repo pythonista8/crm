@@ -52,6 +52,12 @@ def index(request):
     ctx['title_icon'] = 'calendar-o'
     ctx['today'] = '{month} {day}'.format(
         month=LONG_MONTH_NAMES[today.month-1], day=today.day)
+
+    # Offer tour if applicable.
+    if not request.session.pop('offer_tour', False):
+        ctx['offer_tour'] = True
+    else:
+        ctx['offer_tour'] = False
     return render(request, 'events/index.html', ctx)
 
 

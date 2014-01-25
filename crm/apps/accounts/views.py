@@ -70,6 +70,9 @@ def activate_trial(request):
             messages.success(request, "Welcome, {name}!".format(
                 name=user.get_short_name()))
 
+            # Prepare variable to offer tour.
+            request.session['offer_trial'] = True
+
             # Notify admins about new user.
             subject = "New user at Onekloud CRM!"
             support_email = 'support@onekloud.com'
