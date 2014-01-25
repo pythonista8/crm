@@ -64,30 +64,29 @@ $(function() {
   $('.input-event').on('keypress keyup', function() {
     var s = $(this).val();
     if (s.length > 10) {
-      setTimeout(function() {
-        $.get(eventDetailsURI, {s: s}, function(resp) {
-          if (resp.status == 'success') {
-            var isMeeting = false;
-            if (resp.data.hours) isMeeting = true;
+      $.get(eventDetailsURI, {s: s}, function(resp) {
+        if (resp.status == 'success') {
+          var isMeeting = false;
+          if (resp.data.hours) isMeeting = true;
 
-            var day = resp.data.day;
-            var month = resp.data.month;
-            var year = resp.data.year;
-            var html = month + " " + day + ", " + year;
+          var day = resp.data.day;
+          var month = resp.data.month;
+          var year = resp.data.year;
+          var html = month + " " + day + ", " + year;
 
-            if (isMeeting) {
-              var hrs = resp.data.hours;
-              var mins = resp.data.minutes;
-              html += " @ " + hrs + ":" + mins;
-              $('#event-type').html("Meeting");
-            } else {
-              $('#event-type').html("Follow-Up");
-            }
-            $('#event-date').html(html);
-            $('#event-details').hide().fadeIn();
+          if (isMeeting) {
+            var hrs = resp.data.hours;
+            var mins = resp.data.minutes;
+            html += " @ " + hrs + ":" + mins;
+            $('#event-type').removeClass('gray').html("Meeting");
+            $('#duration input[type="number"]').removeAttr('disabled');
+          } else {
+            $('#event-type').removeClass('gray').html("Follow-Up");
+            $('#duration input[type="number"]').attr('disabled', 'disabled');
           }
-        });
-      }, 800);
+          $('#event-date').removeClass('gray').html(html);
+        }
+      });
     }
   });
 
@@ -95,6 +94,6 @@ $(function() {
   fixMinutesDisplay();
 });
 
-$('.duration input[type="number"]').last().on('change', function() {
+$('#duration input[type="number"]').last().on('change', function() {
   fixMinutesDisplay();
 });
