@@ -169,6 +169,10 @@ h3, h4, h5, h6 {
 
 /* jQuery Modal */
 
+.modal {
+    display: none;
+}
+
 .ui-dialog .ui-dialog-buttonpane {
     border: none;
     margin-top: 0;
