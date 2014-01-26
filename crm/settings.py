@@ -101,6 +101,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 # Onekloud CRM context processors definition
 TEMPLATE_CONTEXT_PROCESSORS += (
+    'apps.core.context_processors.tour',
     'apps.accounts.context_processors.users',
 )
 

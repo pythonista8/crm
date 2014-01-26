@@ -156,6 +156,17 @@ pure-menu-selected
 {% endblock %}
 
 {% block js %}
+<script>
+  var eventsDetailsURI = "{% url 'events:api:details' %}";
+  var eventsFilterByDateURI = "{% url 'events:api:filter_by_date' %}";
+  var customersListURI = "{% url 'customers:list' %}";
+
+  {% if manual_tour %}
+    var isManualTour = true;
+  {% else %}
+    var isManualTour = false;
+  {% endif %}
+</script>
 <script src="{% static 'events/onekloud/js/lib.js' %}"></script>
 <script src="{% static 'events/onekloud/js/load.js' %}"></script>
 {% endblock %}

@@ -14,15 +14,14 @@ $(function() {
       if (mEmpty.length) mEmpty.remove();
       if (fEmpty.length) fEmpty.remove();
 
-      // Clear table content to fill up new.
-      mContainer.html('');
-      fContainer.html('');
-
       scrollToAnchor('date-heading');
 
       $.get(eventsFilterByDateURI, {date: dateText}, function(resp) {
         if (resp.status == 'success') {
           $('#date-heading').html(resp.date);
+
+          mContainer.html('');
+          fContainer.html('');
 
           $.each(resp.data, function() {
             var ob = $(this)[0];
@@ -64,7 +63,7 @@ $(function() {
   $('.input-event').on('keypress keyup', function() {
     var s = $(this).val();
     if (s.length > 10) {
-      $.get(eventDetailsURI, {s: s}, function(resp) {
+      $.get(eventsDetailsURI, {s: s}, function(resp) {
         if (resp.status == 'success') {
           var isMeeting = false;
           if (resp.data.hours) isMeeting = true;
@@ -98,27 +97,37 @@ $('#duration input[type="number"]').last().on('change', function() {
   fixMinutesDisplay();
 });
 
-// Offer to take a tour.
-if (offerTour) {
-  var modal = $('#offer-tour-modal');
+$(function() {
+  // Offer to take a tour.
+  if (takeTour) {
+    var hasSampleData;
 
-  modal.dialog({
-    autoOpen: true,
-    modal: true,
-    resizable: false,
-    closeOnEscape: true,
-    width: 340,
-    draggable: false,
-    title: "Take a Tour",
-    buttons: {
-      Yes: function() {
-        $(this).dialog('close');
-        startTour();
-        $('.input-event').val('Meet Sam tomorrow at 3pm').trigger('keypress');
-      },
-      No: function() {
-        $(this).dialog('close');
-      }
+    if (!isManualTour) {
+      var modal = $('#offer-tour-modal');
+
+      modal.dialog({
+        autoOpen: true,
+        modal: true,
+        resizable: false,
+        closeOnEscape: true,
+        width: 340,
+        draggable: false,
+        title: "Take a Tour",
+        buttons: {
+          Yes: function() {
+            $(this).dialog('close');
+            startTour();
+            fillWithSampleData();
+          },
+          No: function() {
+            $(this).dialog('close');
+          }
+        }
+      });
+    } else {
+      // Tour triggered by user manually.
+      startTour();
+      fillWithSampleData();
     }
-  });
-}
+  }
+});

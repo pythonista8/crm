@@ -14,7 +14,7 @@ function startTour() {
   tour.setOptions({
     showBullets: false,
     showStepNumbers: false,
-    //doneLabel: 'Next page',
+    doneLabel: 'Continue',
     steps: [
       {
         element: '#step-1',
@@ -46,5 +46,14 @@ function startTour() {
     ]
   });
 
+  // Go to the next page.
+  tour.oncomplete(function() {
+    window.location.href = customersListURI + '?tour';
+  });
+
   tour.start();
+}
+
+function fillWithSampleData() {
+  $('.input-event').val('Meet Sam tomorrow at 3pm').trigger('keypress');
 }

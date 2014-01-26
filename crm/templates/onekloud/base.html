@@ -137,19 +137,16 @@
     <script src="{% static 'js/onekloud/lib.js' %}"></script>
     <script src="{% static 'js/onekloud/load.js' %}"></script>
     <script>
-      var eventDetailsURI = "{% url 'events:api:details' %}";
-      var eventsFilterByDateURI = "{% url 'events:api:filter_by_date' %}";
-
       {% if IS_HEAD %}
         var isHead = true;
       {% else %}
         var isHead = false;
       {% endif %}
 
-      {% if offer_tour %}
-        var offerTour = true;
+      {% if take_tour %}
+        var takeTour = true;
       {% else %}
-        var offerTour = false;
+        var takeTour = false;
       {% endif %}
     </script>
 

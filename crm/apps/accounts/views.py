@@ -71,7 +71,7 @@ def activate_trial(request):
                 name=user.get_short_name()))
 
             # Prepare variable to offer tour.
-            request.session['offer_trial'] = True
+            request.session['take_tour'] = True
 
             # Notify admins about new user.
             subject = "New user at Onekloud CRM!"
