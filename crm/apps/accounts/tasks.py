@@ -18,18 +18,6 @@ def stop_trial(user_pk):
 
 
 @task
-def test_stop_trial(user_pk):
-    try:
-        user = User.objects.get(email='aldash@onekloud.com')
-    except User.DoesNotExist:
-        return None
-    else:
-        if user.is_trial and user.is_active:
-            user.is_active = False
-            user.save()
-
-
-@task
 def findout_experience(email):
     subject = "Greetings from Onekloud!"
     from_ = 'samantha@onekloud.com'

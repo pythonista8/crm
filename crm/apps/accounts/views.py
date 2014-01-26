@@ -31,10 +31,6 @@ def login_form(request):
                 messages.success(
                     request, "Welcome, {name}!".format(
                         name=user.get_short_name()))
-
-                # Testing.
-                tasks.test_stop_trial.apply_async(args=[1], countdown=5)
-
                 return redirect(success_url)
             else:
                 subscribe_msg = mark_safe(
