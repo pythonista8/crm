@@ -11,6 +11,7 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from apps.accounts.forms import LoginForm
 from apps.accounts.models import User, Company
+from apps.accounts import tasks
 
 
 def login_form(request):
@@ -30,10 +31,17 @@ def login_form(request):
                 messages.success(
                     request, "Welcome, {name}!".format(
                         name=user.get_short_name()))
+
+                # Testing.
+                tasks.test_stop_trial.apply_async(user_pk=1, countdown=5)
+
                 return redirect(success_url)
             else:
-                messages.error(request, "Your account is disabled. Contact to "
-                                        "administrator")
+                subscribe_msg = mark_safe(
+                    "Your Trial has expired. See "
+                    "<a href=\"//www.onekloud.com/pricing/\">subscription "
+                    "plans</a>.")
+                messages.error(request, subscribe_msg)
         else:
             messages.error(request, "Your email or password is incorrect.")
 
@@ -69,6 +77,14 @@ def activate_trial(request):
             login(request, user)
             messages.success(request, "Welcome, {name}!".format(
                 name=user.get_short_name()))
+
+            # Trial will expire in a month.
+            tasks.stop_trial.apply_async(email=email, countdown=3600*24*7*4)
+
+            # Send email in a day to the customer in order to find out his/her
+            # experience about CRM.
+            tasks.findout_experience.apply_async(user_pk=user.pk,
+                                                 countdown=3600*24)
 
             # Prepare variable to offer tour.
             request.session['take_tour'] = True
