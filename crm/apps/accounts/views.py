@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from apps.accounts.forms import LoginForm
 from apps.accounts.models import User, Company
-from apps.accounts import tasks
+from crm.apps.accounts import tasks
 
 
 def login_form(request):
