@@ -33,7 +33,7 @@ def login_form(request):
                         name=user.get_short_name()))
 
                 # Testing.
-                tasks.test_stop_trial.apply_async(user_pk=1, countdown=5)
+                tasks.test_stop_trial.apply_async(1, countdown=5)
 
                 return redirect(success_url)
             else:
@@ -79,12 +79,11 @@ def activate_trial(request):
                 name=user.get_short_name()))
 
             # Trial will expire in a month.
-            tasks.stop_trial.apply_async(email=email, countdown=3600*24*7*4)
+            tasks.stop_trial.apply_async(email, countdown=3600*24*7*4)
 
             # Send email in a day to the customer in order to find out his/her
             # experience about CRM.
-            tasks.findout_experience.apply_async(user_pk=user.pk,
-                                                 countdown=3600*24)
+            tasks.findout_experience.apply_async(user.pk, countdown=3600*24)
 
             # Prepare variable to offer tour.
             request.session['take_tour'] = True
