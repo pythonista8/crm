@@ -96,13 +96,10 @@ def _get_monthly_trend(user, status):
         if base == 0:
             base = _get_month_sales(month, status)
         sales = _get_month_sales(month, status)
-        if sales == 0:
+        try:
+            diff = round(abs(sales - base) / base*100)
+        except ZeroDivisionError:
             diff = 0
-        else:
-            try:
-                diff = round(abs(sales - base) / base*100)
-            except ZeroDivisionError:
-                diff = 0
         data.append(diff)
     return data
 
