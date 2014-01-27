@@ -9,8 +9,10 @@ from apps.events.models import Meeting, FollowUp
 
 class EventForm(forms.Form):
     text = forms.CharField()
-    hours = forms.IntegerField(min_value=0, max_value=24, initial=1)
-    minutes = forms.IntegerField(min_value=0, max_value=60, initial=0)
+    hours = forms.IntegerField(
+        min_value=0, max_value=24, initial=1, required=False)
+    minutes = forms.IntegerField(
+        min_value=0, max_value=60, initial=0, required=False)
 
     def clean_text(self):
         text = self.cleaned_data['text']
@@ -29,7 +31,7 @@ class EventForm(forms.Form):
         dates = "{mon} {day} {yr}".format(mon=datedict['month'],
                                           day=datedict['day'],
                                           yr=datedict['year'])
-        if 'hours' in datedict:
+        if 'hours' in datedict:  # Meeting
             startdate = dates + " {hr}:{min}".format(hr=datedict['hours'],
                                                      min=datedict['minutes'])
             f += ' %H:%M'
@@ -45,7 +47,7 @@ class EventForm(forms.Form):
             event = Meeting.objects.create(date_started=date_started,
                                            date_ended=date_ended,
                                            user=user)
-        else:
+        else:  # Follow-Up
             date = dt.datetime.strptime(dates, f).date()
             event = FollowUp.objects.create(date=date, user=user)
         event.subject = self.cleaned_data['text']
