@@ -8,6 +8,7 @@ from apps.accounts.models import User
 
 class Customer(models.Model):
     """Foreign keys: `amounts`."""
+    # Basic Info.
     MISTER = 'mr'
     MISSIS = 'mrs'
     MISS = 'ms'
@@ -19,7 +20,6 @@ class Customer(models.Model):
         (DOCTOR, "Dr."),
     )
 
-    # Basic Info.
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     salutation = models.CharField(

@@ -52,6 +52,7 @@ def index(request):
     ctx['title_icon'] = 'calendar-o'
     ctx['today'] = '{month} {day}'.format(
         month=LONG_MONTH_NAMES[today.month-1], day=today.day)
+
     return render(request, 'events/index.html', ctx)
 
 

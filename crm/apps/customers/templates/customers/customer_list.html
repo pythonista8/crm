@@ -1,14 +1,14 @@
 {% extends 'onekloud/base.html' %}
-{% load core_extras %}
+{% load static core_extras %}
 
 {% block top-right %}
-<a class="pure-button pure-button-primary" href="{% url 'customers:create' %}">
+<a id="step-2" class="pure-button pure-button-primary" href="{% url 'customers:create' %}">
     New {{ verbose_name }}
 </a>
 {% endblock %}
 
 {% block content %}
-<div class="l-box">
+<div id="step-1" class="l-box">
     {% if customer_list %}
         <table class="pure-table pure-table-horizontal" width="100%">
             <thead>
@@ -74,4 +74,12 @@
 
 {% block menu-customers %}
 pure-menu-selected
+{% endblock %}
+
+{% block js %}
+<script>
+  var customersCreateURI = "{% url 'customers:create' %}";
+</script>
+<script src="{% static 'customers/onekloud/js/lib.js' %}"></script>
+<script src="{% static 'customers/onekloud/js/load.js' %}"></script>
 {% endblock %}

@@ -1,5 +1,4 @@
 from django import test
-from django.core.urlresolvers import reverse
 from lib.test import setup_view
 from apps.accounts.models import User, Company
 from apps.customers.models import Customer

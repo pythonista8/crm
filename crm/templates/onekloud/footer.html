@@ -4,9 +4,14 @@
             <div class="l-box">
                 <div class="pure-menu pure-menu-open pure-menu-horizontal">
                     <ul>
-                        {% if TRIAL %}
+                        {% if IS_TRIAL %}
                             <li>
                                 <a href="http://www.onekloud.com/pricing/" target="_blank">Upgrade My Account</a>
+                            </li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'events:index' %}?tour&amp;manual">Take a Tour</a>
                             </li>
                         {% endif %}
                         <li>

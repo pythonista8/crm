@@ -1,13 +1,8 @@
-import warnings
-
+from django.core.mail import send_mail
 from django.db import models
 from django.utils import timezone
-from django.core.mail import send_mail
-from django.core.exceptions import ImproperlyConfigured
-from django.contrib.auth.models import (AbstractBaseUser,
-                                        PermissionsMixin,
-                                        BaseUserManager,
-                                        SiteProfileNotAvailable)
+from django.contrib.auth.models import (AbstractBaseUser, PermissionsMixin,
+                                        BaseUserManager)
 
 
 class UserManager(BaseUserManager):
@@ -60,8 +55,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=50, blank=True)
     is_active = models.BooleanField(default=True)
 
-    # Billing Info.
-    is_trial = models.BooleanField(default=True)
+    # Subscription Plan Info.
+    TRIAL = 'trial'
+    INDIVIDUAL = 'individual'
+    COMPANY = 'company'
+    ENTERPRISE = 'enterprise'
+    SUBSCRIPTION_PLAN_CHOICES = (
+        (TRIAL, "Free Trial"),
+        (INDIVIDUAL, "Individual"),
+        (COMPANY, "Company"),
+        (ENTERPRISE, "Enterprise"),
+    )
+
+    subscription_plan = models.CharField(
+        max_length=100, choices=SUBSCRIPTION_PLAN_CHOICES, default=TRIAL)
 
     # Company Info.
     company = models.ForeignKey(Company, related_name='users')
@@ -100,33 +107,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         """Sends an email to this User."""
         send_mail(subject, message, from_email, [self.email])
 
-    def get_profile(self):
-        """Returns site-specific profile for this user. Raises
-        SiteProfileNotAvailable if this site does not allow profiles.
-        """
-        warnings.warn("The use of AUTH_PROFILE_MODULE to define user profiles "
-                      "has been deprecated.", DeprecationWarning, stacklevel=2)
-        if not hasattr(self, '_profile_cache'):
-            from django.conf import settings
-            if not getattr(settings, 'AUTH_PROFILE_MODULE', False):
-                raise SiteProfileNotAvailable(
-                    'You need to set AUTH_PROFILE_MODULE in your project '
-                    'settings')
-            try:
-                app_label, model_name = settings.AUTH_PROFILE_MODULE.split('.')
-            except ValueError:
-                raise SiteProfileNotAvailable(
-                    'app_label and model_name should be separated by a dot in '
-                    'the AUTH_PROFILE_MODULE setting')
-            try:
-                model = models.get_model(app_label, model_name)
-                if model is None:
-                    raise SiteProfileNotAvailable(
-                        'Unable to load the profile model, check '
-                        'AUTH_PROFILE_MODULE in your project settings')
-                self._profile_cache = model._default_manager.using(
-                    self._state.db).get(user__id__exact=self.id)
-                self._profile_cache.user = self
-            except (ImportError, ImproperlyConfigured):
-                raise SiteProfileNotAvailable
-        return self._profile_cache
+    @property
+    def is_trial(self):
+        if self.subscription_plan == self.TRIAL:
+            return True
+        return False

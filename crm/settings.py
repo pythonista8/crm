@@ -101,6 +101,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 # Onekloud CRM context processors definition
 TEMPLATE_CONTEXT_PROCESSORS += (
+    'apps.core.context_processors.tour',
     'apps.accounts.context_processors.users',
 )
 
@@ -191,7 +192,7 @@ NEW_RELIC_KEY = '26774c5c18c72e10cefbe031a75e0d427b714945'
 
 
 # Celery settings
-BROKER_HOST = '127.0.0.1'
+BROKER_URL = '127.0.0.1'
 
 BROKER_PORT = 5672
 

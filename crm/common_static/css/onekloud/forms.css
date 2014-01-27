@@ -1,5 +1,4 @@
 /* Numeric input (type="number") */
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
@@ -7,7 +6,6 @@ input::-webkit-inner-spin-button {
 }
 
 /* Turn off required field styling in Chrome */
-
 input:focus:invalid,
 textarea:focus:invalid,
 select:focus:invalid {
@@ -17,62 +15,7 @@ select:focus:invalid {
     -webkit-box-shadow: none;
 }
 
-/* Large input */
-
-.pure-form input.input-event {
-    width: 83%;
-    padding: .8em 1.6em;
-    font-size: .9em;
-}
-
-#event-fieldset {
-    padding-bottom: 1.2em;
-}
-
-/* Calendar */
-
-.calendar {
-    height: 192px;
-}
-
-/* Event details */
-
-.event-details-wrap {
-    min-height: 120px;
-}
-
-#duration .input-wrap {
-    padding: 0 .5em;
-}
-
-#duration input[type="number"] {
-    display: inline;
-    padding-left: 0;
-    padding-right: 0;
-    text-align: center;
-}
-
-#duration .semicolon {
-    display: inline-block;
-    font-weight: bold;
-}
-
-#event-details {
-    display: none;
-}
-
-#event-details .label,
-#event-details .value {
-    font-size: 150%;
-}
-
-.duration legend,
-#event-details legend {
-    padding-left: .4em;
-}
-
 /* Disabled elements */
-
 .pure-form input[type="text"][disabled],
 .pure-form input[type="password"][disabled],
 .pure-form input[type="email"][disabled],

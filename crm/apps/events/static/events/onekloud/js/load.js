@@ -14,15 +14,14 @@ $(function() {
       if (mEmpty.length) mEmpty.remove();
       if (fEmpty.length) fEmpty.remove();
 
-      // Clear table content to fill up new.
-      mContainer.html('');
-      fContainer.html('');
-
       scrollToAnchor('date-heading');
 
       $.get(eventsFilterByDateURI, {date: dateText}, function(resp) {
         if (resp.status == 'success') {
           $('#date-heading').html(resp.date);
+
+          mContainer.html('');
+          fContainer.html('');
 
           $.each(resp.data, function() {
             var ob = $(this)[0];
@@ -64,30 +63,29 @@ $(function() {
   $('.input-event').on('keypress keyup', function() {
     var s = $(this).val();
     if (s.length > 10) {
-      setTimeout(function() {
-        $.get(eventDetailsURI, {s: s}, function(resp) {
-          if (resp.status == 'success') {
-            var isMeeting = false;
-            if (resp.data.hours) isMeeting = true;
+      $.get(eventsDetailsURI, {s: s}, function(resp) {
+        if (resp.status == 'success') {
+          var isMeeting = false;
+          if (resp.data.hours) isMeeting = true;
 
-            var day = resp.data.day;
-            var month = resp.data.month;
-            var year = resp.data.year;
-            var html = month + " " + day + ", " + year;
+          var day = resp.data.day;
+          var month = resp.data.month;
+          var year = resp.data.year;
+          var html = month + " " + day + ", " + year;
 
-            if (isMeeting) {
-              var hrs = resp.data.hours;
-              var mins = resp.data.minutes;
-              html += " @ " + hrs + ":" + mins;
-              $('#event-type').html("Meeting");
-            } else {
-              $('#event-type').html("Follow-Up");
-            }
-            $('#event-date').html(html);
-            $('#event-details').hide().fadeIn();
+          if (isMeeting) {
+            var hrs = resp.data.hours;
+            var mins = resp.data.minutes;
+            html += " @ " + hrs + ":" + mins;
+            $('#event-type').removeClass('gray').html("Meeting");
+            $('#duration input[type="number"]').removeAttr('disabled');
+          } else {
+            $('#event-type').removeClass('gray').html("Follow-Up");
+            $('#duration input[type="number"]').attr('disabled', 'disabled');
           }
-        });
-      }, 800);
+          $('#event-date').removeClass('gray').html(html);
+        }
+      });
     }
   });
 
@@ -95,6 +93,41 @@ $(function() {
   fixMinutesDisplay();
 });
 
-$('.duration input[type="number"]').last().on('change', function() {
+$('#duration input[type="number"]').last().on('change', function() {
   fixMinutesDisplay();
+});
+
+$(function() {
+  // Offer to take a tour.
+  if (takeTour) {
+    var hasSampleData;
+
+    if (!isManualTour) {
+      var modal = $('#offer-tour-modal');
+
+      modal.dialog({
+        autoOpen: true,
+        modal: true,
+        resizable: false,
+        closeOnEscape: true,
+        width: 340,
+        draggable: false,
+        title: "Take a Tour",
+        buttons: {
+          Yes: function() {
+            $(this).dialog('close');
+            startTour();
+            fillWithSampleData();
+          },
+          No: function() {
+            $(this).dialog('close');
+          }
+        }
+      });
+    } else {
+      // Tour triggered by user manually.
+      startTour();
+      fillWithSampleData();
+    }
+  }
 });
