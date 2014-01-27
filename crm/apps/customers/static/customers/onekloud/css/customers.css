@@ -15,3 +15,7 @@
     line-height: 1.4em;
     height: 39px;
 }
+
+.pure-form select {
+    padding: .75em .6em;
+}

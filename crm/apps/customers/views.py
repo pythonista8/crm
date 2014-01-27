@@ -14,7 +14,7 @@ class CustomerContextMixin(object):
 
     def get_context_data(self, **kwargs):
         ctx = super(CustomerContextMixin, self).get_context_data(**kwargs)
-        ctx['title_icon'] = 'user'
+        ctx['title_icon'] = 'users'
         return ctx
 
 
