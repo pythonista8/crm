@@ -3,8 +3,9 @@ body {
 }
 
 body,
-.pure-g [class *= "pure-u"] {
-    font-family: 'proxima-nova', sans-serif;
+.pure-g [class *= "pure-u"],
+.pure-g-r [class *= "pure-u"] {
+    font-family: 'Montserrat', sans-serif;
 }
 
 a {
@@ -25,16 +26,7 @@ h1, h2, h3, h4, h5, h6 {
     color: #393e46;
 }
 
-h1 {
-    font-weight: 100;
-}
-
-h1, h2 {
-    font-family: 'omnes-pro', sans-serif;
-}
-
 h2 {
-    font-weight: 300;
     margin: .3em 0 .5em;
 }
 
