@@ -27,7 +27,7 @@
     <link href="{% static 'css/vendor/introjs/introjs.css' %}" rel="stylesheet">
 
     {# External fonts. #}
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400|Raleway:400,100" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400|Raleway:100" rel="stylesheet">
 
     {% include 'vendor/purecss.html' %}
 
@@ -114,12 +114,12 @@
                         {% block top-right %}{% endblock %}
 
                     </div>
-                    <h2>
+                    <h1>
                         {% if title_icon %}
                             <i class="fa fa-{{ title_icon }}"></i>
                         {% endif %}
                         {{ title }}
-                    </h2>
+                    </h1>
                 </div>
 
                 {# Inherited content is included in `content` block. #}
