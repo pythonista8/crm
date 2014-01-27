@@ -2,6 +2,11 @@ body {
     background: #f9f9f9;
 }
 
+body,
+.pure-g [class *= "pure-u"] {
+    font-family: 'proxima-nova', sans-serif;
+}
+
 a {
     color: #009cdd;
     text-decoration: none;
@@ -20,7 +25,16 @@ h1, h2, h3, h4, h5, h6 {
     color: #393e46;
 }
 
+h1 {
+    font-weight: 100;
+}
+
+h1, h2 {
+    font-family: 'omnes-pro', sans-serif;
+}
+
 h2 {
+    font-weight: 300;
     margin: .3em 0 .5em;
 }
 
