@@ -129,6 +129,12 @@ h3, h4, h5, h6 {
     display: block; /* remove bottom emptry space */
 }
 
+/* Search filters */
+
+#filters {
+    margin-bottom: 1.5em;
+}
+
 /* Pure */
 
 .l-box {

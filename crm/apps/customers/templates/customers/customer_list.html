@@ -9,58 +9,69 @@
 
 {% block content %}
 <div id="step-1" class="l-box">
-    <form class="pure-form" method="get">
-        <input type="text" name="search" placeholder="Search">
+    <form id="filters" class="pure-form" method="get">
+        <input type="text" name="search" placeholder="Enter keyword">
+        <input class="pure-button pure-button-small pure-button-secondary"
+               type="submit" value="Search">
     </form>
+
     {% if customer_list %}
         <table class="pure-table pure-table-horizontal" width="100%">
             <thead>
                 <tr>
                     <th align="left">
-                        <a href="?sort_by=name">
-                            Name
-                            &nbsp;
-                            {% ifequal sorted_by name %}
-                                <i class="fa fa-sort-alpha-asc"></i>
-                            {% else %}
+                        {% ifequal sorted_by 'name' %}
+                            <a href="{% url 'customers:list' %}">
+                                Name &nbsp;
+                                <i class="fa fa-sort-asc"></i>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'customers:list' %}?sort_by=name">
+                                Name &nbsp;
                                 <i class="fa fa-sort"></i>
-                            {% endif %}
-                        </a>
+                            </a>
+                        {% endifequal %}
                     </th>
                     <th align="left">Phone Number</th>
                     <th align="left">
-                        <a href="?sort_by=email">
-                            Email
-                            &nbsp;
-                            {% ifequal sorted_by email %}
-                                <i class="fa fa-sort-alpha-asc"></i>
-                            {% else %}
+                        {% ifequal sorted_by 'email' %}
+                            <a href="{% url 'customers:list' %}">
+                                Email &nbsp;
+                                <i class="fa fa-sort-asc"></i>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'customers:list' %}?sort_by=email">
+                                Email &nbsp;
                                 <i class="fa fa-sort"></i>
-                            {% endif %}
-                        </a>
+                            </a>
+                        {% endifequal %}
                     </th>
                     <th align="left">Position</th>
                     <th align="left">
-                        <a href="?sort_by=company">
-                            Company
-                            &nbsp;
-                            {% ifequal sorted_by company %}
-                                <i class="fa fa-sort-alpha-asc"></i>
-                            {% else %}
+                        {% ifequal sorted_by 'company' %}
+                            <a href="{% url 'customers:list' %}">
+                                Company &nbsp;
+                                <i class="fa fa-sort-asc"></i>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'customers:list' %}?sort_by=company">
+                                Company &nbsp;
                                 <i class="fa fa-sort"></i>
-                            {% endif %}
-                        </a>
+                            </a>
+                        {% endifequal %}
                     </th>
                     <th align="left">
-                        <a href="?sort_by=country">
-                            Country
-                            &nbsp;
-                            {% ifequal sorted_by country %}
-                                <i class="fa fa-sort-alpha-asc"></i>
-                            {% else %}
+                        {% ifequal sorted_by 'country' %}
+                            <a href="{% url 'customers:list' %}">
+                                Country &nbsp;
+                                <i class="fa fa-sort-asc"></i>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'customers:list' %}?sort_by=country">
+                                Country &nbsp;
                                 <i class="fa fa-sort"></i>
-                            {% endif %}
-                        </a>
+                            </a>
+                        {% endifequal %}
                     </th>
                     <th align="left">Manager</th>
                 </tr>
@@ -69,7 +80,7 @@
                 {% for customer in customer_list %}
                     <tr{% if forloop.counter0|divisibleby:2 %} class="pure-table-odd"{% endif %}>
                         <td>
-                            <a href="{{ customer.get_absolute_url }}">{{ customer.get_full_name }}</a>
+                            <a href="{{ customer.get_absolute_url }}">{{ customer.first_name }} {{ customer.last_name }}</a>
                         </td>
                         <td>{{ customer.cell_phone|default:"-" }}</td>
                         <td>{{ customer.email|default:"-" }}</td>
@@ -82,7 +93,17 @@
             </tbody>
         </table>
     {% else %}
-        <p>No customers yet. <a href="{% url 'customers:create' %}">Create one!</a></p>
+        {% if query %}
+            <p>
+                No customers found with keyword <b>"{{ query }}"</b>.
+                <a href="{% url 'customers:list' %}">Go back</a>.
+            </p>
+        {% else %}
+            <p>
+                No customers yet.
+                <a href="{% url 'customers:create' %}">Create one!</a>
+            </p>
+        {% endif %}
     {% endif %}
 
     {% if is_paginated %}

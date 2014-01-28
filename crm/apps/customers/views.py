@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from apps.customers.models import Customer, Amount
@@ -18,29 +18,32 @@ class CustomerList(ListView):
         def _search(qs):
             if 'search' in self.request.GET:
                 query = self.request.GET['search']
-                res = qs.filter(Q(email__icontains=query) |
-                                Q(first_name__icontains=query) |
-                                Q(last_name__icontains=query) |
-                                Q(company__icontains=query))
-            return res
+                qs = qs.filter(Q(email__icontains=query) |
+                               Q(first_name__icontains=query) |
+                               Q(last_name__icontains=query) |
+                               Q(company__icontains=query) |
+                               Q(country__icontains=query))
+            return qs
 
         def _sort(qs):
             if 'sort_by' in self.request.GET:
                 field = self.request.GET['sort_by']
                 if field == 'name':
-                    qs.order_by('-first_name', '-last_name')
+                    qs = qs.order_by('first_name')
                 else:
-                    qs.order_by('-{}'.format(field))
+                    qs = qs.order_by(field)
+            return qs
 
         qs = super(CustomerList, self).get_queryset()
         qs = _search(qs)
-        _sort(qs)
+        qs = _sort(qs)
         company = self.request.user.company
         return qs.filter(user__company=company)
 
     def get_context_data(self, **kwargs):
         ctx = super(CustomerList, self).get_context_data(**kwargs)
-        ctx['sorted_by'] = self.request.GET.get('sort_by', None)
+        ctx['query'] = self.request.GET.get('search')
+        ctx['sorted_by'] = self.request.GET.get('sort_by')
         ctx['title'] = Customer._meta.verbose_name_plural.title()
         ctx['title_icon'] = 'users'
         ctx['verbose_name'] = Customer._meta.verbose_name
@@ -144,6 +147,15 @@ class CustomerUpdate(SuccessMessageMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('customers:edit', kwargs={'pk': self.object.pk})
+
+
+def delete_customer(request, pk):
+    customer = get_object_or_404(Customer, pk=pk)
+    customer.delete()
+    title = customer._meta.verbose_name.title()
+    messages.success(
+        request, "{customer} has been deleted.".format(customer=title))
+    return redirect(reverse('customers:list'))
 
 
 class AmountList(ListView):

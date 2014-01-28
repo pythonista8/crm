@@ -174,7 +174,7 @@
                             <div class="l-box pull-right">
                                 <input class="pure-button pure-button-small pure-button-success" type="submit" value="Save">
                                 {% if customer.amounts.exists %}
-                                    <a href="{% url 'customers:amount_list' customer.pk %}"
+                                    <a href="{% url 'customers:amount-list' customer.pk %}"
                                        class="pure-button pure-button-small pure-button-primary">
                                         View All
                                     </a>
@@ -243,9 +243,14 @@
             <i class="fa fa-check-square"></i>&nbsp;
             Save
         </button>
-        <a class="pure-button pure-button-small pure-button-error" href="{% url 'customers:list' %}">
+        <a class="pure-button pure-button-small pure-button-warning" href="{% url 'customers:list' %}">
             Cancel
         </a>
+        {% if customer.pk %}
+            <a class="pure-button pure-button-small pure-button-error" href="{% url 'customers:delete-customer' customer.pk %}">
+                Delete
+            </a>
+        {% endif %}
     </div>
 
     {% csrf_token %}
