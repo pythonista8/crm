@@ -61,9 +61,9 @@ def index(request):
     ctx['monthly_lost_trend'] = _get_monthly_trend(user, Amount.LOST)
 
     # Average monthly statistics.
-    ctx['avg_opportunities'] = _get_avg_stats(user, Amount.OPPORTUNITY)
-    ctx['avg_win'] = _get_avg_stats(user, Amount.WIN)
-    ctx['avg_lost'] = _get_avg_stats(user, Amount.LOST)
+    # ctx['avg_opportunities'] = _get_avg_stats(user, Amount.OPPORTUNITY)
+    # ctx['avg_win'] = _get_avg_stats(user, Amount.WIN)
+    # ctx['avg_lost'] = _get_avg_stats(user, Amount.LOST)
 
     # For CSV download buttons - whether to show them or not.
     if customers.exists():
