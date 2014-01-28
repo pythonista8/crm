@@ -3,19 +3,7 @@ from lib.test import setup_view
 from apps.accounts.models import User, Company
 from apps.customers.models import Customer
 from apps.customers.forms import CustomerForm
-from apps.customers.views import (CustomerList, CustomerCreate, CustomerUpdate,
-                                  CustomerContextMixin)
-
-
-class CustomerContextMixinTest(test.TestCase):
-    def setUp(self):
-        self.object = CustomerContextMixin()
-
-    def test_attr(self):
-        self.assertEqual(self.object.model, Customer)
-
-    def test_get_context_data(self):
-        self.assertTrue(callable(self.object.get_context_data))
+from apps.customers.views import (CustomerList, CustomerCreate, CustomerUpdate)
 
 
 class CustomersListTest(test.TestCase):
