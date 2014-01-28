@@ -10,6 +10,7 @@ from apps.customers.forms import CustomerForm, AmountFormSet
 
 
 class CustomerList(ListView):
+    model = Customer
     paginate_by = 16
 
     def get_queryset(self):
@@ -26,6 +27,7 @@ class CustomerList(ListView):
 
 
 class CustomerCreate(SuccessMessageMixin, CreateView):
+    model = Customer
     form_class = CustomerForm
     success_message = "Successfully created"
 
@@ -64,6 +66,7 @@ class CustomerCreate(SuccessMessageMixin, CreateView):
 
 
 class CustomerUpdate(SuccessMessageMixin, UpdateView):
+    model = Customer
     form_class = CustomerForm
     success_message = "Successfully updated"
 
