@@ -9,16 +9,7 @@ from apps.customers.models import Customer, Amount
 from apps.customers.forms import CustomerForm, AmountFormSet
 
 
-class CustomerContextMixin(object):
-    model = Customer
-
-    def get_context_data(self, **kwargs):
-        ctx = super(CustomerContextMixin, self).get_context_data(**kwargs)
-        ctx['title_icon'] = 'users'
-        return ctx
-
-
-class CustomerList(CustomerContextMixin, ListView):
+class CustomerList(ListView):
     paginate_by = 16
 
     def get_queryset(self):
@@ -29,11 +20,12 @@ class CustomerList(CustomerContextMixin, ListView):
     def get_context_data(self, **kwargs):
         ctx = super(CustomerList, self).get_context_data(**kwargs)
         ctx['title'] = Customer._meta.verbose_name_plural.title()
+        ctx['title_icon'] = 'users'
         ctx['verbose_name'] = Customer._meta.verbose_name
         return ctx
 
 
-class CustomerCreate(CustomerContextMixin, SuccessMessageMixin, CreateView):
+class CustomerCreate(SuccessMessageMixin, CreateView):
     form_class = CustomerForm
     success_message = "Successfully created"
 
@@ -66,11 +58,12 @@ class CustomerCreate(CustomerContextMixin, SuccessMessageMixin, CreateView):
     def get_context_data(self, **kwargs):
         ctx = super(CustomerCreate, self).get_context_data(**kwargs)
         ctx['amount_form'] = AmountFormSet()
+        ctx['title_icon'] = 'user'
         ctx['title'] = "Create new {}".format(Customer._meta.verbose_name)
         return ctx
 
 
-class CustomerUpdate(CustomerContextMixin, SuccessMessageMixin, UpdateView):
+class CustomerUpdate(SuccessMessageMixin, UpdateView):
     form_class = CustomerForm
     success_message = "Successfully updated"
 
@@ -116,6 +109,7 @@ class CustomerUpdate(CustomerContextMixin, SuccessMessageMixin, UpdateView):
             ctx['title'] = "Edit {}".format(vname)
         else:
             ctx['title'] = "View {}".format(vname)
+        ctx['title_icon'] = 'user'
         return ctx
 
     def get_template_names(self):
