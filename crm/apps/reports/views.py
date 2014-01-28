@@ -16,6 +16,7 @@ def index(request):
     user = request.user
     customers = Customer.objects.filter(user=user)
 
+    # TODO: Move to separate function.
     oppdict = dict(color='#ffb553', label='Opportunities')
     windict = dict(color='#3ebfbe', label='Closed-Win')
     lostdict = dict(color='#fa4444', label='Closed-Lost')
@@ -36,7 +37,7 @@ def index(request):
     if opp.count() or win.count() or lost.count():
         ctx['data_number'] = [opp_number, win_number, lost_number]
 
-    # Total Income.
+    # Total Amount.
     opp_sum = opp.aggregate(
         Sum('amounts__value'))['amounts__value__sum'] or 0
     opp_amount = oppdict.copy()
@@ -55,8 +56,14 @@ def index(request):
     if opp_sum or win_sum or lost_sum:
         ctx['data_amount'] = [opp_amount, win_amount, lost_amount]
 
+    # Monthly Sales Trend.
     ctx['monthly_win_trend'] = _get_monthly_trend(user, Amount.WIN)
     ctx['monthly_lost_trend'] = _get_monthly_trend(user, Amount.LOST)
+
+    # Average monthly statistics.
+    ctx['avg_opportunities'] = _get_avg_stats(user, Amount.OPPORTUNITY)
+    ctx['avg_win'] = _get_avg_stats(user, Amount.WIN)
+    ctx['avg_lost'] = _get_avg_stats(user, Amount.LOST)
 
     # For CSV download buttons - whether to show them or not.
     if customers.exists():
@@ -77,7 +84,7 @@ def _get_monthly_trend(user, status):
     now = dt.datetime.now()
 
     def _get_month_sales(month, status):
-        """If `month` equals to zero, then treat as a previous month."""
+        # If `month` equals to zero, then treat as a previous month.
         if month == 0:
             yr = now.year - 1
             month = 12
@@ -106,6 +113,24 @@ def _get_monthly_trend(user, status):
             diff = 0
         data.append(diff)
     return data
+
+
+def _get_avg_stats(user, status):
+    """Return average monthly value of amount of type `status`."""
+    qs = Amount.objects.filter(customer__user=user, status=status)
+    dict_ = dict()
+    # Prepare data for convenience.
+    for amount in qs:
+        mon = amount.date.month
+        sum_ = qs.aggregate(Sum('value'))['value__sum'] or 0
+        if mon in dict_:
+            dict_[mon].append(sum_)
+        else:
+            dict_[mon] = [sum_]
+    # Calculate average.
+    sumlist = [sum(v) for (k, v) in dict_.items()]
+    avg = sum(sumlist) / len(sumlist)
+    return avg
 
 
 ERROR_MSG = "Sorry, you can't download reports in Trial version."
