@@ -1,4 +1,3 @@
-"""Customer models."""
 import datetime as dt
 
 from django.db import models
@@ -38,7 +37,7 @@ class Customer(models.Model):
     linkedin = models.URLField(max_length=255, blank=True)
 
     # Contact Info.
-    email = models.CharField(max_length=255, blank=True)
+    email = models.EmailField(max_length=255, blank=True)
     skype = models.CharField(max_length=255, blank=True)
     cell_phone = models.CharField(max_length=50, blank=True)
     main_phone = models.CharField(max_length=50, blank=True)

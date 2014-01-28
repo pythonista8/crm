@@ -17,3 +17,7 @@
     border: 1px solid #0260b7;
     color: #fff;
 }
+
+.pure-table thead th a {
+    color: #fff;
+}

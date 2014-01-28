@@ -2,6 +2,7 @@ from django import http
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
@@ -14,12 +15,32 @@ class CustomerList(ListView):
     paginate_by = 16
 
     def get_queryset(self):
+        def _search(qs):
+            if 'search' in self.request.GET:
+                query = self.request.GET['search']
+                res = qs.filter(Q(email__icontains=query) |
+                                Q(first_name__icontains=query) |
+                                Q(last_name__icontains=query) |
+                                Q(company__icontains=query))
+            return res
+
+        def _sort(qs):
+            if 'sort_by' in self.request.GET:
+                field = self.request.GET['sort_by']
+                if field == 'name':
+                    qs.order_by('-first_name', '-last_name')
+                else:
+                    qs.order_by('-{}'.format(field))
+
         qs = super(CustomerList, self).get_queryset()
+        qs = _search(qs)
+        _sort(qs)
         company = self.request.user.company
         return qs.filter(user__company=company)
 
     def get_context_data(self, **kwargs):
         ctx = super(CustomerList, self).get_context_data(**kwargs)
+        ctx['sorted_by'] = self.request.GET.get('sort_by', None)
         ctx['title'] = Customer._meta.verbose_name_plural.title()
         ctx['title_icon'] = 'users'
         ctx['verbose_name'] = Customer._meta.verbose_name
