@@ -93,17 +93,15 @@
             </tbody>
         </table>
     {% else %}
-        {% if query %}
-            <p>
+        <p>
+            {% if query %}
                 No customers found with keyword <b>"{{ query }}"</b>.
-                <a href="{% url 'customers:list' %}">Go back</a>.
-            </p>
-        {% else %}
-            <p>
+                <a href="{% url 'customers:list' %}">Go back.</a>
+            {% else %}
                 No customers yet.
                 <a href="{% url 'customers:create' %}">Create one!</a>
-            </p>
-        {% endif %}
+            {% endif %}
+        </p>
     {% endif %}
 
     {% if is_paginated %}
