@@ -74,9 +74,10 @@ def _get_monthly_trend(user, status):
     """Return list of values that determine percentage of sales
     trend between two month.
     """
+    now = dt.datetime.now()
+
     def _get_month_sales(month, status):
         """If `month` equals to zero, then treat as a previous month."""
-        now = dt.datetime.now()
         if month == 0:
             yr = now.year - 1
             month = 12
@@ -93,12 +94,15 @@ def _get_monthly_trend(user, status):
     data = list()
     base = _get_month_sales(0, status)
     for month in range(1, 13):
-        if base == 0:
-            base = _get_month_sales(month, status)
-        sales = _get_month_sales(month, status)
-        try:
-            diff = round(abs(sales - base) / base*100)
-        except ZeroDivisionError:
+        if now.month >= month:
+            if base == 0:
+                base = _get_month_sales(month, status)
+            sales = _get_month_sales(month, status)
+            try:
+                diff = round(abs(sales - base) / base*100)
+            except ZeroDivisionError:
+                diff = 0
+        else:
             diff = 0
         data.append(diff)
     return data
