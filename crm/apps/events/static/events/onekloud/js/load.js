@@ -84,10 +84,16 @@ $(function() {
             var mins = resp.data.minutes;
             html += " @ " + hrs + ":" + mins;
             $('#event-type').removeClass('gray').html("Meeting");
-            $('#duration input[type="number"]').removeAttr('disabled');
+
+            // Enable duration.
+            var durationInputs = $('#duration [type="number"]');
+
+            durationInputs.removeAttr('disabled');
+            durationInputs.eq(0).val('1');
+            durationInputs.eq(1).val('00');
           } else {
             $('#event-type').removeClass('gray').html("Follow-Up");
-            $('#duration input[type="number"]').attr('disabled', 'disabled');
+            $('#duration [type="number"]').attr('disabled', 'disabled');
           }
           $('#event-date').removeClass('gray').html(html);
         }
@@ -99,7 +105,7 @@ $(function() {
   fixMinutesDisplay();
 });
 
-$('#duration input[type="number"]').last().on('change', function() {
+$('#duration [type="number"]').last().on('change', function() {
   fixMinutesDisplay();
 });
 
