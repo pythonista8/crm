@@ -30,7 +30,7 @@
     font-size: 150%;
 }
 
-.duration legend,
+#duration legend,
 #event-details legend {
     padding-left: .4em;
 }
@@ -56,4 +56,21 @@
 
 .calendar {
     height: 192px;
+}
+
+.calendar .has-events {
+    color: rgb(0, 120, 231);
+    font-weight: bold;
+    border: 1px solid rgb(0, 120, 231);
+}
+
+.calendar .has-events.ui-state-active {
+    color: #fff;
+    font-weight: normal;
+}
+
+.calendar .has-events.ui-state-highlight {
+    color: #000;
+    font-weight: normal;
+    border-color: #a9e2ff;
 }

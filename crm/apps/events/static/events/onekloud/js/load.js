@@ -2,7 +2,12 @@ $(function() {
   // Calendar.
   $('.calendar').datepicker({
     dateFormat: 'dd-mm-yy',
+    beforeShow: function(input, inst) {
+      setCalendarEvents();
+    },
     onSelect: function(dateText, inst) {
+      setCalendarEvents();
+
       var mTable = $('#meeting-table');
       var mContainer = mTable.find('tbody');
       var mEmpty = $('#meetings-empty');
@@ -59,11 +64,12 @@ $(function() {
   });
   $('.datepicker').datepicker();
 
-  // New event.
+  // Add new event.
   $('.input-event').on('keypress keyup', function() {
     var s = $(this).val();
+
     if (s.length > 10) {
-      $.get(eventsDetailsURI, {s: s}, function(resp) {
+      $.get(eventDetailsURI, {s: s}, function(resp) {
         if (resp.status == 'success') {
           var isMeeting = false;
           if (resp.data.hours) isMeeting = true;

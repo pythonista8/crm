@@ -1,3 +1,48 @@
+// Add `beforeShow` option to jQuery Datepicker.
+(function ($) {
+  $.extend($.datepicker, {
+    // Reference the orignal function so we can override it and call it
+    // later.
+    _inlineDatepicker2: $.datepicker._inlineDatepicker,
+
+    // Override the _inlineDatepicker method.
+    _inlineDatepicker: function(target, inst) {
+
+      // Call the original method.
+      this._inlineDatepicker2(target, inst);
+
+      var beforeShow = $.datepicker._get(inst, 'beforeShow');
+
+      if (beforeShow) {
+        beforeShow.apply(target, [target, inst]);
+      }
+    }
+  });
+}(jQuery));
+
+function setCalendarEvents() {
+  $.get(eventsDatesURI, function(resp) {
+    if (resp.status == 'success') {
+      for (var i = 0; i < resp.data.length; i++) {
+        var date = resp.data[i].split('-');
+
+        var day = date[0];
+        if (day[0] == '0') day = day[1];
+
+        var mon = date[1] - 1;
+        var yr = date[2];
+
+        // We find elements that match date criteria.
+        var elems = $('.calendar').find('[data-month='+mon+'][data-year='+yr+'] a');
+
+        $.each(elems, function() {
+          if ($(this).html() == day) $(this).addClass('has-events');
+        });
+      }
+    }
+  });
+}
+
 // Display minutes as two digit value.
 function fixMinutesDisplay() {
   var minsInput = $('#duration input[type="number"]').last();
