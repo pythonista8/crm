@@ -16,7 +16,9 @@
                 <fieldset id="event-fieldset">
                     {{ event_form.text|attributes:"id: step-2,required: required, class: pure-input-2-3 pure-input-rounded input-event, autocomplete: off, placeholder: E.g. meet John at 18.30 on Dec 17 at Starbucks" }}
                     <button class="pure-button pure-button-large pure-input-rounded pure-button-primary"
-                            type="submit">Add</button>
+                            type="submit">
+                        Add
+                    </button>
                 </fieldset>
                 <div class="event-details-wrap">
                     <div id="event-details" class="pure-g-r">
@@ -45,9 +47,9 @@
                                 <span class="label gray">Duration:</span>
                             </div>
                             <div class="input-wrap">
-                                {{ event_form.hours|attributes:"required: required, class: pure-input-rounded, placeholder: Hrs, min: 0, max: 24" }}
+                                {{ event_form.hours|attributes:"required: required, class: pure-input-rounded, placeholder: Hr, min: 0, max: 24" }}
                                 <span class="semicolon gray">:</span>
-                                {{ event_form.minutes|attributes:"required: required, class: pure-input-rounded, placeholder: Mins, min: 0, max: 60" }}
+                                {{ event_form.minutes|attributes:"required: required, class: pure-input-rounded, placeholder: Min, min: 0, max: 60" }}
                             </div>
                         </div>
                     </div>
@@ -65,7 +67,7 @@
 
     <div id="step-5" class="pure-u-1">
         <div class="l-box">
-            <h3 id="date-heading" class="gray noborder nopadding">Today&nbsp; – &nbsp;{{ today }}</h3>
+            <h3 id="date-heading" class="gray noborder nopadding">Today &nbsp;–&nbsp; {{ today }}</h3>
 
             <h4>Meetings</h4>
             <table id="meeting-table" class="pure-table pure-table-horizontal" width="100%"
@@ -157,7 +159,8 @@ pure-menu-selected
 
 {% block js %}
 <script>
-  var eventsDetailsURI = "{% url 'events:api:details' %}";
+  var eventsDatesURI = "{% url 'events:api:dates' %}";
+  var eventDetailsURI = "{% url 'events:api:details' %}";
   var eventsFilterByDateURI = "{% url 'events:api:filter_by_date' %}";
   var customersListURI = "{% url 'customers:list' %}";
 

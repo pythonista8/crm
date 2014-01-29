@@ -19,7 +19,7 @@ class EventForm(forms.Form):
         try:
             parsedate(text)
         except ValueError:
-            msg = "Could not obtain date. Please add."
+            msg = "Could not find a date. Please add."
             raise ValidationError("%(value)s", code='invalid',
                                   params=dict(value=msg))
         return text
@@ -28,20 +28,31 @@ class EventForm(forms.Form):
         text = self.cleaned_data['text']
         datedict = parsedate(text)
         f = '%m %d %Y'
+        hr = self.cleaned_data['hours']
+        min_ = self.cleaned_data['minutes']
+        is_meeting = 'hours' in datedict
+
+        if is_meeting:
+            hrsum = hr + int(datedict['hours'])
+            minsum = min_ + int(datedict['minutes'])
+            if hrsum > 24:
+                # TODO: Fix potential bug that occurs when a day falls into
+                # next month.
+                hrsum = hrsum - 24
+                datedict['day'] += 1
+
         dates = "{mon} {day} {yr}".format(mon=datedict['month'],
                                           day=datedict['day'],
                                           yr=datedict['year'])
-        if 'hours' in datedict:  # Meeting
+
+        if is_meeting:
             startdate = dates + " {hr}:{min}".format(hr=datedict['hours'],
                                                      min=datedict['minutes'])
             f += ' %H:%M'
             starttime = time.mktime(time.strptime(startdate, f))
             date_started = dt.datetime.fromtimestamp(starttime)
-            hr = self.cleaned_data['hours']
-            min_ = self.cleaned_data['minutes']
-            enddate = dates + " {hr}:{min}".format(
-                hr=hr + int(datedict['hours']),
-                min=min_ + int(datedict['minutes']))
+
+            enddate = dates + " {hr}:{min}".format(hr=hrsum, min=minsum)
             endtime = time.mktime(time.strptime(enddate, f))
             date_ended = dt.datetime.fromtimestamp(endtime)
             event = Meeting.objects.create(date_started=date_started,

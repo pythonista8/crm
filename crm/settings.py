@@ -34,7 +34,7 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = [
     '37.139.24.123',
-    'crm.onekloud.com'
+    '.onekloud.com'
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
