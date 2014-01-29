@@ -31,8 +31,8 @@ def index(request):
 
     followups = FollowUp.objects.filter(user__company=user.company, date=today)
     meetings = Meeting.objects.filter(
-        user__company=user.company,
-        Q(date_started__range=(from_, to)) | Q(date_ended__range=(from_, to)))
+        Q(date_started__range=(from_, to)) | Q(date_ended__range=(from_, to)),
+        user__company=user.company,)
 
     if not user.is_head:
         followups = followups.filter(user=user)
