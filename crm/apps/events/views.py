@@ -12,10 +12,11 @@ from apps.events.models import FollowUp, Meeting
 
 
 def index(request):
+    user = request.user
     if request.method == 'POST':
         form = EventForm(request.POST)
         if form.is_valid():
-            event = form.save(user=request.user)
+            event = form.save(user=user)
             title = event._meta.verbose_name.title()
             messages.success(
                 request, "{event} was added.".format(event=title))
@@ -24,13 +25,19 @@ def index(request):
 
     ctx = dict(event_form=form)
     today = dt.date.today()
-    ctx['followup_list'] = FollowUp.objects.filter(date=today)
-
     from_ = dt.datetime(today.year, today.month, today.day)
     tmr = dt.date.today() + dt.timedelta(days=1)
     to = dt.datetime(tmr.year, tmr.month, tmr.day)
+
+    followups = FollowUp.objects.filter(user__company=user.company, date=today)
     meetings = Meeting.objects.filter(
-        Q(date_started__range=(from_, to)) | Q(date_ended__range=(from_, to)))
+        Q(date_started__range=(from_, to)) | Q(date_ended__range=(from_, to)),
+        user__company=user.company,)
+
+    if not user.is_head:
+        followups = followups.filter(user=user)
+        meetings = meetings.filter(user=user)
+
     mdict = dict()
     for m in meetings:
         # Keep data in `mdict` in a object-per-time format.
@@ -43,16 +50,20 @@ def index(request):
             min_ = '0' + min_
         time = '{hr}:{min}'.format(hr=hr, min=min_)
         mdict[time] = m
+
+    ctx['followup_list'] = followups
     ctx['meeting_list'] = sorted(mdict.items())
 
     meetings_title = Meeting._meta.verbose_name_plural.title()
     followups_title = FollowUp._meta.verbose_name_plural.title()
     ctx['title'] = "{meetings} & {followups}".format(
-        meetings=meetings_title, followups=followups_title)
+        meetings=meetings_title,
+        followups=followups_title)
+
     ctx['title_icon'] = 'calendar-o'
     ctx['today'] = '{month} {day}'.format(
-        month=LONG_MONTH_NAMES[today.month-1], day=today.day)
-
+        month=LONG_MONTH_NAMES[today.month-1],
+        day=today.day)
     return render(request, 'events/index.html', ctx)
 
 
