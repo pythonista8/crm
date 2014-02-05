@@ -74,8 +74,8 @@ def activate_trial(request):
             messages.success(request, "Welcome, {name}!".format(
                 name=user.get_short_name()))
 
-            # Trial will expire in a month.
-            tasks.stop_trial.apply_async(args=[email], countdown=3600*24*7*4)
+            # Trial will expire in 15 days.
+            tasks.stop_trial.apply_async(args=[email], countdown=3600*24*15)
 
             # Send email in a day to the customer in order to find out his/her
             # experience about CRM.
