@@ -23,7 +23,7 @@ function startTourForList() {
 
   // Go to the next page.
   tour.oncomplete(function() {
-    window.location.href = customersCreateURI + '?tour';
+    window.location.href = customersCreateURI + '?tour=true';
   });
 
   tour.start();
@@ -56,7 +56,7 @@ function startTourForCreate() {
 
   // Go to the next page.
   // tour.oncomplete(function() {
-  //   window.location.href = customersCreateURI + '?tour';
+  //   window.location.href = customersCreateURI + '?tour=true';
   // });
 
   tour.start();
