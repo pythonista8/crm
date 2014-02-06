@@ -95,7 +95,10 @@ def activate_trial(request):
             msg = EmailMessage(subject, html, support_email, recipients)
             msg.content_subtype = 'html'
             msg.send(fail_silently=True)
-            return redirect(reverse('events:index'))
+            # We add `signup` parameter to track conversions in Google
+            # Analytics.
+            url = '{url}?signup=true'.format(url=reverse('events:index'))
+            return redirect(url)
         else:
             return redirect(reverse('accounts:login'))
 
