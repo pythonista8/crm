@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 
 class PermissionMiddleware(object):
     def process_request(self, request):
-        exc_urls = (reverse('accounts:activate-trial'),
+        exc_urls = (reverse('accounts:activate_trial'),
                     reverse('payments:process'))
         granted = False
         for url in exc_urls:
