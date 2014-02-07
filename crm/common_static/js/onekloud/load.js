@@ -1,16 +1,14 @@
 $(function() {
   // Mobile menu link.
-  var layout   = $('#layout'),
-      menu     = $('#menu'),
+  var menu     = $('#menu'),
       menuLink = $('#menu-link');
 
-  menuLink.on('click', function(event) {
+  menuLink.on('click', function() {
     var active = 'active';
 
-    event.preventDefault();
-    layout.toggleClass(active);
     menu.toggleClass(active);
     menuLink.toggleClass(active);
+    return false;
   });
 
   // Slowly fade out messages.
