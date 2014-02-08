@@ -53,22 +53,26 @@ def activate_trial(request):
     if request.method == 'GET':
         reqhash = request.GET.get('key')
         email = request.GET.get('email')
+        phone = request.GET.get('phone')
         cname = request.GET.get('company')
 
         try:
             User.objects.get(email=email)
         except User.DoesNotExist:
-            key = '{key}{email}{company}'.format(
-                key=settings.ACTIVATION_SALT, email=email, company=cname
-            ).encode('utf8')
-
+            key = '{key}{email}{phone}{company}'.format(
+                key=settings.ACTIVATION_SALT, email=email, phone=phone,
+                company=cname).encode('utf8')
             hash_ = hashlib.md5(key).hexdigest()
             if reqhash != hash_:
                 return http.HttpResponseForbidden()
 
+            company, created = Company.objects.get_or_create(name=cname)
+            if created:
+                return redirect(reverse('accounts:login'))
+
             passw = 'demo'
-            company = Company.objects.get_or_create(name=cname)[0]
-            User.objects.create_user(email, passw, company=company)
+            User.objects.create_user(email, passw, phone=phone,
+                                     company=company)
             user = authenticate(email=email, password=passw)
             login(request, user)
             messages.success(request, "Welcome, {name}!".format(
@@ -85,7 +89,7 @@ def activate_trial(request):
             subject = "New user at Onekloud CRM!"
             support_email = 'support@onekloud.com'
             recipients = ('aldash@onekloud.com', 'samantha@onekloud.com')
-            data = dict(email=user.email, company=user.company)
+            data = dict(email=email, phone=phone, company=company)
             html = mark_safe(
                 render_to_string('accounts/notification_email.html', data))
             msg = EmailMessage(subject, html, support_email, recipients)
