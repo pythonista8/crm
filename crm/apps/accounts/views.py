@@ -67,7 +67,7 @@ def activate_trial(request):
                 return http.HttpResponseForbidden()
 
             passw = 'demo'
-            company = Company.objects.create(name=cname)
+            company = Company.objects.get_or_create(name=cname)
             User.objects.create_user(email, passw, company=company)
             user = authenticate(email=email, password=passw)
             login(request, user)
