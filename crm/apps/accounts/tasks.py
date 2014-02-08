@@ -21,4 +21,4 @@ def findout_experience(email):
 
     msg = EmailMessage(subject, html, from_, [email])
     msg.content_subtype = 'html'
-    msg.send(fail_silently=False)
+    msg.send(fail_silently=True)

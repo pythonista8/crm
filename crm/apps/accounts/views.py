@@ -77,7 +77,8 @@ def activate_trial(request):
             tasks.stop_trial.apply_async(args=[user], countdown=3600*24*15)
             # Send email in a day to the customer in order to find out his/her
             # experience about CRM.
-            tasks.findout_experience.apply_async(args=[email], countdown=10)
+            tasks.findout_experience.apply_async(args=[email],
+                                                 countdown=3600*24)
             # Prepare variable to offer tour.
             request.session['take_tour'] = True
             # Notify admins about new user.
