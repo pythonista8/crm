@@ -8,183 +8,149 @@
 {% block top-right %}
 <a class="pure-button pure-button-small pure-button-primary" href="{% url 'customers:list' %}">
     <i class="fa fa-reply"></i>&nbsp;
-    Back to Customers
+    Back
 </a>
 {% endblock %}
 
 {% block content %}
-<form class="pure-form" method="post">
+<form id="customer-form" class="pure-form" method="post">
 
     {{ form.errors }}
 
-    <div class="pure-g-r">
-        <div id="step-1" class="pure-u-2-3">
-            <div class="l-box">
-                <fieldset>
-                    <legend>Basic Info</legend>
+    <div id="step-1" class="l-box">
+        <fieldset>
+            <legend>Basic Info</legend>
+            <div class="pure-g-r">
+                <div class="pure-u-1-5">
+                    <div class="l-box">
+                        {{ form.salutation|attributes:"class: pure-input-1, placeholder: Salutation" }}
+                    </div>
+                </div>
+                <div class="pure-u-2-5">
+                    <div class="l-box">
+                        {{ form.first_name|attributes:"class: pure-input-1, placeholder: * First name, required" }}
+                    </div>
+                </div>
+                <div class="pure-u-2-5">
+                    <div class="l-box">
+                        {{ form.last_name|attributes:"class: pure-input-1, placeholder: * Last name, required" }}
+                    </div>
+                </div>
+                <div class="pure-u-1">
                     <div class="pure-g-r">
-                        <div class="pure-u-1-5">
+                        <div class="pure-u-1-2">
                             <div class="l-box">
-                                {{ form.salutation|attributes:"class: pure-input-1, placeholder: Salutation" }}
-                            </div>
-                        </div>
-                        <div class="pure-u-2-5">
-                            <div class="l-box">
-                                {{ form.first_name|attributes:"class: pure-input-1, placeholder: * First name, required" }}
-                            </div>
-                        </div>
-                        <div class="pure-u-2-5">
-                            <div class="l-box">
-                                {{ form.last_name|attributes:"class: pure-input-1, placeholder: * Last name, required" }}
-                            </div>
-                        </div>
-                        <div class="pure-u-1">
-                            <div class="pure-g-r">
-                                <div class="pure-u-1-2">
-                                    <div class="l-box">
-                                        <div class="pure-group">
-                                            {{ form.street|attributes:"class: pure-input-1, placeholder: &#xf015; Street" }}
-                                            {{ form.city|attributes:"class: pure-input-1, placeholder: City" }}
-                                            {{ form.country|attributes:"class: pure-input-1, placeholder: Country" }}
-                                        </div>
-                                    </div>
+                                <div class="pure-group">
+                                    {{ form.street|attributes:"class: pure-input-1, placeholder: &#xf015; Street" }}
+                                    {{ form.city|attributes:"class: pure-input-1, placeholder: City" }}
+                                    {{ form.country|attributes:"class: pure-input-1, placeholder: Country" }}
                                 </div>
-                                <div class="pure-u-1-2">
-                                    <div class="l-box">
-                                        <div class="pure-group">
-                                            {{ form.state|attributes:"class: pure-input-1, placeholder: State" }}
-                                            {{ form.postcode|attributes:"class: pure-input-1, placeholder: Postal code" }}
-                                        </div>
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="pure-u-1-2">
+                            <div class="l-box">
+                                <div class="pure-group">
+                                    {{ form.state|attributes:"class: pure-input-1, placeholder: State" }}
+                                    {{ form.postcode|attributes:"class: pure-input-1, placeholder: Postal code" }}
                                 </div>
                             </div>
                         </div>
                     </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Work</legend>
-                    <div class="pure-g-r">
-                        <div class="pure-u-1-2">
-                            <div class="l-box">
-                                {{ form.company|attributes:"class: pure-input-1, placeholder: &#xf0f7; Company" }}
-                            </div>
-                        </div>
-                        <div class="pure-u-1-2">
-                            <div class="l-box">
-                                {{ form.position|attributes:"class: pure-input-1, placeholder: &#xf0b1; Position" }}
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Links</legend>
-                    <div class="pure-g-r">
-                        <div class="pure-u-1-2">
-                            <div class="l-box">
-                                {% if customer.website %}
-                                    <div class="btn-container">
-                                        <a class="pure-button pure-button-small"
-                                           href="{{ customer.website }}" target="_blank">
-                                            <i class="fa fa-globe"></i> {{ customer.website|truncatechars:"29" }}
-                                        </a>
-                                        <a class="pure-button pure-button-small pure-button-primary edit" data-name="website" href="#">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                    </div>
-                                {% endif %}
-                                <input type="text" name="website" class="pure-input-1" placeholder="&#xf0ac; Website"
-                                       {% if customer.website %}value="{{ customer.website }}" style="display: none"{% endif %}>
-                            </div>
-                            <div class="l-box">
-                                {% if customer.facebook %}
-                                    <div class="btn-container">
-                                        <a class="pure-button pure-button-small pure-button-facebook"
-                                           href="{{ customer.facebook }}" target="_blank">
-                                            <i class="fa fa-facebook-square"></i> {{ customer.facebook|truncatechars:"29" }}
-                                        </a>
-                                        <a class="pure-button pure-button-small pure-button-primary edit" data-name="facebook" href="#">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                    </div>
-                                {% endif %}
-                                <input type="text" name="facebook" class="pure-input-1" placeholder="&#xf082; Facebook"
-                                       {% if customer.facebook %}value="{{ customer.facebook }}" style="display: none"{% endif %}>
-                            </div>
-                        </div>
-
-                        <div class="pure-u-1-2">
-                            <div class="l-box">
-                                {% if customer.twitter %}
-                                    <div class="btn-container">
-                                        <a class="pure-button pure-button-small pure-button-twitter"
-                                           href="{{ customer.twitter }}" target="_blank">
-                                            <i class="fa fa-twitter-square"></i> {{ customer.twitter|truncatechars:"29" }}
-                                        </a>
-                                        <a class="pure-button pure-button-small pure-button-primary edit" data-name="twitter" href="#">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                    </div>
-                                {% endif %}
-                                <input type="text" name="twitter" class="pure-input-1" placeholder="&#xf081; Twitter"
-                                       {% if customer.twitter %}value="{{ customer.twitter }}" style="display: none"{% endif %}>
-                            </div>
-                            <div class="l-box">
-                                {% if customer.linkedin %}
-                                    <div class="btn-container">
-                                        <a class="pure-button pure-button-small pure-button-linkedin"
-                                           href="{{ customer.linkedin }}" target="_blank">
-                                            <i class="fa fa-linkedin-square"></i> {{ customer.linkedin|truncatechars:"29" }}
-                                        </a>
-                                        <a class="pure-button pure-button-small pure-button-primary edit" data-name="linkedin" href="#">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                    </div>
-                                {% endif %}
-                                <input type="text" name="linkedin" class="pure-input-1" placeholder="&#xf08c; LinkedIn"
-                                       {% if customer.linkedin %}value="{{ customer.linkedin }}" style="display: none"{% endif %}>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
+                </div>
             </div>
-        </div>
+        </fieldset>
 
-        <div class="pure-u-1-3">
-            <div class="l-box">
-                <fieldset id="step-2">
-                    <legend>Add Amount</legend>
-                    <div class="pure-g-r">
-                        <div class="pure-u-1-2">
-                            <div class="l-box">
-                                {{ amount_form.management_form }}
-                                {{ amount_form.0.value|attributes:"class: pure-input-1, placeholder: &#xf0d6; Amount" }}
-                            </div>
-                        </div>
-                        <div class="pure-u-1-2">
-                            <div class="l-box">
-                                {{ amount_form.0.status|attributes:"class: pure-input-1" }}
-                            </div>
-                        </div>
-                        <div class="pure-u-1">
-                            <div class="l-box">
-                                {{ amount_form.0.product|attributes:"class: pure-input-1, placeholder: Product name" }}
-                            </div>
-                            <div class="l-box pull-right">
-                                <input class="pure-button pure-button-small pure-button-success" type="submit" value="Save">
-                                {% if customer.amounts.exists %}
-                                    <a href="{% url 'customers:amount_list' customer.pk %}"
-                                       class="pure-button pure-button-small pure-button-primary">
-                                        View All
-                                    </a>
-                                {% endif %}
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
+        <fieldset>
+            <legend>Work</legend>
+            <div class="pure-g-r">
+                <div class="pure-u-1-2">
+                    <div class="l-box">
+                        {{ form.company|attributes:"class: pure-input-1, placeholder: &#xf0f7; Company" }}
                     </div>
-                </fieldset>
+                </div>
+                <div class="pure-u-1-2">
+                    <div class="l-box">
+                        {{ form.position|attributes:"class: pure-input-1, placeholder: &#xf0b1; Position" }}
+                    </div>
+                </div>
+            </div>
+        </fieldset>
 
+        <fieldset>
+            <legend>Links</legend>
+            <div class="pure-g-r">
+                <div class="pure-u-1-2">
+                    <div class="l-box">
+                        {% if customer.website %}
+                            <div class="btn-container">
+                                <a class="pure-button pure-button-small"
+                                   href="{{ customer.website }}" target="_blank">
+                                    <i class="fa fa-globe"></i> {{ customer.website|truncatechars:"29" }}
+                                </a>
+                                <a class="pure-button pure-button-small pure-button-primary edit" data-name="website" href="#">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                        <input type="text" name="website" class="pure-input-1" placeholder="&#xf0ac; Website"
+                               {% if customer.website %}value="{{ customer.website }}" style="display: none"{% endif %}>
+                    </div>
+                    <div class="l-box">
+                        {% if customer.facebook %}
+                            <div class="btn-container">
+                                <a class="pure-button pure-button-small pure-button-facebook"
+                                   href="{{ customer.facebook }}" target="_blank">
+                                    <i class="fa fa-facebook-square"></i> {{ customer.facebook|truncatechars:"29" }}
+                                </a>
+                                <a class="pure-button pure-button-small pure-button-primary edit" data-name="facebook" href="#">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                        <input type="text" name="facebook" class="pure-input-1" placeholder="&#xf082; Facebook"
+                               {% if customer.facebook %}value="{{ customer.facebook }}" style="display: none"{% endif %}>
+                    </div>
+                </div>
+
+                <div class="pure-u-1-2">
+                    <div class="l-box">
+                        {% if customer.twitter %}
+                            <div class="btn-container">
+                                <a class="pure-button pure-button-small pure-button-twitter"
+                                   href="{{ customer.twitter }}" target="_blank">
+                                    <i class="fa fa-twitter-square"></i> {{ customer.twitter|truncatechars:"29" }}
+                                </a>
+                                <a class="pure-button pure-button-small pure-button-primary edit" data-name="twitter" href="#">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                        <input type="text" name="twitter" class="pure-input-1" placeholder="&#xf081; Twitter"
+                               {% if customer.twitter %}value="{{ customer.twitter }}" style="display: none"{% endif %}>
+                    </div>
+                    <div class="l-box">
+                        {% if customer.linkedin %}
+                            <div class="btn-container">
+                                <a class="pure-button pure-button-small pure-button-linkedin"
+                                   href="{{ customer.linkedin }}" target="_blank">
+                                    <i class="fa fa-linkedin-square"></i> {{ customer.linkedin|truncatechars:"29" }}
+                                </a>
+                                <a class="pure-button pure-button-small pure-button-primary edit" data-name="linkedin" href="#">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                        <input type="text" name="linkedin" class="pure-input-1" placeholder="&#xf08c; LinkedIn"
+                               {% if customer.linkedin %}value="{{ customer.linkedin }}" style="display: none"{% endif %}>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="pure-g-r bottom-mrg">
+        <div class="pure-u-1-2">
+            <div class="l-box">
                 <fieldset>
                     <legend>Contact Info</legend>
                     <div class="l-box">
@@ -229,11 +195,48 @@
                             {{ form.main_phone|attributes:"class: pure-input-1, placeholder: &#xf095; Main phone number" }}
                         </div>
                     </div>
-                </fieldset>
 
-                <div class="l-box">
-                    {{ form.notes|attributes:"class: pure-input-1, placeholder: Your notes" }}
-                </div>
+                    <div class="l-box">
+                        {{ form.notes|attributes:"class: pure-input-1, rows: 5, placeholder: Your notes" }}
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="pure-u-1-2">
+            <div class="l-box">
+                <fieldset id="step-2">
+                    <legend>Add Amount</legend>
+                    <div class="pure-g-r">
+                        <div class="pure-u-1-2">
+                            <div class="l-box">
+                                {{ amount_form.management_form }}
+                                {{ amount_form.0.value|attributes:"class: pure-input-1, placeholder: &#xf0d6; Amount" }}
+                            </div>
+                        </div>
+                        <div class="pure-u-1-2">
+                            <div class="l-box">
+                                {{ amount_form.0.status|attributes:"class: pure-input-1" }}
+                            </div>
+                        </div>
+                        <div class="pure-u-1">
+                            <div class="l-box">
+                                {{ amount_form.0.product|attributes:"class: pure-input-1, placeholder: Product name" }}
+                            </div>
+                            <div class="l-box pull-right">
+                                <input class="pure-button pure-button-small pure-button-success pure-hidden-phone"
+                                       type="submit" value="Save">
+                                {% if customer.amounts.exists %}
+                                    <a href="{% url 'customers:amount_list' customer.pk %}"
+                                       class="pure-button pure-button-small pure-button-primary">
+                                        View All
+                                    </a>
+                                {% endif %}
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
         </div>
     </div>

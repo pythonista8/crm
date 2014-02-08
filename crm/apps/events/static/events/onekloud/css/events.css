@@ -14,6 +14,7 @@
 }
 
 #duration input[type="number"] {
+    display: inline;
     width: 4em;
     padding: 0.6em 1em;
     font-size: .9em;
@@ -38,17 +39,18 @@
 /* Large input */
 
 #event-fieldset {
-    padding-bottom: 1.2em;
+    width: 100%;
+    padding: 0;
 }
 
-#event-fieldset input.input-event {
-    width: 85%;
+#event-fieldset .input-event {
     margin-right: 1em;
     padding: 1em 1.8em;
     font-size: 1em;
 }
 
 #event-fieldset .pure-button {
+    margin-top: 0;
     padding: 0.8em 1.2em;
 }
 

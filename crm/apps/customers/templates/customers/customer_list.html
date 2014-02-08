@@ -1,19 +1,25 @@
 {% extends 'onekloud/base.html' %}
 {% load static core_extras %}
 
-{% block top-right %}
-<a id="step-2" class="pure-button pure-button-primary" href="{% url 'customers:create' %}">
-    New {{ verbose_name }}
-</a>
+{% block css %}
+<link rel="stylesheet" href="{% static 'customers/onekloud/css/customers.css' %}">
 {% endblock %}
 
 {% block content %}
 <div id="step-1" class="l-box">
-    <form id="filters" class="pure-form" method="get">
-        <input type="text" name="search" placeholder="Enter keyword">
-        <input class="pure-button pure-button-small pure-button-secondary"
-               type="submit" value="Search">
-    </form>
+    <div id="filters" class="bottom-mrg pull-left">
+        <form class="pure-form" method="get">
+            <input type="text" name="search" placeholder="Enter keyword">
+            <input class="pure-button pure-button-small pure-button-secondary" type="submit" value="Search">
+        </form>
+    </div>
+
+    <div id="new-customer" class="bottom-mrg pull-right">
+        <a id="step-2" class="pure-button pure-button-small pure-button-primary"
+           href="{% url 'customers:create' %}">
+            New {{ verbose_name }}
+        </a>
+    </div>
 
     {% if customer_list %}
         <table class="pure-table pure-table-horizontal" width="100%">

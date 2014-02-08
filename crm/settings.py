@@ -70,7 +70,6 @@ INSTALLED_APPS += (
     'crm.apps.events',
     'crm.apps.customers',
     'crm.apps.reports',
-    'crm.apps.payments',
 )
 
 

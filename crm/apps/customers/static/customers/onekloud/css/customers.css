@@ -1,21 +1,32 @@
-.pure-form input[type="text"],
-.pure-form input[type="email"],
-.pure-form input[type="url"],
-.pure-form input[type="date"],
-.pure-form input[type="month"],
-.pure-form input[type="time"],
-.pure-form input[type="datetime"],
-.pure-form input[type="datetime-local"],
-.pure-form input[type="week"],
-.pure-form input[type="number"],
-.pure-form input[type="search"],
-.pure-form input[type="tel"],
-.pure-form input[type="color"] {
-    font-family: FontAwesome, sans-serif;
-    line-height: 1.4em;
-    height: 39px;
+/* List */
+
+@media (max-width: 500px) {
+    #filters,
+    #new-customer {
+        float: none;
+    }
 }
 
-.pure-form select {
+/* Form */
+
+#customer-form input[type="text"],
+#customer-form input[type="email"],
+#customer-form input[type="url"],
+#customer-form input[type="date"],
+#customer-form input[type="month"],
+#customer-form input[type="time"],
+#customer-form input[type="datetime"],
+#customer-form input[type="datetime-local"],
+#customer-form input[type="week"],
+#customer-form input[type="number"],
+#customer-form input[type="search"],
+#customer-form input[type="tel"],
+#customer-form input[type="color"] {
+    font-family: FontAwesome, sans-serif;
+    line-height: 1.4em;
+    padding: 0.75em 0.85em;
+}
+
+#customer-form select {
     padding: .75em .6em;
 }

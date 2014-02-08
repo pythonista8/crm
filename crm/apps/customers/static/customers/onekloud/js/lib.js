@@ -5,7 +5,7 @@ function startTourForList() {
   tour.setOptions({
     showBullets: false,
     showStepNumbers: false,
-    doneLabel: 'Continue',
+    doneLabel: 'Next page',
     steps: [
       {
         element: '#step-1',
@@ -36,7 +36,7 @@ function startTourForCreate() {
   tour.setOptions({
     showBullets: false,
     showStepNumbers: false,
-    //doneLabel: 'Continue',
+    //doneLabel: 'Next page',
     steps: [
       {
         element: '#step-1',

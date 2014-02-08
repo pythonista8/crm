@@ -59,7 +59,7 @@ function startTour() {
   tour.setOptions({
     showBullets: false,
     showStepNumbers: false,
-    doneLabel: 'Continue',
+    doneLabel: 'Next page',
     steps: [
       {
         element: '#step-1',
