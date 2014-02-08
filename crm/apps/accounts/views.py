@@ -73,18 +73,13 @@ def activate_trial(request):
             login(request, user)
             messages.success(request, "Welcome, {name}!".format(
                 name=user.get_short_name()))
-
             # Trial will expire in 15 days.
-            tasks.stop_trial.apply_async(args=[email], countdown=3600*24*15)
-
+            tasks.stop_trial.apply_async(args=[user], countdown=3600*24*15)
             # Send email in a day to the customer in order to find out his/her
             # experience about CRM.
-            tasks.findout_experience.apply_async(args=[user.pk],
-                                                 countdown=10)
-
+            tasks.findout_experience.apply_async(args=[email], countdown=10)
             # Prepare variable to offer tour.
             request.session['take_tour'] = True
-
             # Notify admins about new user.
             subject = "New user at Onekloud CRM!"
             support_email = 'support@onekloud.com'
