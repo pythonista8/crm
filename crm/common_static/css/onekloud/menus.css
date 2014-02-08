@@ -11,7 +11,7 @@
     left: 210px;
     bottom: 0;
     z-index: 1000; /* so the menu or its navicon stays above all content */
-    background: #191818;
+    background: #191b1f;
     overflow-y: auto;
     -webkit-overflow-scroll: touch;
     -webkit-transition: all 0.2s ease-out;
@@ -40,7 +40,7 @@
 
 #menu .pure-menu ul {
     border: none;
-    background: transparent;
+    background: #1f2228;
 }
 
 #menu .pure-menu ul,
