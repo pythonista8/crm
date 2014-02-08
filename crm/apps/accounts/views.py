@@ -33,11 +33,11 @@ def login_form(request):
                         name=user.get_short_name()))
                 return redirect(success_url)
             else:
-                subscribe_msg = mark_safe(
+                trial_expired_msg = mark_safe(
                     "Your Trial has expired. See "
                     "<a href=\"//www.onekloud.com/pricing/\">subscription "
                     "plans</a>.")
-                messages.error(request, subscribe_msg)
+                messages.error(request, trial_expired_msg)
         else:
             messages.error(request, "Your email or password is incorrect.")
 
@@ -68,6 +68,12 @@ def activate_trial(request):
 
             company, created = Company.objects.get_or_create(name=cname)
             if created:
+                messages.error(request, "")
+                company_exists_msg = mark_safe(
+                    "Such company is already registered, please "
+                    "<a href=\"//www.onekloud.com/contact/\">contact us</a> "
+                    "to proceed.")
+                messages.error(request, company_exists_msg)
                 return redirect(reverse('accounts:login'))
 
             passw = 'demo'
