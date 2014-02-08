@@ -20,13 +20,11 @@ def stop_trial(user_pk):
 @task
 def findout_experience(email):
     subject = "Greetings from Onekloud!"
-    from_ = 'support@onekloud.com'
-    reply_to = 'samantha@onekloud.com'
+    from_ = 'aldash@onekloud.com'
 
     html = mark_safe(
         render_to_string('accounts/customer_experience_email.html'))
 
-    msg = EmailMessage(subject, html, from_, [email],
-                       headers={'Reply-To': reply_to})
+    msg = EmailMessage(subject, html, from_, [email])
     msg.content_subtype = 'html'
     msg.send(fail_silently=True)
