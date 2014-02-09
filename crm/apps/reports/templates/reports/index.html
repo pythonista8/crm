@@ -44,13 +44,12 @@
                 <h3>Total Number of Cases</h3>
                 <div class="pure-g-r">
                     <div class="pure-u-1-2 chart-box">
-                        <div class="l-box">
-                            <canvas id="chart-number" width="200" height="200"
-                                    {% if not data_number %} style="display: none"{% endif %}></canvas>
-                            {% if not data_number %}
-                                <span class="gray">There is no data yet.</span>
-                            {% endif %}
+                        <div class="l-box"{% if not data_number %} style="display: none"{% endif %}>
+                            <canvas id="chart-number" width="200" height="200"></canvas>
                         </div>
+                        {% if not data_number %}
+                            <p class="gray notopspace">There is no data yet.</p>
+                        {% endif %}
                     </div>
                     <div class="pure-u-1-2">
                         <div class="l-box">
@@ -74,13 +73,12 @@
                 <h3>Total Amount</h3>
                 <div class="pure-g-r">
                     <div class="pure-u-1-2 chart-box">
-                        <div class="l-box">
-                            <canvas id="chart-amount" width="200" height="200"
-                                    {% if not data_amount %} style="display: none"{% endif %}></canvas>
-                            {% if not data_amount %}
-                                <span class="gray">There is no data yet.</span>
-                            {% endif %}
+                        <div class="l-box"{% if not data_amount %} style="display: none"{% endif %}>
+                            <canvas id="chart-amount" width="200" height="200"></canvas>
                         </div>
+                        {% if not data_amount %}
+                            <p class="gray notopspace">There is no data yet.</p>
+                        {% endif %}
                     </div>
                     <div class="pure-u-1-2">
                         <div class="l-box">

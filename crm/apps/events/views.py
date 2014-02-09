@@ -8,7 +8,7 @@ from django.views.generic.edit import UpdateView
 from django.shortcuts import render, redirect, get_object_or_404
 from lib.date import LONG_MONTH_NAMES
 from apps.events.forms import EventForm, MeetingForm, FollowUpForm
-from apps.events.models import FollowUp, Meeting
+from apps.events.models import Event, FollowUp, Meeting
 
 
 def index(request):
@@ -20,19 +20,25 @@ def index(request):
             title = event._meta.verbose_name.title()
             messages.success(
                 request, "{event} was added.".format(event=title))
+        else:
+            messages.error(request, form.errors)
     else:
         form = EventForm()
 
-    ctx = dict(event_form=form)
     today = dt.date.today()
-    from_ = dt.datetime(today.year, today.month, today.day)
-    tmr = dt.date.today() + dt.timedelta(days=1)
-    to = dt.datetime(tmr.year, tmr.month, tmr.day)
+    if 'filter' in request.GET:
+        date = dt.datetime.strptime(request.GET['filter'], '%d-%m-%Y').date()
+    else:
+        date = today
 
-    followups = FollowUp.objects.filter(user__company=user.company, date=today)
+    from_ = dt.datetime(date.year, date.month, date.day)
+    nextdate = date + dt.timedelta(days=1)
+    to = dt.datetime(nextdate.year, nextdate.month, nextdate.day)
+
+    followups = FollowUp.objects.filter(user__company=user.company, date=date)
     meetings = Meeting.objects.filter(
         Q(date_started__range=(from_, to)) | Q(date_ended__range=(from_, to)),
-        user__company=user.company,)
+        user__company=user.company)
 
     if not user.is_head:
         followups = followups.filter(user=user)
@@ -51,19 +57,16 @@ def index(request):
         time = '{hr}:{min}'.format(hr=hr, min=min_)
         mdict[time] = m
 
-    ctx['followup_list'] = followups
-    ctx['meeting_list'] = sorted(mdict.items())
-
-    meetings_title = Meeting._meta.verbose_name_plural.title()
-    followups_title = FollowUp._meta.verbose_name_plural.title()
-    ctx['title'] = "{meetings} & {followups}".format(
-        meetings=meetings_title,
-        followups=followups_title)
-
-    ctx['title_icon'] = 'calendar-o'
-    ctx['today'] = '{month} {day}'.format(
-        month=LONG_MONTH_NAMES[today.month-1],
-        day=today.day)
+    ctx = {
+        'event_form': form,
+        'is_today': True if date == today else False,
+        'followup_list': followups,
+        'meeting_list': sorted(mdict.items()),
+        'title': "My events",
+        'title_icon': 'calendar-o',
+        'date': '{month} {day}'.format(month=LONG_MONTH_NAMES[date.month-1],
+                                       day=date.day)
+    }
     return render(request, 'events/index.html', ctx)
 
 
@@ -96,19 +99,24 @@ class FollowUpUpdate(EventContextMixin, UpdateView):
         return reverse('events:edit-followup', kwargs={'pk': object_.pk})
 
 
-def delete_meeting(request, pk):
-    meeting = get_object_or_404(Meeting, pk=pk)
-    meeting.delete()
-    title = meeting._meta.verbose_name.title()
-    messages.success(
-        request, "{event} has been deleted.".format(event=title))
+def toggle_status(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    if event.is_done:
+        event.is_done = False
+        msg = "{event} is not done yet."
+    else:
+        event.is_done = True
+        msg = "{event} is done!"
+    event.save()
+    title = event._meta.verbose_name.title()
+    messages.success(request, msg.format(event=title))
     return redirect(reverse('events:index'))
 
 
-def delete_followup(request, pk):
-    followup = get_object_or_404(FollowUp, pk=pk)
-    followup.delete()
-    title = followup._meta.verbose_name.title()
+def delete(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    event.delete()
+    title = event._meta.verbose_name.title()
     messages.success(
         request, "{event} has been deleted.".format(event=title))
     return redirect(reverse('events:index'))

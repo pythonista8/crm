@@ -6,114 +6,15 @@ $(function() {
       setCalendarEvents();
     },
     onSelect: function(dateText, inst) {
-      setCalendarEvents();
-
-      var mTable = $('#meeting-table');
-      var mContainer = mTable.find('tbody');
-      var mEmpty = $('#meetings-empty');
-
-      var fTable = $('#followup-table');
-      var fContainer = fTable.find('tbody');
-      var fEmpty = $('#followups-empty');
-
-      if (mEmpty.length) mEmpty.remove();
-      if (fEmpty.length) fEmpty.remove();
-
-      scrollToAnchor('date-heading');
-
-      $.get(eventsFilterByDateURI, {date: dateText}, function(resp) {
-        if (resp.status == 'success') {
-          $('#date-heading').html(resp.date);
-
-          mContainer.html('');
-          fContainer.html('');
-
-          $.each(resp.data, function() {
-            var ob = $(this)[0];
-            var row = "<tr>";
-
-            if (ob.type == 'Meeting') row += "<td width=\"5%\" align=\"center\">" +
-                                             ob.time + "</td>";
-
-            row += "<td><a href=\"" + ob.url + "\">" + ob.subject + "</a></td>";
-
-            if (isHead) row += "<td>" + ob.user + "</td>";
-
-            row += "<td align=\"center\"><a href=\"" + ob.delete_url + "\" class=\"red\" title=\"Remove\">" +
-                   "<i class=\"fa fa-times\"></i></a></td>";
-            row += "</tr>";
-
-            if (ob.type == 'Meeting') mContainer.append(row);
-            if (ob.type == 'FollowUp') fContainer.append(row);
-          });
-
-          if (mContainer.has('tr').length) {
-            mTable.show();
-          } else {
-            mTable.hide().after("<p id=\"meetings-empty\">No meetings created yet.</p>");
-          }
-
-          if (fContainer.has('tr').length) {
-            fTable.show();
-          } else {
-            fTable.hide().after("<p id=\"followups-empty\">No follow-ups created yet.</p>");
-          }
-        }
-      });
+      window.open(eventsURI + '?filter=' + dateText, '_self');
     }
   });
   $('.datepicker').datepicker();
-
-  // Add new event.
-  $('.input-event').on('keypress keyup', function() {
-    var s = $(this).val();
-
-    if (s.length > 10) {
-      $.get(eventDetailsURI, {s: s}, function(resp) {
-        if (resp.status == 'success') {
-          var isMeeting = false;
-          if (resp.data.hours) isMeeting = true;
-
-          var day = resp.data.day;
-          var month = resp.data.month;
-          var year = resp.data.year;
-          var html = month + " " + day + ", " + year;
-
-          if (isMeeting) {
-            var hrs = resp.data.hours;
-            var mins = resp.data.minutes;
-            html += " @ " + hrs + ":" + mins;
-            $('#event-type').removeClass('gray').html("Meeting");
-
-            // Enable duration.
-            var durationInputs = $('#duration [type="number"]');
-
-            durationInputs.removeAttr('disabled');
-            durationInputs.eq(0).val('1');
-            durationInputs.eq(1).val('00');
-          } else {
-            $('#event-type').removeClass('gray').html("Follow-Up");
-            $('#duration [type="number"]').attr('disabled', 'disabled');
-          }
-          $('#event-date').removeClass('gray').html(html);
-        }
-      });
-    }
-  });
-
-  // Duration.
-  fixMinutesDisplay();
-});
-
-$('#duration [type="number"]').last().on('change', function() {
-  fixMinutesDisplay();
 });
 
 $(function() {
   // Offer to take a tour.
   if (takeTour) {
-    var hasSampleData;
-
     if (!isManualTour) {
       var modal = $('#offer-tour-modal');
 
@@ -129,7 +30,6 @@ $(function() {
           Yes: function() {
             $(this).dialog('close');
             startTour();
-            fillWithSampleData();
           },
           No: function() {
             $(this).dialog('close');
@@ -139,7 +39,6 @@ $(function() {
     } else {
       // Tour triggered by user manually.
       startTour();
-      fillWithSampleData();
     }
   }
 });

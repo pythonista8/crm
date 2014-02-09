@@ -22,7 +22,7 @@
 #customer-form input[type="search"],
 #customer-form input[type="tel"],
 #customer-form input[type="color"] {
-    font-family: FontAwesome, sans-serif;
+    font-family: FontAwesome, 'Open Sans', sans-serif;
     line-height: 1.4em;
     padding: 0.75em 0.85em;
 }

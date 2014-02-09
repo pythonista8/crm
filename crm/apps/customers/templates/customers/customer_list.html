@@ -15,9 +15,10 @@
     </div>
 
     <div id="new-customer" class="bottom-mrg pull-right">
-        <a id="step-2" class="pure-button pure-button-small pure-button-primary"
+        <a id="step-2" class="pure-button pure-button-small pure-button-error"
            href="{% url 'customers:create' %}">
-            New {{ verbose_name }}
+            <i class="fa fa-plus"></i>&nbsp;
+            Add {{ verbose_name }}
         </a>
     </div>
 

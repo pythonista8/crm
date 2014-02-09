@@ -7,6 +7,7 @@ from apps.accounts.models import User
 
 class Event(models.Model):
     subject = models.CharField(max_length=255)
+    is_done = models.BooleanField(default=False)
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now_add=True)

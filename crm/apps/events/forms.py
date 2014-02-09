@@ -8,43 +8,24 @@ from apps.events.models import Meeting, FollowUp
 
 
 class EventForm(forms.Form):
-    text = forms.CharField()
-    hours = forms.IntegerField(
-        min_value=0, max_value=24, initial=1, required=False)
-    minutes = forms.IntegerField(
-        min_value=0, max_value=60, initial=0, required=False)
+    task = forms.CharField()
 
-    def clean_text(self):
-        text = self.cleaned_data['text']
+    def clean_task(self):
+        data = self.cleaned_data['task']
         try:
-            parsedate(text)
+            parsedate(data)
         except ValueError:
-            msg = "Could not find a date. Please add."
-            raise ValidationError("%(value)s", code='invalid',
-                                  params=dict(value=msg))
-        return text
+            raise ValidationError("Please add a date.")
+        return data
 
     def save(self, user):
-        text = self.cleaned_data['text']
-        datedict = parsedate(text)
+        task = self.cleaned_data['task']
+        datedict = parsedate(task)
         f = '%m %d %Y'
-        hr = self.cleaned_data['hours']
-        min_ = self.cleaned_data['minutes']
         is_meeting = 'hours' in datedict
-
-        if is_meeting:
-            hrsum = hr + int(datedict['hours'])
-            minsum = min_ + int(datedict['minutes'])
-            if hrsum > 24:
-                # TODO: Fix potential bug that occurs when a day falls into
-                # next month.
-                hrsum = hrsum - 24
-                datedict['day'] += 1
-
         dates = "{mon} {day} {yr}".format(mon=datedict['month'],
                                           day=datedict['day'],
                                           yr=datedict['year'])
-
         if is_meeting:
             startdate = dates + " {hr}:{min}".format(hr=datedict['hours'],
                                                      min=datedict['minutes'])
@@ -52,16 +33,14 @@ class EventForm(forms.Form):
             starttime = time.mktime(time.strptime(startdate, f))
             date_started = dt.datetime.fromtimestamp(starttime)
 
-            enddate = dates + " {hr}:{min}".format(hr=hrsum, min=minsum)
-            endtime = time.mktime(time.strptime(enddate, f))
-            date_ended = dt.datetime.fromtimestamp(endtime)
+            date_ended = date_started + dt.timedelta(hours=1)
             event = Meeting.objects.create(date_started=date_started,
                                            date_ended=date_ended,
                                            user=user)
         else:  # Follow-Up
             date = dt.datetime.strptime(dates, f).date()
             event = FollowUp.objects.create(date=date, user=user)
-        event.subject = self.cleaned_data['text']
+        event.subject = task
         event.save()
         return event
 

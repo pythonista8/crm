@@ -4,11 +4,11 @@
 */
 
 #menu {
-    margin-left: -210px; /* "#menu" width */
-    width: 210px;
+    margin-left: -170px; /* "#menu" width */
+    width: 170px;
     position: fixed;
     top: 0;
-    left: 210px;
+    left: 170px;
     bottom: 0;
     z-index: 1000; /* so the menu or its navicon stays above all content */
     background: #191b1f;
@@ -22,15 +22,39 @@
 }
 
 #menu.active {
-    left: 210px;
-    width: 210px;
+    left: 170px;
+    width: 170px;
 }
 
-#menu a {
+#menu .pure-menu li a {
     color: #999;
     border: none;
     white-space: normal;
-    padding: 0.6em 0 0.6em 0.6em;
+    padding: .6em 0 .6em 1em;
+    -webkit-transition: background-color 0.1s, color 0.1s;
+    -moz-transition: background-color 0.1s, color 0.1s;
+    -ms-transition: background-color 0.1s, color 0.1s;
+    -o-transition: background-color 0.1s, color 0.1s;
+    transition: background-color 0.1s, color 0.1s;
+}
+
+#menu .pure-menu li a:hover,
+#menu .pure-menu li a:focus {
+    color: #fff;
+    background: #141619;
+}
+
+#menu .pure-menu .pure-menu-selected {
+    background: rgb(0, 120, 231);
+}
+
+#menu .pure-menu .pure-menu-selected a {
+    color: #fff;
+}
+
+#menu .pure-menu .fa {
+    width: 20px;
+    margin-right: .5em;
 }
 
 #menu .pure-menu-open {
@@ -40,24 +64,26 @@
 
 #menu .pure-menu ul {
     border: none;
-    background: #1f2228;
+    background: #101114;
 }
 
 #menu .pure-menu ul,
 #menu .pure-menu .menu-item-divided {
-    border-top: 1px solid #333;
+    border-top: 1px solid #191b1f;
 }
 
-#menu .pure-menu li a:hover,
-#menu .pure-menu li a:focus {
-    background: #333;
+#menu li.pure-menu-selected a:hover,
+#menu li.pure-menu-selected a:focus {
+    background: none;
 }
+
+/* Mobile menu link */
 
 .pure-menu-link {
     display: none; /* show this only on small screens */
     top: 0;
-    left: 210px; /* "#menu width" */
-    background: #000;
+    left: 170px; /* "#menu width" */
+    background: #191b1f;
     background: rgba(0,0,0,0.7);
     font-size: 10px; /* change this value to increase/decrease button size */
     z-index: 10;
@@ -67,12 +93,12 @@
 }
 
 .pure-menu-link.active {
-    left: 210px;
+    left: 170px;
 }
 
 .pure-menu-link:hover,
 .pure-menu-link:focus {
-    background: #000;
+    background: #191b1f;
 }
 
 .pure-menu-link span {
@@ -122,19 +148,6 @@
         -ms-transform: rotate(-45deg) translate(.45em, -.35em);
          -o-transform: rotate(-45deg) translate(.45em, -.35em);
             transform: rotate(-45deg) translate(.45em, -.35em);
-}
-
-#menu .pure-menu-selected {
-    background: rgb(0, 120, 231);
-}
-
-#menu .pure-menu-selected a {
-    color: #fff;
-}
-
-#menu li.pure-menu-selected a:hover,
-#menu li.pure-menu-selected a:focus {
-    background: none;
 }
 
 

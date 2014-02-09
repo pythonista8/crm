@@ -1,11 +1,10 @@
 .pure-table {
-    font-size: 85%;
-    margin-bottom: 30px;
+    font-size: .9em;
 }
 
 .pure-table td,
 .pure-table th {
-    padding: 10px 20px;
+    padding: .8em 1.6em;
 }
 
 .pure-table thead th:first-child {

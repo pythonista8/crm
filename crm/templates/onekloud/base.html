@@ -27,7 +27,7 @@
     {% include 'vendor/purecss.html' %}
 
     {# External fonts. #}
-    <link href="https://fonts.googleapis.com/css?family=Lato:400|Raleway:100" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Dosis:700" rel="stylesheet">
 
     {% if debug %}
         <link href="{% static 'css/vendor/qunit/qunit-1.12.0.css' %}" rel="stylesheet">
@@ -58,14 +58,14 @@
             <div class="pure-menu pure-menu-open">
                 <div id="logo">
                     <a href="{% url 'events:index' %}">
-                        <img src="{% static 'img/onekloud/logo.png' %}" alt="Onekloud">
+                        <img src="{% static 'img/onekloud/logo_kloud.png' %}" alt="Onekloud">
                     </a>
                 </div>
                 <ul>
                     <li class="{% block menu-events %}{% endblock %}">
                         <a href="{% url 'events:index' %}">
                             <i class="fa fa-calendar-o"></i>
-                            Meetings &amp; Follow-Ups
+                            My events
                         </a>
                     </li>
                     <li class="{% block menu-customers %}{% endblock %}">
@@ -80,14 +80,6 @@
                             Reports
                         </a>
                     </li>
-                    {% comment %}
-                    <li class="{% block menu-settings %}{% endblock %}">
-                        <a href="#">
-                            <i class="fa fa-cog"></i>
-                            Settings
-                        </a>
-                    </li>
-                    {% endcomment %}
                     <li class="menu-item-divided">
                         <a href="{% url 'accounts:logout' %}">
                             <i class="fa fa-sign-out"></i>
@@ -119,6 +111,7 @@
                     <h1>
                         {% if title_icon %}
                             <i class="fa fa-{{ title_icon }}"></i>
+                            &nbsp;
                         {% endif %}
                         {{ title }}
                     </h1>

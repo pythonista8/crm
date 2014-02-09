@@ -6,160 +6,118 @@
 {% endblock %}
 
 {% block content %}
-<div class="pure-g-r bottom-brd bottom-mrg">
+<div class="pure-g-r">
     <div class="pure-u-3-4">
         <div id="step-1" class="l-box">
+            <h2 id="date-heading" class="notopspace bottom-mrg">
+                <i class="fa fa-clock-o"></i>&nbsp;
+                {% if is_today %}Today &nbsp;–&nbsp;{% endif %}
+                {{ date }}
+            </h2>
 
-            <h3>Add event</h3>
+            <h3 class="noborder nopadding">Meetings</h3>
+            <table class="pure-table pure-table-horizontal event-table noborder bottom-mrg">
+                <tbody>
+                    {% for meeting_tuple in meeting_list %}
+                        {% with meeting_tuple.1 as meeting %}
+                            <tr>
+                                <td width="1%">
+                                    <a href="{% url 'events:toggle-status' meeting.pk %}">
+                                        <i class="fa fa-check{% if not meeting.is_done %} gray{% endif %}"></i>
+                                    </a>
+                                </td>
+                                <td width="10%" align="left">
+                                    <span class="time{% if meeting.is_done %} done{% endif %}">
+                                        {{ meeting_tuple.0 }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{% url 'events:edit-meeting' meeting.pk %}"
+                                       class="title{% if meeting.is_done %} done{% endif %}">
+                                        {{ meeting.subject }}
+                                    </a>
+                                    {% if IS_HEAD %}
+                                        <small class="gray">
+                                            &nbsp; by {{ meeting.user.get_short_name }}
+                                        </small>
+                                    {% endif %}
+                                </td>
+                                <td width="1%" align="right">
+                                    <a href="{% url 'events:delete' meeting.pk %}"
+                                       class="red" title="Remove"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                        {% endwith %}
+                    {% empty %}
+                        <p class="gray">No meetings this day.</p>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-            <form class="pure-form" method="post">
-                {% csrf_token %}
-                
-                {{ event_form.errors }}
-
-                <div class="pure-g bottom-mrg">
-                    <fieldset id="event-fieldset">
-                        <div class="pure-u-19-24">
-                            <div class="l-box">
-                                {{ event_form.text|attributes:"id: step-2,required: required, class: pure-input-1 pure-input-rounded input-event, autocomplete: off, placeholder: E.g. meet John at 18.30 on Dec 17 at Starbucks" }}
-                            </div>
-                        </div>
-                        <div class="pure-u-1-24">
-                            <div class="l-box">
-                                <button class="pure-button pure-button-large pure-input-rounded pure-button-primary"
-                                        type="submit">
-                                    Add
-                                </button>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-            
-                <div class="event-details-wrap">
-                    <div id="event-details" class="pure-g-r">
-                        <div class="pure-u-3-4">
-                            <div id="step-3" class="pure-g">
-                                <div class="pure-u-1-6 bottom-mrg pure-hidden-phone">
-                                    <div class="l-box">
-                                        <span class="label gray">Event:</span>
-                                    </div>
-                                    <div class="l-box">
-                                        <span class="label gray">When:</span>
-                                    </div>
-                                </div>
-                                <div class="pure-u-5-6 bottom-mrg">
-                                    <div class="l-box">
-                                        <span id="event-type" class="value gray">Any event</span>
-                                    </div>
-                                    <div class="l-box">
-                                        <span id="event-date" class="value gray">Any date</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-            
-                        <div id="duration" class="pure-u-1-4">
-                            <div class="l-box">
-                                <span class="label gray">Duration:</span>
-                            </div>
-                            <div class="input-wrap">
-                                {{ event_form.hours|attributes:"required: required, class: pure-input-rounded, placeholder: Hr, min: 0, max: 24" }}
-                                <span class="semicolon gray">:</span>
-                                {{ event_form.minutes|attributes:"required: required, class: pure-input-rounded, placeholder: Min, min: 0, max: 60" }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <h3 class="noborder nopadding">Follow-Ups</h3>
+            <table class="pure-table pure-table-horizontal event-table noborder">
+                <tbody>
+                    {% for followup in followup_list %}
+                        <tr>
+                            <td width="1%">
+                                <a href="{% url 'events:toggle-status' followup.pk %}">
+                                    <i class="fa fa-check{% if not followup.is_done %} gray{% endif %}"></i>
+                                </a>
+                            </td>
+                            <td width="10%" align="left">
+                                <span class="time{% if followup.is_done %} done{% endif %}">
+                                    {{ followup.date|date:"M d" }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{% url 'events:edit-followup' followup.pk %}"
+                                   class="title{% if followup.is_done %} done{% endif %}">
+                                    {{ followup.subject }}
+                                </a>
+                                {% if IS_HEAD %}
+                                    <small class="gray">
+                                        &nbsp; by {{ followup.user.get_short_name }}
+                                    </small>
+                                {% endif %}
+                            </td>
+                            <td width="1%" align="right">
+                                <a href="{% url 'events:delete' followup.pk %}"
+                                   class="red" title="Remove"><i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <p class="gray">No follow-ups this day.</p>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 
     <div class="pure-u-1-4">
         <div class="l-box">
-            <h3>Browse</h3>
-            <div id="step-4" class="calendar"></div>
+            <h3 class="noborder nopadding notopspace">
+                <i class="fa fa-filter"></i>&nbsp;
+                Filter
+            </h3>
+            <div id="step-3" class="calendar bottom-mrg"></div>
+
+            <div id="step-2">
+                <h3 class="noborder nopadding">
+                    <i class="fa fa-plus"></i>&nbsp;
+                    Add task
+                </h3>
+                <form class="pure-form" method="post" autocomplete="off">
+                    {% csrf_token %}
+                    <input type="text" name="task" id="add-task" class="pure-input-1 pure-input-rounded bottom-mrg"
+                           placeholder="E.g. Meet Sam on Dec 15th" required>
+                    <button type="submit" class="pure-button pure-button-small pure-button-error pull-right">
+                        Add
+                    </button>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
-<div id="step-5" class="l-box">
-    <h2 id="date-heading" class="bottom-mrg">
-        Today &nbsp;–&nbsp; {{ today }}
-    </h2>
-
-    <h4 class="noborder nopadding">Meetings</h4>
-    <table id="meeting-table" class="pure-table pure-table-horizontal" width="100%"
-           {% if not meeting_list %}style="display: none"{% endif %}>
-        <thead>
-            <th align="left">Time</th>
-            <th align="left">Subject</th>
-            {% if IS_HEAD %}
-                <th width="10%">Manager</th>
-            {% endif %}
-            <th width="1%">Action</th>
-        </thead>
-        <tbody>
-            {% for meeting_tuple in meeting_list %}
-                <tr>
-                    <td width="5%" align="center">
-                        {{ meeting_tuple.0 }}
-                    </td>
-                    <td>
-                        <a href="{% url 'events:edit-meeting' meeting_tuple.1.pk %}">
-                            {{ meeting_tuple.1.subject }}
-                        </a>
-                    </td>
-                    {% if IS_HEAD %}
-                        <td>
-                            {{ meeting_tuple.1.user.get_short_name }}
-                        </td>
-                    {% endif %}
-                    <td align="center">
-                        <a href="{% url 'events:delete-meeting' meeting_tuple.1.pk %}"
-                           class="red" title="Remove"><i class="fa fa-times"></i></a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% if not meeting_list %}
-        <p id="meetings-empty">No meetings created yet.</p>
-    {% endif %}
-
-    <h4 class="noborder nopadding">Follow-Ups</h4>
-    <table id="followup-table" class="pure-table pure-table-horizontal" width="100%"
-           {% if not followup_list %}style="display: none"{% endif %}>
-        <thead>
-            <th align="left">Subject</th>
-            {% if IS_HEAD %}
-                <th width="10%">Manager</th>
-            {% endif %}
-            <th width="1%">Action</th>
-        </thead>
-        <tbody>
-            {% for followup in followup_list %}
-                <tr>
-                    <td>
-                        <a href="{% url 'events:edit-followup' followup.pk %}">
-                            {{ followup.subject }}
-                        </a>
-                    </td>
-                    {% if IS_HEAD %}
-                        <td>
-                            {{ followup.user.get_short_name }}
-                        </td>
-                    {% endif %}
-                    <td align="center">
-                        <a href="{% url 'events:delete-followup' followup.pk %}"
-                           class="red" title="Remove"><i class="fa fa-times"></i></a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% if not followup_list %}
-        <p id="followups-empty">No follow-ups created yet.</p>
-    {% endif %}
 </div>
 
 {# Modal - Offer Tour #}
@@ -175,9 +133,8 @@ pure-menu-selected
 
 {% block js %}
 <script>
+  var eventsURI = "{% url 'events:index' %}";
   var eventsDatesURI = "{% url 'events:api:dates' %}";
-  var eventDetailsURI = "{% url 'events:api:details' %}";
-  var eventsFilterByDateURI = "{% url 'events:api:filter_by_date' %}";
   var customersListURI = "{% url 'customers:list' %}";
 
   {% if manual_tour %}

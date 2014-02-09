@@ -11,7 +11,7 @@ function startTourForList() {
         element: '#step-1',
         intro: "Your cutomers will be listed here. They will appear here once \
                 you will add them.",
-        position: 'bottom'
+        position: 'top'
       },
       {
         element: '#step-2',
@@ -42,7 +42,7 @@ function startTourForCreate() {
         element: '#step-1',
         intro: "Create your customer by filling up the fields. First and last \
                 names are required. All other fields are optional.",
-        position: 'right'
+        position: 'top'
       },
       {
         element: '#step-2',

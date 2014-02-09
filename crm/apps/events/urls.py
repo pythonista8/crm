@@ -3,23 +3,25 @@ from apps.events import views
 
 urlpatterns = patterns(
     'apps.events.views',
+
     url(r'^$',
         'index',
         name='index'),
 
-    url(r'^delete-meeting/(?P<pk>\d+)/$',
-        'delete_meeting',
-        name='delete-meeting'),
+    url(r'^toggle-status/(?P<pk>\d+)/$',
+        'toggle_status',
+        name='toggle-status'),
 
-    url(r'^delete-followup/(?P<pk>\d+)/$',
-        'delete_followup',
-        name='delete-followup'),
+    url(r'^delete/(?P<pk>\d+)/$',
+        'delete',
+        name='delete'),
 )
 
 urlpatterns += patterns(
     '',
+
     url(r'^api/',
-        include('apps.events.api_urls', namespace='api')),
+        include('apps.events.api.urls', namespace='api')),
 
     url(r'^meetings/(?P<pk>\d+)/$',
         views.MeetingUpdate.as_view(),
