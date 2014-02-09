@@ -19,6 +19,8 @@
     {% endif %}
 
     <link href="{% static 'img/onekloud/favicon.ico' %}" rel="icon" type="image/x-icon">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
 
     {# Vendor CSS files. #}
     <link href="{% static 'css/vendor/font_awesome/css/font-awesome.css' %}" rel="stylesheet">
@@ -27,7 +29,7 @@
     {% include 'vendor/purecss.html' %}
 
     {# External fonts. #}
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Dosis:700" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Dosis:700" rel="stylesheet">
 
     {% if debug %}
         <link href="{% static 'css/vendor/qunit/qunit-1.12.0.css' %}" rel="stylesheet">
