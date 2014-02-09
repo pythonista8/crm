@@ -14,31 +14,6 @@
 {% block content %}
 <div id="report-tabs">
     <div class="pure-g-r">
-        <div class="pure-u-1">
-            <div class="l-box">
-                <h3>Monthly Sales Trend</h3>
-                <div class="pure-g-r">
-                    <div class="pure-u-4-5">
-                        <div class="l-box">
-                            <canvas id="chart-trend" width="780" height="250"></canvas>
-                        </div>
-                    </div>
-                    <div class="pure-u-1-5">
-                        <div class="l-box">
-                            <div class="chart-details">
-                                <span class="chart-color" style="background: rgb(151,187,205)"></span>
-                                <small>Closed-Win</small>
-                            </div>
-                            <div class="chart-details">
-                                <span class="chart-color" style="background: rgb(220,220,220)"></span>
-                                <small>Closed-Lost</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="pure-u-1-2">
             <div class="l-box">
                 <h3>Total Number of Cases</h3>
@@ -91,6 +66,31 @@
                                     </small>
                                 </div>
                             {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pure-u-1">
+            <div class="l-box">
+                <h3>Monthly Sales Trend</h3>
+                <div class="pure-g-r">
+                    <div class="pure-u-4-5">
+                        <div class="l-box">
+                            <canvas id="chart-trend" width="780" height="250"></canvas>
+                        </div>
+                    </div>
+                    <div class="pure-u-1-5">
+                        <div class="l-box">
+                            <div class="chart-details">
+                                <span class="chart-color" style="background: rgb(151,187,205)"></span>
+                                <small>Closed-Win</small>
+                            </div>
+                            <div class="chart-details">
+                                <span class="chart-color" style="background: rgb(220,220,220)"></span>
+                                <small>Closed-Lost</small>
+                            </div>
                         </div>
                     </div>
                 </div>
