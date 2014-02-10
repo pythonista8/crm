@@ -50,8 +50,9 @@
     {% block head %}{% endblock %}
 </head>
 
-<body id="onekloud">
+<body>
     <div id="layout" class="pure-g-r">
+        <!-- Menu link for mobile -->
         <a href="#menu" id="menu-link" class="pure-menu-link">
             <span></span>
         </a>
@@ -82,7 +83,7 @@
                             Reports
                         </a>
                     </li>
-                    <li class="menu-item-divided">
+                    <li>
                         <a href="{% url 'accounts:logout' %}">
                             <i class="fa fa-sign-out"></i>
                             Sign Out

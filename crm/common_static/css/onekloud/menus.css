@@ -11,7 +11,7 @@
     left: 170px;
     bottom: 0;
     z-index: 1000; /* so the menu or its navicon stays above all content */
-    background: #191b1f;
+    background: #fff;
     overflow-y: auto;
     -webkit-overflow-scroll: touch;
     -webkit-transition: all 0.2s ease-out;
@@ -26,11 +26,15 @@
     width: 170px;
 }
 
+#menu .pure-menu li {
+    border-bottom: 1px solid #e5e5e5;
+}
+
 #menu .pure-menu li a {
-    color: #999;
+    color: #555;
     border: none;
     white-space: normal;
-    padding: .6em 0 .6em 1em;
+    padding: .8em 0 .8em 1em;
     -webkit-transition: background-color 0.1s, color 0.1s;
     -moz-transition: background-color 0.1s, color 0.1s;
     -ms-transition: background-color 0.1s, color 0.1s;
@@ -40,16 +44,11 @@
 
 #menu .pure-menu li a:hover,
 #menu .pure-menu li a:focus {
-    color: #fff;
-    background: #141619;
-}
-
-#menu .pure-menu .pure-menu-selected {
-    background: rgb(0, 120, 231);
+    background: #e5e5e5;
 }
 
 #menu .pure-menu .pure-menu-selected a {
-    color: #fff;
+    color: rgb(0, 120, 231);
 }
 
 #menu .pure-menu .fa {
@@ -64,20 +63,13 @@
 
 #menu .pure-menu ul {
     border: none;
-    background: #101114;
 }
 
-#menu .pure-menu ul,
-#menu .pure-menu .menu-item-divided {
+#menu .pure-menu ul {
     border-top: 1px solid #191b1f;
 }
 
-#menu li.pure-menu-selected a:hover,
-#menu li.pure-menu-selected a:focus {
-    background: none;
-}
-
-/* Mobile menu link */
+/* Menu link for mobile */
 
 .pure-menu-link {
     display: none; /* show this only on small screens */
