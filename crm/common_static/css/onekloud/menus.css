@@ -12,6 +12,7 @@
     bottom: 0;
     z-index: 1000; /* so the menu or its navicon stays above all content */
     background: #fff;
+    border-right: 1px solid #e5e5e5;
     overflow-y: auto;
     -webkit-overflow-scroll: touch;
     -webkit-transition: all 0.2s ease-out;
@@ -24,6 +25,10 @@
 #menu.active {
     left: 170px;
     width: 170px;
+}
+
+#menu .pure-menu ul {
+    border-top: 1px solid #e5e5e5;
 }
 
 #menu .pure-menu li {
@@ -44,7 +49,7 @@
 
 #menu .pure-menu li a:hover,
 #menu .pure-menu li a:focus {
-    background: #e5e5e5;
+    background: #f6f6f6;
 }
 
 #menu .pure-menu .pure-menu-selected a {
@@ -59,14 +64,6 @@
 #menu .pure-menu-open {
     background: transparent;
     border: 0;
-}
-
-#menu .pure-menu ul {
-    border: none;
-}
-
-#menu .pure-menu ul {
-    border-top: 1px solid #191b1f;
 }
 
 /* Menu link for mobile */
