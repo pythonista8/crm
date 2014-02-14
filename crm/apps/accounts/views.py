@@ -67,7 +67,7 @@ def activate_trial(request):
                 return http.HttpResponseForbidden()
 
             company, created = Company.objects.get_or_create(name=cname)
-            if created:
+            if not created:
                 messages.error(request, "")
                 company_exists_msg = mark_safe(
                     "Such company is already registered, please "
