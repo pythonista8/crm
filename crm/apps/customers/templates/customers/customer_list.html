@@ -10,11 +10,18 @@
     <div id="filters" class="bottom-mrg pull-left">
         <form class="pure-form" method="get">
             <input type="text" name="search" placeholder="Enter keyword">
-            <input class="pure-button pure-button-small pure-button-secondary" type="submit" value="Search">
+            <input class="pure-button pure-button-small pure-button-primary"
+                   type="submit" value="Search">
         </form>
     </div>
 
-    <div id="new-customer" class="bottom-mrg pull-right">
+    <div id="controls" class="bottom-mrg pull-right">
+        <a class="pure-button pure-button-small pure-button-primary"
+           href="{% url 'customers:find' %}">
+            <i class="fa fa-male"></i>&nbsp;
+            Find more
+        </a>
+
         <a id="step-2" class="pure-button pure-button-small pure-button-error"
            href="{% url 'customers:create' %}">
             <i class="fa fa-plus"></i>&nbsp;

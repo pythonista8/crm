@@ -22,4 +22,8 @@ urlpatterns = patterns(
     url(r'^(?P<pk>\d+)/amounts/$',
         views.AmountList.as_view(),
         name="amount_list"),
+
+    url(r'^find/$',
+        views.CustomerFind.as_view(),
+        name="find"),
 )

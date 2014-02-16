@@ -35,7 +35,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
     text-align: center;
     border-bottom: 1px solid #e5e5e5;
-    padding-bottom: 1.4em;
+    padding-bottom: 1.6em;
 }
 
 h2 {
@@ -112,7 +112,7 @@ h3, h4, h5, h6 {
 /* Layout */
 
 #layout {
-    padding-left: 210px;
+    padding-left: 170px;
 }
 
 #content {

@@ -59,5 +59,7 @@ function startTourForCreate() {
   //   window.location.href = customersCreateURI + '?tour=true';
   // });
 
+  $('html, body').scrollTop(0);
+
   tour.start();
 }

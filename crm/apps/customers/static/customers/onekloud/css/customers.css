@@ -2,7 +2,7 @@
 
 @media (max-width: 500px) {
     #filters,
-    #new-customer {
+    #controls {
         float: none;
     }
 }

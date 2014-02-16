@@ -4,8 +4,9 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
+from lib.parser import linkedin
 from apps.customers.models import Customer, Amount
 from apps.customers.forms import CustomerForm, AmountFormSet
 
@@ -177,4 +178,17 @@ class AmountList(ListView):
         ctx['title'] = Amount._meta.verbose_name_plural.title()
         ctx['title_icon'] = 'money'
         ctx['verbose_name'] = Amount._meta.verbose_name
+        return ctx
+
+
+class CustomerFind(TemplateView):
+    template_name = 'customers/customer_find.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(CustomerFind, self).get_context_data(**kwargs)
+        ctx['customer_list'] = linkedin.fetch('my')
+        ctx['title'] = "Find {customers}".format(
+            customers=Customer._meta.verbose_name_plural)
+        ctx['title_icon'] = 'male'
+        ctx['verbose_name'] = Customer._meta.verbose_name
         return ctx

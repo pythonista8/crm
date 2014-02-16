@@ -73,7 +73,7 @@ function startTour() {
 
   // Go to the next page.
   tour.oncomplete(function() {
-    window.location.href = customersListURI + '?tour';
+    window.location.href = customersListURI + '?tour=true';
   });
 
   tour.start();

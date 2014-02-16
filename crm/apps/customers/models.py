@@ -41,6 +41,8 @@ class Customer(models.Model):
     skype = models.CharField(max_length=255, blank=True)
     cell_phone = models.CharField(max_length=50, blank=True)
     main_phone = models.CharField(max_length=50, blank=True)
+
+    # Location Info.
     street = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=255, blank=True)
     state = models.CharField(max_length=255, blank=True)
@@ -95,3 +97,27 @@ class Amount(models.Model):
 
     def __str__(self):
         return str(self.value)
+
+
+class SuggestedCompany(models.Model):
+    # Basic Info.
+    name = models.CharField(max_length=255)
+    industry = models.CharField(max_length=255)
+
+    # Contact Info.
+    phone = models.CharField(max_length=50)
+    email = models.EmailField(max_length=255, blank=True)
+    website = models.URLField(max_length=255, blank=True)
+
+    # Location Info.
+    street = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255, blank=True)
+    country = models.CharField(max_length=255)
+    postcode = models.PositiveIntegerField(blank=True, null=True)
+
+    # Owner (i.e. Sales representative).
+    user = models.ForeignKey(User, related_name='suggested_companies')
+
+    # Date Records.
+    date_created = models.DateTimeField(auto_now_add=True)
