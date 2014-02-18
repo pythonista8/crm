@@ -2,16 +2,6 @@ from django import test
 from apps.accounts.models import Company, User
 
 
-class CompanyTest(test.TestCase):
-    fixtures = ['accounts_models_testdata.json']
-
-    def setUp(self):
-        self.company = Company.objects.get(pk=1)
-
-    def test(self):
-        print(self.fixtures)
-
-
 class AccountsModelsTest(test.TestCase):
     def setUp(self):
         self.company = Company.objects.create(
