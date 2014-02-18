@@ -28,7 +28,7 @@
                 <th align="left">Industry</th>
                 <th align="left">City</th>
                 <th align="left">Country</th>
-                <th align="center">Action</th>
+                <!-- <th align="center">Action</th> -->
             </tr>
         </thead>
         <tbody>
@@ -42,12 +42,12 @@
                     <td>{{ customer.industry|default:"-" }}</td>
                     <td>{{ customer.city|default:"-" }}</td>
                     <td>{{ customer.country|default:"-" }}</td>
-                    <td>
+                    <!-- <td>
                         <a href="{% url 'customers:create' %}" class="pure-button pure-button-small pure-button-error">
                             <i class="fa fa-plus"></i>&nbsp;
                             Add
                         </a>
-                    </td>
+                    </td> -->
                 </tr>
             {% endfor %}
         </tbody>

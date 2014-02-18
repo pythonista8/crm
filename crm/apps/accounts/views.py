@@ -34,9 +34,9 @@ def login_form(request):
                 return redirect(success_url)
             else:
                 trial_expired_msg = mark_safe(
-                    "Your Trial has expired. See "
+                    "Your Trial has expired. Upgrade your "
                     "<a href=\"//www.onekloud.com/pricing/\">subscription "
-                    "plans</a>.")
+                    "plan</a>.")
                 messages.error(request, trial_expired_msg)
         else:
             messages.error(request, "Your email or password is incorrect.")
