@@ -159,7 +159,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 
 EMAIL_HOST_USER = 'aldash@onekloud.com'
 
-EMAIL_HOST_PASSWORD = 'Vivendi89!'
+EMAIL_HOST_PASSWORD = 'bkavotfvwjjq'
 
 EMAIL_PORT = 587
 
