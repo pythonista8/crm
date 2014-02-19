@@ -1,5 +1,5 @@
 """Functions to fetch parsed data from yellowpages.com.my."""
-import re
+import time
 import urllib
 
 from random import randint
@@ -9,6 +9,7 @@ DOMAIN = 'http://www.yellowpages.com.my'
 
 CATEGORIES = (
     'Packaging Materials',
+    'Secretarial Services',
 )
 
 CITIES = (
@@ -81,57 +82,63 @@ def _fetch_details(url):
     data = dict()
     # Get company name.
     cont = soup.find(id='result')
-    data['name'] = cleanstr(cont.find('h2').string)
-    # Get address.
-    row = cont.find('table').find_all('tr')[1]
-    for col in row.children:
-        if istag(col):
-            s = str()
-            for el in col.contents:
-                if el.string is not None:
-                    if istag(el):
-                        s += cleanstr(el.string)
-                    else:
-                        s += cleanstr(el)
-            if 'Tel:' in s:
-                end = s.find('Fax') or len(s)
-                phone = ''
-                for d in cleanstr(s[5:end]):
-                    if d.isdigit():
-                        phone += d
-                data['phone'] = phone
-            else:
-                for city in CITIES:
-                    if city.lower() in s.lower():
-                        data['city'] = city
-    # Get industry.
-    # industry = soup.find(class_='industry')
-    # if industry is not None:
-    #     data['industry'] = cleanstr(industry.string)
+    name_tag = cont.find('h2')
+    if name_tag is not None:
+        data['name'] = cleanstr(cont.find('h2').string)
+    rows = cont.find('table').find_all('tr')
+    if len(rows):
+        row = rows[1]
+        for col in row.children:
+            if istag(col):
+                s = str()
+                for el in col.contents:
+                    if el.string is not None:
+                        if istag(el):
+                            s += cleanstr(el.string)
+                        else:
+                            s += cleanstr(el)
+                if 'Tel:' in s:
+                    # Get phone number.
+                    end = s.find('Fax') or len(s)
+                    phone = ''
+                    for d in cleanstr(s[5:end]):
+                        if d.isdigit():
+                            phone += d
+                    data['phone'] = phone
+                else:
+                    # Get city.
+                    for city in CITIES:
+                        if city.lower() in s.lower():
+                            data['city'] = city
     return data
 
 
-def fetch(industry, limit=5):
+def fetch(category, limit=5):
     """Entry point for fetching company list."""
-    url_pattern = '{domain}/category/{category}/?p={page}'
-    list_ = list()
-    for cat in CATEGORIES:
-        # We generate random URL.
-        catslug = cat.lower().replace(' ', '-')
+    def _parse(delay=False):
+        """Parse data for category. Use recursive call when the page
+        isn't available or we haven't receive enough data.
+        """
+        if delay:
+            time.sleep(10)  # in order to avoid ban
+
+        catslug = category.lower().replace(' ', '-')
+        url_pattern = '{domain}/category/{category}/?p={page}'
         url = url_pattern.format(domain=DOMAIN, category=catslug,
                                  page=randint(1, 10))
         try:
             soup = connect(url)
         except urllib.error.HTTPError:
-            continue  # go to the next page if we got 404
+            _parse(delay=True)
 
+        list_ = list()
         ul = soup.find(id='result')
         if ul is not None:
             for li in ul.find_all(class_='listing'):
                 if len(list_) == limit:
                     break
                 if istag(li):
-                    link = li.find(class_='nameFL').a['href']
+                    link = li.find('a')['href']
                     profile_url = '{domain}{link}'.format(
                         domain=DOMAIN, link=link)
                     try:
@@ -142,4 +149,13 @@ def fetch(industry, limit=5):
                         if 'phone' not in data:  # must be provided
                             continue
                         list_.append(data)
-    return list_
+        else:
+            # Probably we got banned.
+            return []
+        # Continue searching for records if we haven't got enough.
+        if len(list_) < limit:
+            _parse(delay=True)
+        return list_
+
+    # TODO: Fix category filter.
+    return _parse()
