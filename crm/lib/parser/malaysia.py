@@ -106,7 +106,8 @@ def _fetch_details(url):
                             for d in s[5:17]:
                                 if d.isdigit():
                                     phone += d
-                            data['phone'] = phone
+                            if len(phone) == 10:
+                                data['phone'] = phone
                         else:
                             # Get city.
                             for city in CITIES:
