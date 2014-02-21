@@ -187,7 +187,8 @@ class SuggestedCompanyList(ListView):
 
     def get_queryset(self):
         qs = super(SuggestedCompanyList, self).get_queryset()
-        return shuffle(qs.filter(is_active=True))[:50]
+        list_ = list(qs.filter(is_active=True))
+        return shuffle(list_)[:50]
 
     def get_context_data(self, **kwargs):
         ctx = super(SuggestedCompanyList, self).get_context_data(**kwargs)
