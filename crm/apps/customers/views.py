@@ -180,8 +180,9 @@ class AmountList(ListView):
         return ctx
 
 
-class SuggestedCompanyList(TemplateView):
+class SuggestedCompanyList(ListView):
     model = SuggestedCompany
+    paginate_by = 16
 
     def get_queryset(self):
         qs = super(SuggestedCompanyList, self).get_queryset()
