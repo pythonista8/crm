@@ -4,73 +4,10 @@ import urllib
 
 from random import randint
 from django.utils.text import slugify
-from lib.parser.constants import INDUSTRIES
+from lib.parser.constants import INDUSTRIES, CITIES
 from lib.parser.utils import istag, cleanstr, connect
 
 DOMAIN = 'http://www.yellowpages.com.my'
-
-CITIES = (
-    'Kuala Lumpur',
-    'Shah Alam',
-    'Petaling Jaya',
-    'Subang Jaya',
-    'Pulau Pinang',
-    'Johor Bahru',
-    'Pasir Gudang',
-    'Kajang',
-    'Cheras',
-    'Ampang',
-    'Klang',
-    'Ipoh',
-    'Batu Gajah',
-    'Selayang',
-    'Rawang',
-    'Kuching',
-    'Seremban',
-    'Georgetown',
-    'Malacca',
-    'Kota Bahru',
-    'Kota Kinabalu',
-    'Kuantan',
-    'Sungai Petani',
-    'Batu Pahat',
-    'Tawau',
-    'Sandakan',
-    'Bukit Mertajam',
-    'Alor Setar',
-    'Kuala Terengganu',
-    'Taiping',
-    'Miri',
-    'Kluang',
-    'Butterworth',
-    'Kulim',
-    'Kulai',
-    'Sibu',
-    'Muar',
-    'Sitiawan',
-    'Kangar',
-    'Banting',
-    'Jitra',
-    'Sepang',
-    'Kuala Selangor',
-    'Teluk Intan',
-    'Lahad Datu',
-    'Bayan Lepas',
-    'Kuala Kubu Bharu',
-    'Kota Tinggi',
-    'Segamat',
-    'Pasir Mas',
-    'Bintulu',
-    'Alor Gajah',
-    'Parit Buntar',
-    'Tanjung Malim',
-    'Tapah',
-    'Keningau',
-    'Chukai',
-    'Nibong Tebal',
-    'Sungai Jawi',
-    'Temerioh',
-)
 
 
 def _fetch_details(url):
