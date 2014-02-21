@@ -51,17 +51,23 @@ def _fetch_details(url):
     print("Result: {}".format(data))
     if 'name' in data and 'phone' in data and 'city' in data:
         return data
-    return None
+    return
 
 
 def fetch(industry=None, limit=5):
     """Entry point for fetching company list."""
-    def _parse(industry, delay=False):
+
+    def _parse(industry, delay=False, attempts=10):
         """Parse data for industry. Use recursive call when the page
         isn't available or we haven't receive enough data.
         """
+        if not attempts:
+            # Exceeded attempts, exiting recursion.
+            return
+
         if delay:
-            time.sleep(10)  # in order to avoid ban
+            # In order to avoid ban.
+            time.sleep(10)
 
         slug = slugify(industry)
         url_pattern = '{domain}/category/{category}/?p={page}'
@@ -70,7 +76,7 @@ def fetch(industry=None, limit=5):
         try:
             soup = connect(url)
         except urllib.error.HTTPError:
-            _parse(industry, delay=True)
+            _parse(industry, True, attempts-1)
 
         list_ = list()
         ul = soup.find(id='result')
@@ -97,7 +103,7 @@ def fetch(industry=None, limit=5):
             return []
         # Continue searching for records if we haven't got enough.
         if len(list_) < limit:
-            _parse(industry, delay=True)
+            _parse(industry, True, attempts-1)
         return list_
 
     if industry is not None:
@@ -108,5 +114,5 @@ def fetch(industry=None, limit=5):
             for v in list_:
                 if len(res) == limit:
                     break
-                res.extend(_parse(v, delay=True))
+                res.extend(_parse(v, True))
     return res
