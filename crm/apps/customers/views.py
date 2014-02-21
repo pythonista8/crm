@@ -1,10 +1,11 @@
+from random import shuffle
 from django import http
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from apps.customers.models import Customer, Amount, SuggestedCompany
 from apps.customers.forms import CustomerForm, AmountFormSet
@@ -186,7 +187,7 @@ class SuggestedCompanyList(ListView):
 
     def get_queryset(self):
         qs = super(SuggestedCompanyList, self).get_queryset()
-        return qs.filter(is_active=True)
+        return shuffle(qs.filter(is_active=True))[:50]
 
     def get_context_data(self, **kwargs):
         ctx = super(SuggestedCompanyList, self).get_context_data(**kwargs)

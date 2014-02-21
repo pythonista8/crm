@@ -3,14 +3,11 @@ import time
 import urllib
 
 from random import randint
+from django.utils.text import slugify
+from lib.parser.constants import INDUSTRIES
 from lib.parser.utils import istag, cleanstr, connect
 
 DOMAIN = 'http://www.yellowpages.com.my'
-
-CATEGORIES = (
-    'Packaging Materials',
-    'Secretarial Services',
-)
 
 CITIES = (
     'Kuala Lumpur',
@@ -118,23 +115,23 @@ def _fetch_details(url):
     return None
 
 
-def fetch(category=None, limit=10):
+def fetch(industry=None, limit=10):
     """Entry point for fetching company list."""
-    def _parse(category, delay=False):
-        """Parse data for category. Use recursive call when the page
+    def _parse(industry, delay=False):
+        """Parse data for industry. Use recursive call when the page
         isn't available or we haven't receive enough data.
         """
         if delay:
-            time.sleep(10)  # in order to avoid ban
+            time.sleep(20)  # in order to avoid ban
 
-        catslug = category.lower().replace(' ', '-')
+        slug = slugify(industry)
         url_pattern = '{domain}/category/{category}/?p={page}'
-        url = url_pattern.format(domain=DOMAIN, category=catslug,
+        url = url_pattern.format(domain=DOMAIN, category=slug,
                                  page=randint(1, 10))
         try:
             soup = connect(url)
         except urllib.error.HTTPError:
-            _parse(category, delay=True)
+            _parse(industry, delay=True)
 
         list_ = list()
         ul = soup.find(id='result')
@@ -153,7 +150,7 @@ def fetch(category=None, limit=10):
                     else:
                         if data is None:  # incomplete information
                             continue
-                        data.update(dict(industry=category,
+                        data.update(dict(industry=industry,
                                          country='Malaysia'))
                         list_.append(data)
         else:
@@ -161,13 +158,14 @@ def fetch(category=None, limit=10):
             return []
         # Continue searching for records if we haven't got enough.
         if len(list_) < limit:
-            _parse(category, delay=True)
+            _parse(industry, delay=True)
         return list_
 
-    if category is not None:
-        return _parse(category)
+    if industry is not None:
+        return _parse(industry)
     else:
         res = list()
-        for c in CATEGORIES:
-            res.extend(_parse(c, delay=True))
+        for key, list_ in INDUSTRIES.items():
+            for v in list_:
+                res.extend(_parse(v, delay=True))
         return res[:limit]

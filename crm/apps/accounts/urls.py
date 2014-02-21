@@ -2,6 +2,7 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns(
     'apps.accounts.views',
+
     url(r'^signin/$',
         'login_form',
         name="login"),
