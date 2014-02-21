@@ -190,6 +190,6 @@ class SuggestedCompanyList(ListView):
 
     def get_context_data(self, **kwargs):
         ctx = super(SuggestedCompanyList, self).get_context_data(**kwargs)
-        ctx['title'] = SuggestedCompany._meta.verbose_name_plural
+        ctx['title'] = SuggestedCompany._meta.verbose_name_plural.title()
         ctx['title_icon'] = 'building-o'
         return ctx
