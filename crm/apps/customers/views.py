@@ -1,4 +1,3 @@
-from random import shuffle
 from django import http
 from django.core.urlresolvers import reverse
 from django.contrib import messages
@@ -187,9 +186,8 @@ class SuggestedCompanyList(ListView):
 
     def get_queryset(self):
         qs = super(SuggestedCompanyList, self).get_queryset()
-        list_ = list(qs.filter(is_active=True))
-        shuffle(list_)
-        return list_[:50]
+        qs = qs.filter(is_active=True).order_by('?')
+        return qs
 
     def get_context_data(self, **kwargs):
         ctx = super(SuggestedCompanyList, self).get_context_data(**kwargs)
