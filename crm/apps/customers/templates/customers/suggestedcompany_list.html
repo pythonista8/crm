@@ -24,6 +24,7 @@
             <tr>
                 <th align="left">Company name</th>
                 <th align="left">Industry</th>
+                <th align="left">Phone</th>
                 <th align="left">City</th>
                 <th align="left">Country</th>
             </tr>
@@ -31,10 +32,11 @@
         <tbody>
             {% for company in suggestedcompany_list %}
                 <tr{% if forloop.counter0|divisibleby:2 %} class="pure-table-odd"{% endif %}>
-                    <td>{{ company.name|default:"-" }}</td>
-                    <td>{{ company.industry|default:"-" }}</td>
-                    <td>{{ company.city|default:"-" }}</td>
-                    <td>{{ company.country|default:"-" }}</td>
+                    <td>{{ company.name }}</td>
+                    <td>{{ company.industry }}</td>
+                    <td>{{ company.phone }}</td>
+                    <td>{{ company.city }}</td>
+                    <td>{{ company.country }}</td>
                 </tr>
             {% endfor %}
         </tbody>

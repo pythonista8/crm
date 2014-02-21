@@ -8,5 +8,4 @@ from apps.customers.models import SuggestedCompany
 def fetch_companies():
     list_ = malaysia.fetch()
     for data in list_:
-        company, created = SuggestedCompany.objects.get_or_create(**data)
-        print(company, created)
+        SuggestedCompany.objects.get_or_create(**data)

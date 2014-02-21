@@ -153,6 +153,8 @@ def fetch(category=None, limit=10):
                     else:
                         if data is None:  # incomplete information
                             continue
+                        data.update(dict(industry=category,
+                                         country='Malaysia'))
                         list_.append(data)
         else:
             # Probably we got banned.
