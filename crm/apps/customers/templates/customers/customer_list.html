@@ -16,6 +16,11 @@
     </div>
 
     <div id="controls" class="bottom-mrg pull-right">
+        <a class="pure-button pure-button-small pure-button-primary"
+           href="{% url 'customers:suggestedcompany_list' %}">
+            Find more
+        </a>
+
         <a id="step-2" class="pure-button pure-button-small pure-button-error"
            href="{% url 'customers:create' %}">
             <i class="fa fa-plus"></i>&nbsp;

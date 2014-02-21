@@ -25,5 +25,5 @@ urlpatterns = patterns(
 
     url(r'^suggested/$',
         views.SuggestedCompanyList.as_view(),
-        name="suggested_company_list"),
+        name="suggestedcompany_list"),
 )
