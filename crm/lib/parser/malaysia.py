@@ -12,6 +12,7 @@ DOMAIN = 'http://www.yellowpages.com.my'
 
 def _fetch_details(url):
     """Fetch and parse company's details."""
+    print("Connecting to {}".format(url))
     soup = connect(url)
     data = dict()
     # Get company name.
@@ -47,6 +48,7 @@ def _fetch_details(url):
                             for city in CITIES:
                                 if city.lower() in s.lower():
                                     data['city'] = city
+    print("Result: {}".format(data))
     if 'name' in data and 'phone' in data and 'city' in data:
         return data
     return None
