@@ -162,10 +162,12 @@ def fetch(industry=None, limit=10):
         return list_
 
     if industry is not None:
-        return _parse(industry)
+        res = _parse(industry)
     else:
         res = list()
         for key, list_ in INDUSTRIES.items():
             for v in list_:
+                if len(res) == limit:
+                    break
                 res.extend(_parse(v, delay=True))
-        return res[:limit]
+    return res
