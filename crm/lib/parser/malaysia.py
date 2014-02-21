@@ -102,9 +102,8 @@ def _fetch_details(url):
                                     s += cleanstr(el)
                         if 'Tel:' in s:
                             # Get phone number.
-                            end = s.find('Fax') or len(s)
                             phone = ''
-                            for d in cleanstr(s[5:end]):
+                            for d in s[5:17]:
                                 if d.isdigit():
                                     phone += d
                             data['phone'] = phone
