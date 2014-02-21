@@ -82,34 +82,35 @@ def _fetch_details(url):
     data = dict()
     # Get company name.
     cont = soup.find(id='result')
-    name_tag = cont.find('h2')
-    if name_tag is not None:
-        data['name'] = cleanstr(cont.find('h2').string)
-    rows = cont.find('table').find_all('tr')
-    if len(rows) > 1:
-        row = rows[1]
-        for col in row.children:
-            if istag(col):
-                s = str()
-                for el in col.contents:
-                    if el.string is not None:
-                        if istag(el):
-                            s += cleanstr(el.string)
-                        else:
-                            s += cleanstr(el)
-                if 'Tel:' in s:
-                    # Get phone number.
-                    end = s.find('Fax') or len(s)
-                    phone = ''
-                    for d in cleanstr(s[5:end]):
-                        if d.isdigit():
-                            phone += d
-                    data['phone'] = phone
-                else:
-                    # Get city.
-                    for city in CITIES:
-                        if city.lower() in s.lower():
-                            data['city'] = city
+    if cont is not None:
+        name_tag = cont.find('h2')
+        if name_tag is not None:
+            data['name'] = cleanstr(cont.find('h2').string)
+        rows = cont.find('table').find_all('tr')
+        if len(rows) > 1:
+            row = rows[1]
+            for col in row.children:
+                if istag(col):
+                    s = str()
+                    for el in col.contents:
+                        if el.string is not None:
+                            if istag(el):
+                                s += cleanstr(el.string)
+                            else:
+                                s += cleanstr(el)
+                    if 'Tel:' in s:
+                        # Get phone number.
+                        end = s.find('Fax') or len(s)
+                        phone = ''
+                        for d in cleanstr(s[5:end]):
+                            if d.isdigit():
+                                phone += d
+                        data['phone'] = phone
+                    else:
+                        # Get city.
+                        for city in CITIES:
+                            if city.lower() in s.lower():
+                                data['city'] = city
     if 'name' in data and 'phone' in data and 'city' in data:
         return data
     return None
