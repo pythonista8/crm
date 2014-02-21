@@ -86,7 +86,7 @@ def _fetch_details(url):
     if name_tag is not None:
         data['name'] = cleanstr(cont.find('h2').string)
     rows = cont.find('table').find_all('tr')
-    if len(rows):
+    if len(rows) > 1:
         row = rows[1]
         for col in row.children:
             if istag(col):
