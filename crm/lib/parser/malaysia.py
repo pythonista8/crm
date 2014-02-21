@@ -122,7 +122,7 @@ def fetch(industry=None, limit=10):
         isn't available or we haven't receive enough data.
         """
         if delay:
-            time.sleep(20)  # in order to avoid ban
+            time.sleep(10)  # in order to avoid ban
 
         slug = slugify(industry)
         url_pattern = '{domain}/category/{category}/?p={page}'
