@@ -54,7 +54,7 @@ def _fetch_details(url):
     return None
 
 
-def fetch(industry=None, limit=10):
+def fetch(industry=None, limit=5):
     """Entry point for fetching company list."""
     def _parse(industry, delay=False):
         """Parse data for industry. Use recursive call when the page
