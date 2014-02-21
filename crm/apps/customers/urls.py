@@ -13,7 +13,7 @@ urlpatterns = patterns(
 
     url(r'^delete/(?P<pk>\d+)/$',
         views.delete_customer,
-        name="delete-customer"),
+        name="delete_customer"),
 
     url(r'^(?P<pk>\d+)/$',
         views.CustomerUpdate.as_view(),
@@ -23,7 +23,7 @@ urlpatterns = patterns(
         views.AmountList.as_view(),
         name="amount_list"),
 
-    url(r'^find/$',
-        views.CustomerFind.as_view(),
-        name="find"),
+    url(r'^suggested/$',
+        views.SuggestedCompanyList.as_view(),
+        name="suggested_company_list"),
 )

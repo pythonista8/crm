@@ -22,32 +22,19 @@
     <table class="pure-table pure-table-horizontal" width="100%">
         <thead>
             <tr>
-                <th align="left">Name</th>
-                <th align="left">Position</th>
-                <th align="left">Company</th>
+                <th align="left">Company name</th>
                 <th align="left">Industry</th>
                 <th align="left">City</th>
                 <th align="left">Country</th>
-                <!-- <th align="center">Action</th> -->
             </tr>
         </thead>
         <tbody>
-            {% for customer in customer_list %}
+            {% for company in suggestedcompany_list %}
                 <tr{% if forloop.counter0|divisibleby:2 %} class="pure-table-odd"{% endif %}>
-                    <td>
-                        {{ customer.first_name }} {{ customer.last_name }}
-                    </td>
-                    <td>{{ customer.position|default:"-" }}</td>
-                    <td>{{ customer.company|default:"-" }}</td>
-                    <td>{{ customer.industry|default:"-" }}</td>
-                    <td>{{ customer.city|default:"-" }}</td>
-                    <td>{{ customer.country|default:"-" }}</td>
-                    <!-- <td>
-                        <a href="{% url 'customers:create' %}" class="pure-button pure-button-small pure-button-error">
-                            <i class="fa fa-plus"></i>&nbsp;
-                            Add
-                        </a>
-                    </td> -->
+                    <td>{{ company.name|default:"-" }}</td>
+                    <td>{{ company.industry|default:"-" }}</td>
+                    <td>{{ company.city|default:"-" }}</td>
+                    <td>{{ company.country|default:"-" }}</td>
                 </tr>
             {% endfor %}
         </tbody>

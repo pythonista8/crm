@@ -250,7 +250,7 @@
             Cancel
         </a>
         {% if customer.pk %}
-            <a class="pure-button pure-button-small pure-button-error" href="{% url 'customers:delete-customer' customer.pk %}">
+            <a class="pure-button pure-button-small pure-button-error" href="{% url 'customers:delete_customer' customer.pk %}">
                 Delete
             </a>
         {% endif %}

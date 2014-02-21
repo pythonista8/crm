@@ -6,8 +6,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
-from lib.parser import linkedin
-from apps.customers.models import Customer, Amount
+from apps.customers.models import Customer, Amount, SuggestedCompany
 from apps.customers.forms import CustomerForm, AmountFormSet
 
 
@@ -181,14 +180,15 @@ class AmountList(ListView):
         return ctx
 
 
-class CustomerFind(TemplateView):
-    template_name = 'customers/customer_find.html'
+class SuggestedCompanyList(TemplateView):
+    model = SuggestedCompany
+
+    def get_queryset(self):
+        qs = super(SuggestedCompanyList, self).get_queryset()
+        return qs.filter(is_active=True)
 
     def get_context_data(self, **kwargs):
-        ctx = super(CustomerFind, self).get_context_data(**kwargs)
-        ctx['customer_list'] = linkedin.fetch('my')
-        ctx['title'] = "Find {customers}".format(
-            customers=Customer._meta.verbose_name_plural)
-        ctx['title_icon'] = 'male'
-        ctx['verbose_name'] = Customer._meta.verbose_name
+        ctx = super(SuggestedCompanyList, self).get_context_data(**kwargs)
+        ctx['title'] = SuggestedCompany._meta.verbose_name_plural
+        ctx['title_icon'] = 'building-o'
         return ctx

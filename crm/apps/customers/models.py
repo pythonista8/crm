@@ -89,6 +89,7 @@ class Amount(models.Model):
     product = models.CharField(max_length=255, blank=True)
     customer = models.ForeignKey(Customer, related_name='amounts')
 
+    # Date Records.
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -106,18 +107,17 @@ class SuggestedCompany(models.Model):
 
     # Contact Info.
     phone = models.CharField(max_length=50)
-    email = models.EmailField(max_length=255, blank=True)
-    website = models.URLField(max_length=255, blank=True)
 
     # Location Info.
-    street = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=255)
-    state = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255)
-    postcode = models.PositiveIntegerField(blank=True, null=True)
 
-    # Owner (i.e. Sales representative).
-    user = models.ForeignKey(User, related_name='suggested_companies')
+    is_active = models.BooleanField(default=True)
+    date = models.DateTimeField(auto_now_add=True)
 
-    # Date Records.
-    date_created = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        verbose_name = 'suggested company'
+        verbose_name_plural = 'suggested companies'
+
+    def __str__(self):
+        return self.name

@@ -110,12 +110,14 @@ def _fetch_details(url):
                     for city in CITIES:
                         if city.lower() in s.lower():
                             data['city'] = city
-    return data
+    if 'name' in data and 'phone' in data and 'city' in data:
+        return data
+    return None
 
 
-def fetch(category, limit=5):
+def fetch(category=None, limit=10):
     """Entry point for fetching company list."""
-    def _parse(delay=False):
+    def _parse(category, delay=False):
         """Parse data for category. Use recursive call when the page
         isn't available or we haven't receive enough data.
         """
@@ -146,7 +148,7 @@ def fetch(category, limit=5):
                     except urllib.error.HTTPError:
                         continue
                     else:
-                        if 'phone' not in data:  # must be provided
+                        if data is None:  # incomplete information
                             continue
                         list_.append(data)
         else:
@@ -157,5 +159,10 @@ def fetch(category, limit=5):
             _parse(delay=True)
         return list_
 
-    # TODO: Fix category filter.
-    return _parse()
+    if category is not None:
+        return _parse(category)
+    else:
+        res = list()
+        for c in CATEGORIES:
+            res.extend(_parse(c, delay=True))
+        return res[:limit]
