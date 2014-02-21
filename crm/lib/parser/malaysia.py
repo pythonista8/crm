@@ -131,7 +131,7 @@ def fetch(category=None, limit=10):
         try:
             soup = connect(url)
         except urllib.error.HTTPError:
-            _parse(delay=True)
+            _parse(category, delay=True)
 
         list_ = list()
         ul = soup.find(id='result')
@@ -156,7 +156,7 @@ def fetch(category=None, limit=10):
             return []
         # Continue searching for records if we haven't got enough.
         if len(list_) < limit:
-            _parse(delay=True)
+            _parse(category, delay=True)
         return list_
 
     if category is not None:
