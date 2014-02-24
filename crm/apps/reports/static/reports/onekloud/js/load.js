@@ -120,3 +120,8 @@ var lineOpts = {
 
 var ctxTrend = $('#chart-trend').get(0).getContext('2d');
 new Chart(ctxTrend).Line(dataTrend, lineOpts);
+
+// Take Tour.
+if (takeTour) {
+  startTour();
+}

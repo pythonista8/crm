@@ -14,7 +14,7 @@
 {% block content %}
 <div id="report-tabs">
     <div class="pure-g-r">
-        <div class="pure-u-1-2">
+        <div id="step-1" class="pure-u-1-2">
             <div class="l-box">
                 <h3>Total Number of Cases</h3>
                 <div class="pure-g-r">
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <div class="pure-u-1-2">
+        <div id="step-2" class="pure-u-1-2">
             <div class="l-box">
                 <h3>Total Amount</h3>
                 <div class="pure-g-r">
@@ -97,28 +97,29 @@
             </div>
         </div>
 
-        {% if customers_exist or amounts_exist %}
-            <div class="pure-u-1">
-                <div class="l-box">
-                    <h3>
-                        <i class="fa fa-download"></i>&nbsp;
-                        Export CSV
-                    </h3>
-                    {% if customers_exist %}
-                        <a class="pure-button pure-button-primary" href="{% url 'reports:export-customers' %}"
-                           {% if IS_TRIAL %} disabled{% endif %}>
-                            Customers
-                        </a>
-                    {% endif %}
-                    {% if amounts_exist %}
-                        <a class="pure-button pure-button-primary" href="{% url 'reports:export-amounts' %}"
-                           {% if IS_TRIAL %} disabled{% endif %}>
-                            Amounts
-                        </a>
-                    {% endif %}
-                </div>
+        <div id="step-3" class="pure-u-1">
+            <div class="l-box">
+                <h3>
+                    <i class="fa fa-download"></i>&nbsp;
+                    Export CSV
+                </h3>
+                {% if customers_exist %}
+                    <a class="pure-button pure-button-primary" href="{% url 'reports:export-customers' %}"
+                       {% if IS_TRIAL %} disabled{% endif %}>
+                        Customers
+                    </a>
+                {% endif %}
+                {% if amounts_exist %}
+                    <a class="pure-button pure-button-primary" href="{% url 'reports:export-amounts' %}"
+                       {% if IS_TRIAL %} disabled{% endif %}>
+                        Amounts
+                    </a>
+                {% endif %}
+                {% if not customers_exist and not amounts_exist %}
+                    You don't have any customers yet.
+                {% endif %}
             </div>
-        {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}
@@ -185,6 +186,10 @@ var dataAmount = [];
     color: '{{ dict.color }}'
   });
 {% endfor %}
+
+console.log('avg opp {{ avg_opportunities }}');
+console.log('avg win {{ avg_win }}');
+console.log('avg lost {{ avg_lost }}');
 
 </script>
 <script src="{% static 'reports/onekloud/js/load.js' %}"></script>

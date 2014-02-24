@@ -265,6 +265,9 @@ pure-menu-selected
 {% endblock %}
 
 {% block js %}
+<script>
+  var reportsURI = "{% url 'reports:index' %}";
+</script>
 <script src="{% static 'customers/onekloud/js/lib.js' %}"></script>
 <script src="{% static 'customers/onekloud/js/load.js' %}"></script>
 {% endblock %}

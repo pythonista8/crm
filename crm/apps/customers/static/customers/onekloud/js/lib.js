@@ -36,7 +36,7 @@ function startTourForCreate() {
   tour.setOptions({
     showBullets: false,
     showStepNumbers: false,
-    //doneLabel: 'Next page',
+    doneLabel: 'Next page',
     steps: [
       {
         element: '#step-1',
@@ -55,9 +55,9 @@ function startTourForCreate() {
   });
 
   // Go to the next page.
-  // tour.oncomplete(function() {
-  //   window.location.href = customersCreateURI + '?tour=true';
-  // });
+  tour.oncomplete(function() {
+    window.location.href = reportsURI + '?tour=true';
+  });
 
   $('html, body').scrollTop(0);
 
