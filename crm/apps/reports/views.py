@@ -60,11 +60,6 @@ def index(request):
     ctx['monthly_win_trend'] = _get_monthly_trend(user, Amount.WIN)
     ctx['monthly_lost_trend'] = _get_monthly_trend(user, Amount.LOST)
 
-    # Monthly statistics.
-    ctx['monthly_opportunities'] = _get_avg_stats(user, Amount.OPPORTUNITY)
-    ctx['monthly_win'] = _get_avg_stats(user, Amount.WIN)
-    ctx['monthly_lost'] = _get_avg_stats(user, Amount.LOST)
-
     # For CSV download buttons - whether to show them or not.
     if customers.exists():
         ctx['customers_exist'] = True
@@ -113,21 +108,6 @@ def _get_monthly_trend(user, status):
             diff = 0
         data.append(diff)
     return data
-
-
-def _get_avg_stats(user, status):
-    """Return list of monthly amount values."""
-    qs = Amount.objects.filter(customer__user=user, status=status)
-    dict_ = dict()
-    # Prepare data for convenience.
-    for amount in qs:
-        mon = amount.date.month
-        sum_ = qs.aggregate(Sum('value'))['value__sum'] or 0
-        if mon in dict_:
-            dict_[mon].append(sum_)
-        else:
-            dict_[mon] = [sum_]
-    return [v for k, v in dict_.items()]
 
 
 ERROR_MSG = "Sorry, you can't download reports in Trial version."

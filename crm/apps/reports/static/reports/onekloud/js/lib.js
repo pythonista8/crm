@@ -8,13 +8,19 @@ function startTour() {
     steps: [
       {
         element: '#step-1',
-        intro: "This chart shows the total number of deals.",
+        intro: "Chart shows the total number of deals.",
         position: 'right'
       },
       {
         element: '#step-2',
-        intro: "This chart shows how much income have you received.",
+        intro: "Chart shows how much income have you received.",
         position: 'left'
+      },
+      {
+        element: '#step-3',
+        intro: "Chart shows sales trend data and the comparison of Closed-Win \
+                vs. Closed-Lost.",
+        position: 'top'
       }
     ]
   });

@@ -78,7 +78,7 @@
                 <div class="pure-g-r">
                     <div class="pure-u-4-5">
                         <div class="l-box">
-                            <canvas id="chart-trend" width="780" height="250"></canvas>
+                            <canvas id="chart-trend" width="780" height="350"></canvas>
                         </div>
                     </div>
                     <div class="pure-u-1-5">
@@ -186,11 +186,6 @@ var dataAmount = [];
     color: '{{ dict.color }}'
   });
 {% endfor %}
-
-console.log('avg opp {{ monthly_opportunities }}');
-console.log('avg win {{ monthly_win }}');
-console.log('avg lost {{ monthly_lost }}');
-
 </script>
 <script src="{% static 'reports/onekloud/js/load.js' %}"></script>
 {% endblock %}
