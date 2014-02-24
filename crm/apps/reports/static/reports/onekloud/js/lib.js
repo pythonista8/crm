@@ -18,14 +18,14 @@ function startTour() {
       },
       {
         element: '#step-3',
-        intro: "Chart shows sales trend data and the comparison of Closed-Win \
-                vs. Closed-Lost.",
+        intro: "Chart shows sales trend data and the comparison between \
+                Closed-Win and Closed-Lost.",
         position: 'top'
       },
       {
         element: '#step-4',
         intro: "You may easily download your data in a CSV format.",
-        position: 'right'
+        position: 'top'
       }
     ]
   });
