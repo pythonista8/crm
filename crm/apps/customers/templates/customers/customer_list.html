@@ -16,13 +16,11 @@
     </div>
 
     <div id="controls" class="bottom-mrg pull-right">
-        {% comment %}
         <a class="pure-button pure-button-small pure-button-primary"
            href="{% url 'customers:suggestedcompany_list' %}">
             <i class="fa fa-magic"></i>&nbsp;
             Find more
         </a>
-        {% endcomment %}
 
         <a id="step-2" class="pure-button pure-button-small pure-button-error"
            href="{% url 'customers:create' %}">
@@ -96,17 +94,19 @@
             </thead>
             <tbody>
                 {% for customer in customer_list %}
-                    <tr{% if forloop.counter0|divisibleby:2 %} class="pure-table-odd"{% endif %}>
-                        <td>
-                            <a href="{{ customer.get_absolute_url }}">{{ customer.first_name }} {{ customer.last_name }}</a>
-                        </td>
-                        <td>{{ customer.cell_phone|default:"-" }}</td>
-                        <td>{{ customer.email|default:"-" }}</td>
-                        <td>{{ customer.position|default:"-" }}</td>
-                        <td>{{ customer.company|default:"-" }}</td>
-                        <td>{{ customer.country|default:"-" }}</td>
-                        <td>{{ customer.user.get_short_name }}</td>
-                    </tr>
+                    {% if forloop.counter <= 5 %}
+                        <tr{% if forloop.counter0|divisibleby:2 %} class="pure-table-odd"{% endif %}>
+                            <td>
+                                <a href="{{ customer.get_absolute_url }}">{{ customer.first_name }} {{ customer.last_name }}</a>
+                            </td>
+                            <td>{{ customer.cell_phone|default:"-" }}</td>
+                            <td>{{ customer.email|default:"-" }}</td>
+                            <td>{{ customer.position|default:"-" }}</td>
+                            <td>{{ customer.company|default:"-" }}</td>
+                            <td>{{ customer.country|default:"-" }}</td>
+                            <td>{{ customer.user.get_short_name }}</td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>
