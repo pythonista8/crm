@@ -94,19 +94,17 @@
             </thead>
             <tbody>
                 {% for customer in customer_list %}
-                    {% if forloop.counter <= 5 %}
-                        <tr{% if forloop.counter0|divisibleby:2 %} class="pure-table-odd"{% endif %}>
-                            <td>
-                                <a href="{{ customer.get_absolute_url }}">{{ customer.first_name }} {{ customer.last_name }}</a>
-                            </td>
-                            <td>{{ customer.cell_phone|default:"-" }}</td>
-                            <td>{{ customer.email|default:"-" }}</td>
-                            <td>{{ customer.position|default:"-" }}</td>
-                            <td>{{ customer.company|default:"-" }}</td>
-                            <td>{{ customer.country|default:"-" }}</td>
-                            <td>{{ customer.user.get_short_name }}</td>
-                        </tr>
-                    {% endif %}
+                    <tr{% if forloop.counter0|divisibleby:2 %} class="pure-table-odd"{% endif %}>
+                        <td>
+                            <a href="{{ customer.get_absolute_url }}">{{ customer.first_name }} {{ customer.last_name }}</a>
+                        </td>
+                        <td>{{ customer.cell_phone|default:"-" }}</td>
+                        <td>{{ customer.email|default:"-" }}</td>
+                        <td>{{ customer.position|default:"-" }}</td>
+                        <td>{{ customer.company|default:"-" }}</td>
+                        <td>{{ customer.country|default:"-" }}</td>
+                        <td>{{ customer.user.get_short_name }}</td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
