@@ -8,8 +8,8 @@ from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
-from django.views.decorators.csrf import csrf_exempt
 from django.utils.safestring import mark_safe
+from django.views.decorators.csrf import csrf_exempt
 from apps.accounts.forms import LoginForm
 from apps.accounts.models import User, Company
 from crm.apps.accounts import tasks
