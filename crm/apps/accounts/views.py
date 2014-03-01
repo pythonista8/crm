@@ -8,6 +8,7 @@ from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.views.decorators.csrf import csrf_exempt
 from django.utils.safestring import mark_safe
 from apps.accounts.forms import LoginForm
 from apps.accounts.models import User, Company
@@ -109,3 +110,18 @@ def activate_trial(request):
             return redirect(reverse('accounts:login'))
 
     return http.HttpResponseNotAllowed(['POST'])
+
+
+@csrf_exempt
+def activate_subscription(request):
+    if request.method == 'POST':    
+        subject = "Testing order"
+        support_email = 'support@onekloud.com'
+        recipients = ('aldash@onekloud.com',)
+        data = str(request.POST)
+        msg = EmailMessage(subject, html, support_email, recipients)
+        msg.content_subtype = 'html'
+        msg.send()
+        return redirect(reverse('accounts:login'))
+
+    return http.HttpResponseNotAllowed(['GET'])

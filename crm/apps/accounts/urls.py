@@ -7,13 +7,18 @@ urlpatterns = patterns(
         'login_form',
         name="login"),
 
-    url(r'^activate-trial/$',
+    url(r'^try/$',
         'activate_trial',
         name="activate_trial"),
+
+    url(r'^subscribe/$',
+        'activate_subscription',
+        name="activate_subscription"),
 )
 
 urlpatterns += patterns(
     '',
+
     url(r'^signout/$',
         'django.contrib.auth.views.logout',
         {'next_page': '/'},
