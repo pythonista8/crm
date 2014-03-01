@@ -60,54 +60,59 @@ def activate_trial(request):
         try:
             User.objects.get(email=email)
         except User.DoesNotExist:
-            key = '{key}{email}{phone}{company}'.format(
-                key=settings.ACTIVATION_SALT, email=email, phone=phone,
-                company=cname).encode('utf8')
-            hash_ = hashlib.md5(key).hexdigest()
-            if reqhash != hash_:
-                return http.HttpResponseForbidden()
-
-            company, created = Company.objects.get_or_create(name=cname)
-            if not created:
-                messages.error(request, "")
-                company_exists_msg = mark_safe(
-                    "Such company is already registered, please "
-                    "<a href=\"//www.onekloud.com/contact/\">contact us</a> "
-                    "to proceed.")
-                messages.error(request, company_exists_msg)
-                return redirect(reverse('accounts:login'))
-
-            passw = 'demo'
-            User.objects.create_user(email, passw, phone=phone,
-                                     company=company)
-            user = authenticate(email=email, password=passw)
-            login(request, user)
-            messages.success(request, "Welcome, {name}!".format(
-                name=user.get_short_name()))
-            # Trial will expire in 15 days.
-            tasks.stop_trial.apply_async(args=[user], countdown=3600*24*15)
-            # Send email in a day to the customer in order to find out his/her
-            # experience about CRM.
-            tasks.findout_experience.apply_async(args=[email],
-                                                 countdown=3600*24)
-            # Prepare variable to offer tour.
-            request.session['take_tour'] = True
-            # Notify admins about new user.
-            subject = "New user at Onekloud CRM!"
-            support_email = 'support@onekloud.com'
-            recipients = ('aldash@onekloud.com', 'samantha@onekloud.com')
-            data = dict(email=email, phone=phone, company=company)
-            html = mark_safe(
-                render_to_string('accounts/notification_email.html', data))
-            msg = EmailMessage(subject, html, support_email, recipients)
-            msg.content_subtype = 'html'
-            msg.send(fail_silently=True)
-            # We add `signup` parameter to track conversions in Google
-            # Analytics.
-            url = '{url}?signup=true'.format(url=reverse('events:index'))
-            return redirect(url)
+            is_new_user = True
         else:
+            is_new_user = False
+
+        if not is_new_user:
             return redirect(reverse('accounts:login'))
+
+        key = '{key}{email}{phone}{company}'.format(
+            key=settings.ACTIVATION_SALT, email=email, phone=phone,
+            company=cname).encode('utf8')
+        hash_ = hashlib.md5(key).hexdigest()
+        if reqhash != hash_:
+            return http.HttpResponseForbidden()
+
+        company, created = Company.objects.get_or_create(name=cname)
+        if not created:
+            messages.error(request, "")
+            company_exists_msg = mark_safe(
+                "Such company is already registered, please "
+                "<a href=\"//www.onekloud.com/contact/\">contact us</a> "
+                "to proceed.")
+            messages.error(request, company_exists_msg)
+            return redirect(reverse('accounts:login'))
+
+        passw = 'demo'
+        User.objects.create_user(email, passw, phone=phone,
+                                 company=company)
+        user = authenticate(email=email, password=passw)
+        login(request, user)
+        messages.success(request, "Welcome, {name}!".format(
+            name=user.get_short_name()))
+        # Trial will expire in 15 days.
+        tasks.stop_trial.apply_async(args=[user], countdown=3600*24*15)
+        # Send email in a day to the customer in order to find out his/her
+        # experience about CRM.
+        tasks.findout_experience.apply_async(args=[email],
+                                             countdown=3600*24)
+        # Prepare variable to offer tour.
+        request.session['take_tour'] = True
+        # Notify admins about new user.
+        subject = "New user at Onekloud CRM!"
+        support_email = 'support@onekloud.com'
+        recipients = ('aldash@onekloud.com', 'samantha@onekloud.com')
+        data = dict(email=email, phone=phone, company=company)
+        html = mark_safe(
+            render_to_string('accounts/notification_email.html', data))
+        msg = EmailMessage(subject, html, support_email, recipients)
+        msg.content_subtype = 'html'
+        msg.send(fail_silently=True)
+        # We add `signup` parameter to track conversions in Google
+        # Analytics.
+        url = '{url}?signup=true'.format(url=reverse('events:index'))
+        return redirect(url)
 
     return http.HttpResponseNotAllowed(['POST'])
 
@@ -120,8 +125,12 @@ def activate_subscription(request):
         recipients = ('aldash@onekloud.com',)
         data = str(request.POST)
         msg = EmailMessage(subject, data, support_email, recipients)
-        msg.content_subtype = 'html'
         msg.send()
-        return redirect(reverse('accounts:login'))
+
+        ctx = dict()
+        ctx['title'] = 'Thank you'
+        ctx['title_icon'] = 'check'
+        ctx['order_number'] = request.POST['order_number']  # from 2CO
+        return render(request, 'accounts/thankyou.html', ctx)
 
     return http.HttpResponseNotAllowed(['GET'])

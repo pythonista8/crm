@@ -4,10 +4,14 @@ from django.shortcuts import redirect
 
 class PermissionMiddleware(object):
     def process_request(self, request):
-        exc_urls = [reverse('accounts:activate_trial')]
+        # URL namespaces that any user can access to without 
+        # signing in.
+        exc_urls = ('accounts:activate_trial', 
+                    'accounts:activate_subscription')
+
         granted = False
         for url in exc_urls:
-            if url in request.path:
+            if reverse(url) in request.path:
                 granted = True
 
         login_url = reverse('accounts:login')
