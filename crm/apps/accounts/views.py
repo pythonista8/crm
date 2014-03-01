@@ -119,7 +119,7 @@ def activate_subscription(request):
         support_email = 'support@onekloud.com'
         recipients = ('aldash@onekloud.com',)
         data = str(request.POST)
-        msg = EmailMessage(subject, html, support_email, recipients)
+        msg = EmailMessage(subject, data, support_email, recipients)
         msg.content_subtype = 'html'
         msg.send()
         return redirect(reverse('accounts:login'))
